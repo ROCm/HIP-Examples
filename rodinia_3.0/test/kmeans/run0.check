@@ -1,0 +1,3 @@
+#!/bin/bash
+# passed in two files to compare.
+diff $1 $2

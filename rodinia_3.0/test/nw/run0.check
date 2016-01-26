@@ -1,0 +1,1 @@
+diff `dirname $0`/gold/result.txt result.txt || exit 1

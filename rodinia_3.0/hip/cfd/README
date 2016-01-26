@@ -1,0 +1,20 @@
+Four versions of CFD:
+
+euler3d <-- redundant flux computation (GPU)   
+euler3d_double <-- redundant flux computation double precision (GPU)
+pre_euler3d <-- pre-computed fluxes (GPU)
+pre_euler3d_double <-- pre-computed fluxes double precision (GPU)
+
+The original OpenMP and CUDA codes for CFD were obtained from Andrew Corrigan at George Mason University, 
+who has given us permission to include it as part of Rodinia under Rodinia's license.
+
+******Adjustable work group size*****
+RD_WG_SIZE  for all
+RD_WG_SIZE_1 or RD_WG_SIZE_1_0 for initialize_variables
+RD_WG_SIZE_2 or RD_WG_SIZE_2_0 for compute_step_factor
+RD_WG_SIZE_3 or RD_WG_SIZE_3_0 for compute_flux
+RD_WG_SIZE_4 or RD_WG_SIZE_4_0 for time_step
+
+USAGE:
+make clean
+make KERNEL_DIM="-DRD_WG_SIZE_1=128 -DRD_WG_SIZE_2=192 -DRD_WG_SIZE_3=128 -DRD_WG_SIZE_4=256"

@@ -1,0 +1,9 @@
+/usr/local/cuda/bin/nvcc -arch sm_20 -I. -I/include  -O2  --compiler-options -fno-strict-aliasing -c main.cu -o main.cu.o
+/usr/local/cuda/bin/nvcc -arch sm_20 -I. -I/include  -O2  --compiler-options -fno-strict-aliasing -c dwt.cu -o dwt.cu.o
+/usr/local/cuda/bin/nvcc -arch sm_20 -I. -I/include  -O2  --compiler-options -fno-strict-aliasing -c components.cu -o components.cu.o
+/usr/local/cuda/bin/nvcc -arch sm_20 -I. -I/include  -O2  --compiler-options -fno-strict-aliasing -c dwt_cuda/fdwt53.cu -o dwt_cuda/fdwt53.cu.o
+/usr/local/cuda/bin/nvcc -arch sm_20 -I. -I/include  -O2  --compiler-options -fno-strict-aliasing -c dwt_cuda/fdwt97.cu -o dwt_cuda/fdwt97.cu.o
+/usr/local/cuda/bin/nvcc -arch sm_20 -I. -I/include  -O2  --compiler-options -fno-strict-aliasing -c dwt_cuda/common.cu -o dwt_cuda/common.cu.o
+/usr/local/cuda/bin/nvcc -arch sm_20 -I. -I/include  -O2  --compiler-options -fno-strict-aliasing -c dwt_cuda/rdwt97.cu -o dwt_cuda/rdwt97.cu.o
+/usr/local/cuda/bin/nvcc -arch sm_20 -I. -I/include  -O2  --compiler-options -fno-strict-aliasing -c dwt_cuda/rdwt53.cu -o dwt_cuda/rdwt53.cu.o
+g++ -fPIC -o dwt2d   main.cu.o dwt.cu.o components.cu.o dwt_cuda/fdwt53.cu.o dwt_cuda/fdwt97.cu.o dwt_cuda/common.cu.o dwt_cuda/rdwt97.cu.o dwt_cuda/rdwt53.cu.o -L/usr/local/cuda/lib64 -lcudart

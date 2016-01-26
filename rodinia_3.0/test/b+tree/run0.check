@@ -1,0 +1,2 @@
+#!/bin/bash
+diff output.txt `dirname $0`/gold/

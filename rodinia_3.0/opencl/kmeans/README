@@ -1,0 +1,9 @@
+NOTE: The current Kmeans implementation doesn't use texture/constant memories, and is different from the CUDA implementation.
+
+******Adjustable work group size*****
+RD_WG_SIZE_0 or RD_WG_SIZE_0_0 for kernel_swap
+RD_WG_SIZE_1 or RD_WG_SIZE_1_0 for kernel_kmeans 
+
+USAGE:
+make clean
+make KERNEL_DIM="-DRD_WG_SIZE_0=128 -DRD_WG_SIZE_1=512"

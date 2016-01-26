@@ -1,0 +1,6 @@
+******Adjustable work group size*****
+The kernel 1 & 2: RD_WG_SIZE_0_0 RD_WG_SIZE_0
+
+USAGE:
+make clean
+make KERNEL_DIM="-DRD_WG_SIZE_0=256"

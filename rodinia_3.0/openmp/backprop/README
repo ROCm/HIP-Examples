@@ -1,0 +1,2 @@
+To change the number of OMP threads,
+please modify NUM_THREAD in backprop.h

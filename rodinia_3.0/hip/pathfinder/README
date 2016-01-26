@@ -1,0 +1,6 @@
+To compile the program:
+
+nvcc -cuda dynproc.cu
+nvcc -o dynproc dynproc.cu.cpp 
+
+Usage: dynproc row_len col_len pyramid_height

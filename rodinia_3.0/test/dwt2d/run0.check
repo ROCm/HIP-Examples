@@ -1,0 +1,4 @@
+#!/bin/bash
+diff `dirname $0`/gold/run0/192.bmp.dwt.r 192.bmp.dwt.r || exit 1
+diff `dirname $0`/gold/run0/192.bmp.dwt.g 192.bmp.dwt.g || exit 1
+diff `dirname $0`/gold/run0/192.bmp.dwt.b 192.bmp.dwt.b || exit 1

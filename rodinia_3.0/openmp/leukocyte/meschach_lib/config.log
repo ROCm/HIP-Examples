@@ -1,0 +1,7 @@
+This file contains any messages produced by compilers while
+running configure, to aid debugging if configure makes a mistake.
+
+configure:575: checking for acc
+configure:605: checking for cc
+configure:635: checking for gcc
+configure:665: checking for cc

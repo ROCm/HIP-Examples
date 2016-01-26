@@ -1,0 +1,4 @@
+The original BFS CUDA code was obtained from Pawan Harish and P. J. Narayanan at IIIT, 
+who have given us permission to include it as part of Rodinia under Rodinia's license.
+
+This make file hipifies bfs.cu kernel.cu to bfs.hip.cu and kernel.cu and runs it on nvcc

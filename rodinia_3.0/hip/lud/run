@@ -1,0 +1,2 @@
+# ./lud_cuda -i ../../data/lud/256.dat 
+./lud_cuda -s 256 -v
