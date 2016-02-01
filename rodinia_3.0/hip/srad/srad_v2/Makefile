@@ -1,4 +1,5 @@
 HIP_PATH ?=../../../../..
+HIP_EXAMPLES ?=../../../..
 include ../../../common/make.config
 
 # C compiler
