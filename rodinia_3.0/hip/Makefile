@@ -1,8 +1,11 @@
 #space-separated list of tests to run:
+USECOLORS?=1
+ifeq ($(USECOLORS),1)
 COLOR=\033[0;35m
 NOCOLOR=\033[0m
 RED=\033[0;31m
 GREEN=\033[0;32m
+endif
 ifeq ($(HIP_PLATFORM),nvcc)
 BLACKLIST=hybridsort leukocyte 
 else
