@@ -872,7 +872,7 @@ inline int gpuDeviceInit(int devID)
     }
 
     hipDeviceProp_t deviceProp;
-    checkCudaErrors(hipDeviceGetProperties(&deviceProp, devID));
+    checkCudaErrors(hipGetDeviceProperties(&deviceProp, devID));
 
     if (deviceProp.computeMode == cudaComputeModeProhibited)
     {
@@ -914,7 +914,7 @@ inline int gpuGetMaxGflopsDeviceId()
     // Find the best major SM Architecture GPU device
     while (current_device < device_count)
     {
-        hipDeviceGetProperties(&deviceProp, current_device);
+        hipGetDeviceProperties(&deviceProp, current_device);
 
         // If this GPU is not running on Compute Mode prohibited, then we can add it to the list
         if (deviceProp.computeMode != cudaComputeModeProhibited)
@@ -933,7 +933,7 @@ inline int gpuGetMaxGflopsDeviceId()
 
     while (current_device < device_count)
     {
-        hipDeviceGetProperties(&deviceProp, current_device);
+        hipGetDeviceProperties(&deviceProp, current_device);
 
         // If this GPU is not running on Compute Mode prohibited, then we can add it to the list
         if (deviceProp.computeMode != cudaComputeModeProhibited)
@@ -1008,7 +1008,7 @@ inline int findCudaDevice(int argc, const char **argv)
         // Otherwise pick the device with highest Gflops/s
         devID = gpuGetMaxGflopsDeviceId();
         checkCudaErrors(hipSetDevice(devID));
-        checkCudaErrors(hipDeviceGetProperties(&deviceProp, devID));
+        checkCudaErrors(hipGetDeviceProperties(&deviceProp, devID));
         printf("GPU Device %d: \"%s\" with compute capability %d.%d\n\n", devID, deviceProp.name, deviceProp.major, deviceProp.minor);
     }
 
@@ -1024,7 +1024,7 @@ inline bool checkCudaCapabilities(int major_version, int minor_version)
     int dev;
 
     checkCudaErrors(hipGetDevice(&dev));
-    checkCudaErrors(hipDeviceGetProperties(&deviceProp, dev));
+    checkCudaErrors(hipGetDeviceProperties(&deviceProp, dev));
 
     if ((deviceProp.major > major_version) ||
         (deviceProp.major == major_version && deviceProp.minor >= minor_version))

@@ -336,7 +336,7 @@ void select_device() {
 		int max_multiprocessors = 0, max_device = -1;
 		for (device = 0; device < num_devices; device++) {
 			hipDeviceProp_t properties;
-			hipDeviceGetProperties(&properties, device);
+			hipGetDeviceProperties(&properties, device);
 			if (max_multiprocessors < properties.multiProcessorCount) {
 				max_multiprocessors = properties.multiProcessorCount;
 				max_device = device;

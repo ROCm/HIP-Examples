@@ -237,7 +237,7 @@ void PrintDeviceProperties(){
 	for (int nDeviceIdx = 0; nDeviceIdx < nDevCount; ++nDeviceIdx )  
 	{  
 	    memset( &deviceProp, 0, sizeof(deviceProp));  
-	    if( hipSuccess == hipDeviceGetProperties(&deviceProp, nDeviceIdx))  
+	    if( hipSuccess == hipGetDeviceProperties(&deviceProp, nDeviceIdx))  
 	        {
 				printf( "\nDevice Name \t\t - %s ", deviceProp.name );  
 			    printf( "\n**************************************");  
