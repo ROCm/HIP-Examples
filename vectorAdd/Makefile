@@ -14,6 +14,7 @@ EXECUTABLE=./vectoradd_hip.exe
 
 all: $(EXECUTABLE) test
 
+CXXFLAGS =-g
 CXX=$(HIPCC)
 
 
