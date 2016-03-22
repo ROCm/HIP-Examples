@@ -363,7 +363,7 @@ int main(int argc, char **argv)
     //writeComponent(g_wave_cuda, 512000, ".g");
     //writeComponent(g_cuda, componentSize, ".g");
     //writeComponent(b_wave_cuda, componentSize, ".b");
-    hipFreeHost(d->srcImg);
+    hipHostFree(d->srcImg);
 
     return 0;
 }

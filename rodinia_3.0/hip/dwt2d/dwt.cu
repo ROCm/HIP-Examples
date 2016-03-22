@@ -136,7 +136,7 @@ int writeLinear(T *component_cuda, int pixWidth, int pixHeight,
     close(i);
 
     /* Clean up */
-    hipFreeHost(gpu_output);
+    hipHostFree(gpu_output);
     free(result);
     if(x == 0) return 1;
     return 0;
@@ -252,7 +252,7 @@ int writeNStage2DDWT(T *component_cuda, int pixWidth, int pixHeight,
     x = write(i, result, samplesNum);
     close(i);
 
-    hipFreeHost(src);
+    hipHostFree(src);
     free(dst);
     free(result);
     free(bandDims);
