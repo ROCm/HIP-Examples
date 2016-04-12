@@ -19,5 +19,3 @@ lud_kernel.hip.o: lud_kernel.hip.cu
 
 clean:
 	        rm -f *.o lud_cuda  *.linkinfo *.perf
-
-include ../../../common/hip.epilogue.make

@@ -12,5 +12,3 @@ bfs.hip.o: bfs.hip.cu
 
 clean:
 	rm -f *.o bfs result.txt *.perf
-
-include ../../../common/hip.epilogue.make

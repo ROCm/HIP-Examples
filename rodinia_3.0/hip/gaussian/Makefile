@@ -12,5 +12,3 @@ gaussian.o: gaussian.cu
 
 clean:
 	rm -f *.o gaussian *.perf
-
-include ../../../common/hip.epilogue.make

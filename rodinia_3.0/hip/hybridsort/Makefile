@@ -1,5 +1,4 @@
 include ../../common/make.config
-include ../../../common/hip.epilogue.make
 
 ifdef VERIFY
 override VERIFY = -DVERIFY
@@ -24,5 +23,3 @@ $(TESTNAME): bucketsort.hip.o mergesort.hip.o main.hip.o
 
 clean:
 	rm -f *.o hybridsort hybridoutput.txt
-
-

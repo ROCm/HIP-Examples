@@ -65,5 +65,3 @@ clean:
                 ./util/device/*.o \
                 lavaMD \
 				result.txt
-
-include ../../../common/hip.epilogue.make

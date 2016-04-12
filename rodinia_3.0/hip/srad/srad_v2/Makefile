@@ -14,8 +14,6 @@ HIPCC += -DUSE_TEXTURES
 #HIPCC += -DUSE_CONSTANT_BUFFER
 endif
 
-
-
 $(TESTNAME): sradGPU.o sradCPU.o
 	$(HIPLD) $(CC_FLAGS) sradGPU.o -o sradGPU -lm
 	$(HIPLD) $(CC_FLAGS) sradCPU.o -o sradCPU -lm
@@ -24,13 +22,11 @@ $(TESTNAME): sradGPU.o sradCPU.o
 	$(CC) $(CC_FLAGS) $< -c
 
 
-sradGPU.o: srad.cu $(HIP_DEPS)
+sradGPU.o: srad.cu 
 	$(HIPCC) $(HIPCC_FLAGS) -DGPU -c srad.cu -o sradGPU.o
 
-sradCPU.o: srad.cu $(HIP_DEPS)
+sradCPU.o: srad.cu 
 	$(HIPCC) $(HIPCC_FLAGS) -DCPU -c srad.cu -o sradCPU.o
 
-clean: hip_clean
+clean: 
 	rm -f *.o *~ sradGPU sradCPU srad.linkinfo
-
-include ../../../../common/hip.epilogue.make
