@@ -1,4 +1,7 @@
-HIP_PATH ?=../../../../..
+HIP_PATH?= $(wildcard /opt/rocm/hip)
+ifeq (,$(HIP_PATH))
+	HIP_PATH=../../../../..
+endif
 HIP_EXAMPLES ?=../../../..
 include ../../../common/make.config
 
