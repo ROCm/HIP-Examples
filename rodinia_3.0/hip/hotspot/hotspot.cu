@@ -133,7 +133,7 @@ __global__ void calculate_temp(hipLaunchParm lp,  int iteration,  //number of it
                                float step, 
                                float time_elapsed){
 	
-	KERNELBEGIN
+//	KERNELBEGIN
 	
         __shared__ float temp_on_cuda[BLOCK_SIZE][BLOCK_SIZE];
         __shared__ float power_on_cuda[BLOCK_SIZE][BLOCK_SIZE];
@@ -232,7 +232,7 @@ __global__ void calculate_temp(hipLaunchParm lp,  int iteration,  //number of it
           temp_dst[index]= temp_t[ty][tx];		
       }
 	  
-	  KERNELEND
+//	  KERNELEND
 }
 
 /*

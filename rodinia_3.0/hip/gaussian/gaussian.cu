@@ -319,7 +319,7 @@ void InitPerRun()
 __global__ void Fan1 (hipLaunchParm lp,
                       float *m_cuda, float *a_cuda, int Size, int t)
 {   
-    KERNELBEGIN;
+//    KERNELBEGIN;
 
 	//if(hipThreadIdx_x + hipBlockIdx_x * hipBlockDim_x >= Size-1-t) printf(".");
 	//printf("blockIDx.x:%d,hipThreadIdx_x:%d,Size:%d,t:%d,Size-1-t:%d\n",hipBlockIdx_x,hipThreadIdx_x,Size,t,Size-1-t);
@@ -327,7 +327,7 @@ __global__ void Fan1 (hipLaunchParm lp,
 	if(hipThreadIdx_x + hipBlockIdx_x * hipBlockDim_x >= Size-1-t) return;
 	*(m_cuda+Size*(hipBlockDim_x*hipBlockIdx_x+hipThreadIdx_x+t+1)+t) = *(a_cuda+Size*(hipBlockDim_x*hipBlockIdx_x+hipThreadIdx_x+t+1)+t) / *(a_cuda+Size*t+t);
 
-    KERNELEND;
+//    KERNELEND;
 }
 
 /*-------------------------------------------------------
@@ -339,7 +339,7 @@ __global__ void Fan1 (hipLaunchParm lp,
 __global__ void Fan2 (hipLaunchParm lp,
 float *m_cuda, float *a_cuda, float *b_cuda,int Size, int j1, int t)
 {
-    KERNELBEGIN;
+//    KERNELBEGIN;
 
 	if(hipThreadIdx_x + hipBlockIdx_x * hipBlockDim_x >= Size-1-t) return;
 	if(hipThreadIdx_y + hipBlockIdx_y * hipBlockDim_y >= Size-t) return;
@@ -355,7 +355,7 @@ float *m_cuda, float *a_cuda, float *b_cuda,int Size, int j1, int t)
 		//printf("xidx:%d,yidx:%d\n",xidx,yidx);
 		b_cuda[xidx+1+t] -= m_cuda[Size*(xidx+1+t)+(yidx+t)] * b_cuda[t];
 	}
-    KERNELEND;
+//    KERNELEND;
 }
 /*------------------------------------------------------
  ** ForwardSub() -- Forward substitution of Gaussian

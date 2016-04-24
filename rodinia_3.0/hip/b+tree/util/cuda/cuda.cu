@@ -41,7 +41,7 @@ void setdevice(void){
 		max_device = 0;
 		
 		for (device = 0; device < num_devices; device++) {
-			hipDeviceGetProperties(&properties, device);
+			hipGetDeviceProperties(&properties, device);
             // TODO-HIP - reenable these when we have GetDeviceProperties support.
 			//if (max_multiprocessors < properties.multiProcessorCount) {
 		//		max_multiprocessors = properties.multiProcessorCount;
