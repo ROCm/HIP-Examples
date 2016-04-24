@@ -108,7 +108,7 @@ int main(int argc, char* argv[])
 
 	// Scaling calculations - added by Sam Kauffman
 	hipDeviceProp_t deviceProp;
-	hipDeviceGetProperties( &deviceProp, 0 );
+	hipGetDeviceProperties( &deviceProp, 0 );
 	hipDeviceSynchronize();
 
 	unsigned long  maxGridX = deviceProp.maxGridSize[0];

@@ -435,7 +435,7 @@ int main(int argc, char** argv)
 
 	hipSetDevice(0);
 	hipGetDevice(&dev);
-	hipDeviceGetProperties(&prop, dev);
+	hipGetDeviceProperties(&prop, dev);
 
 	printf("Name:                     %s\n", prop.name);
 

@@ -113,7 +113,7 @@ int writeLinear(T *component_cuda, int pixWidth, int pixHeight,
     int samplesNum = pixWidth*pixHeight;
 
     size = samplesNum*sizeof(T);
-    hipMallocHost((void **)&gpu_output, size);
+    hipHostMalloc((void **)&gpu_output, size);
     memset(gpu_output, 0, size);
     result = (unsigned char *)malloc(samplesNum);
     hipMemcpy(gpu_output, component_cuda, size, hipMemcpyDeviceToHost);
@@ -136,7 +136,7 @@ int writeLinear(T *component_cuda, int pixWidth, int pixHeight,
     close(i);
 
     /* Clean up */
-    hipFreeHost(gpu_output);
+    hipHostFree(gpu_output);
     free(result);
     if(x == 0) return 1;
     return 0;
@@ -192,7 +192,7 @@ int writeNStage2DDWT(T *component_cuda, int pixWidth, int pixHeight,
     }
 
     size = samplesNum*sizeof(T);
-    hipMallocHost((void **)&src, size);
+    hipHostMalloc((void **)&src, size);
     dst = (T*)malloc(size);
     memset(src, 0, size);
     memset(dst, 0, size);
@@ -252,7 +252,7 @@ int writeNStage2DDWT(T *component_cuda, int pixWidth, int pixHeight,
     x = write(i, result, samplesNum);
     close(i);
 
-    hipFreeHost(src);
+    hipHostFree(src);
     free(dst);
     free(result);
     free(bandDims);

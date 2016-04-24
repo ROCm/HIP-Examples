@@ -1,4 +1,4 @@
-HIP_PATH= ../../../..
+HIP_PATH ?= ../../../..
 include ../../common/make.config
 
 OUTPUT = -DOUTPUT
