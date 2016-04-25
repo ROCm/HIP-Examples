@@ -1,4 +1,8 @@
-HIP_PATH ?=../../../../..
+HIP_PATH?= $(wildcard /opt/rocm/hip)
+ifeq (,$(HIP_PATH))
+	HIP_PATH=../../../../..
+endif
+HIP_EXAMPLES ?=../../../..
 include ../../../common/make.config
 
 # C compiler
@@ -13,11 +17,8 @@ $(TESTNAME): main.o
 %.o: %.[ch]
 	$(CC) $(CC_FLAGS) $< -c
 
-
-main.o: main.cu $(HIP_DEPS)
+main.o: main.cu 
 	$(HIPCC) $(HIPCC_FLAGS) -c main.cu
 
-clean: hip_clean
+clean: 
 	rm -f *.o *~ srad srad.linkinfo isa.txt image_out.pgm *.perf
-
-include ../../../../common/hip.epilogue.make

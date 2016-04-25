@@ -10,17 +10,10 @@ $(TESTNAME):	./nn.o
 			-lm \
                        -o $(TESTNAME)
 
-
-
 nn.o:	./nn_hip.cu
 	$(HIPCC)  $(HIPCC_FLAGS)	$(KERNEL_DIM) ./nn_hip.cu \
 			-c \
 			-o ./nn.o
 
-
-
-clean: hip_clean
+clean: 
 	rm -f	*.o  $(TESTNAME) *.perf
-
- 
-include ../../../common/hip.epilogue.make

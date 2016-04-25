@@ -27,5 +27,3 @@ imagenet.o: imagenet.c backprop.h
 	
 clean:
 	rm -f *.o *~ backprop out_hip.txt backprop_cuda.linkinfo *.perf
-
-include ../../../common/hip.epilogue.make

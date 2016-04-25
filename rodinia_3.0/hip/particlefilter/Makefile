@@ -21,14 +21,11 @@ float: ex_particle_CUDA_float_seq.o
 %.o: %.[ch]
 	$(HIPCC) $(HIPCC_FLAGS) $< -c
 
-ex_particle_CUDA_naive_seq.o: ex_particle_CUDA_naive_seq.cu $(HIP_DEPS)
+ex_particle_CUDA_naive_seq.o: ex_particle_CUDA_naive_seq.cu
 	$(HIPCC) $(HIPCC_FLAGS) -c ex_particle_CUDA_naive_seq.cu
 
-ex_particle_CUDA_float_seq.o: ex_particle_CUDA_float_seq.cu $(HIP_DEPS)
+ex_particle_CUDA_float_seq.o: ex_particle_CUDA_float_seq.cu
 	$(HIPCC) $(HIPCC_FLAGS) -c ex_particle_CUDA_float_seq.cu
 
-clean: hip_clean
-	rm -f *.o *~ *.linkinfo particlefilter_naive particlefilter_float
-
-include ../../../common/hip.epilogue.make
-
+clean:
+	rm -f *.o *~ *.linkinfo particlefilter_naive particlefilter_float run*.out run*.diff

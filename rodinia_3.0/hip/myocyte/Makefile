@@ -10,7 +10,6 @@
 # link objects(binaries) together
 
 include ../../common/make.config
-include ../../../common/hip.epilogue.make
 
 $(TESTNAME):		main.hip.o
 	$(HIPLD) main.hip.o  -o myocyte -lm
@@ -38,5 +37,5 @@ main.hip.o:	define.c \
 	$(HIPCC)  $(HIPCC_FLAGS) -c main.hip.cu  
 
 # delete all object files
-clean: hip_clean
+clean: 
 	rm -f *.o *.out myocyte output.txt *.perf

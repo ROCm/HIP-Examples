@@ -10,10 +10,8 @@ $(TESTNAME): euler3d.o
 %.o: %.[ch]
 	$(CC) $(CC_FLAGS) $< -c
 
-euler3d.o: euler3d.cu $(HIP_DEPS)
+euler3d.o: euler3d.cu
 	$(HIPCC) $(HIPCC_FLAGS) -c euler3d.cu
 
-clean: hip_clean
+clean:
 	rm -f *.o *~ euler3d density density_energy momentum isa.txt *.out *.diff *.perf
-
-include ../../../common/hip.epilogue.make

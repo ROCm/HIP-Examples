@@ -8,5 +8,3 @@ hotspot.o: hotspot.cu $(HIP_DEPS)
 
 clean:
 	rm -f *.o *~ hotspot *.linkinfo *.perf output.out
-	
-include ../../../common/hip.epilogue.make

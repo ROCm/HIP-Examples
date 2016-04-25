@@ -22,7 +22,6 @@ The CUDA Kernel for Applying BFS on a loaded Graph. Created By Pawan Harish
 __global__ void
 Kernel(hipLaunchParm lp, Node* g_graph_nodes, int* g_graph_edges, bool* g_graph_mask, bool* g_updating_graph_mask, bool *g_graph_visited, int* g_cost, int no_of_nodes) 
 {
-    KERNELBEGIN;
 	int tid = hipBlockIdx_x*MAX_THREADS_PER_BLOCK + hipThreadIdx_x;
 	if( tid<no_of_nodes && g_graph_mask[tid])
 	{
@@ -37,7 +36,6 @@ Kernel(hipLaunchParm lp, Node* g_graph_nodes, int* g_graph_edges, bool* g_graph_
 				}
 			}
 	}
-    KERNELEND;
 }
 
 

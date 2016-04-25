@@ -1,4 +1,7 @@
-HIP_PATH?=$(abspath ../..)
+HIP_PATH?= $(wildcard /opt/rocm/hip)
+ifeq (,$(HIP_PATH))
+	HIP_PATH=../../..
+endif
 
 HIPCC=$(HIP_PATH)/bin/hipcc
 
@@ -14,6 +17,7 @@ EXECUTABLE=./vectoradd_hip.exe
 
 all: $(EXECUTABLE) test
 
+CXXFLAGS =-g
 CXX=$(HIPCC)
 
 
@@ -28,5 +32,6 @@ test: $(EXECUTABLE)
 clean:
 	rm -f $(EXECUTABLE)
 	rm -f $(OBJECTS)
+	rm -f $(HIP_PATH)/src/*.o
 
 

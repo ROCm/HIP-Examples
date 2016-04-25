@@ -7,14 +7,12 @@ $(TESTNAME): main.o ./AVI/avilib.o ./AVI/avimod.o
 %.o: %.[ch]
 	$(HIPCC) $(HIPCC_FLAGS) $< -c
 	
-main.o: main.cu kernel.cu define.c $(HIP_DEPS)
+main.o: main.cu kernel.cu define.c 
 	$(HIPCC) $(HIPCC_FLAGS) -DOUTPUT $(KERNEL_DIM) main.cu -I./AVI -c
 
 ./AVI/avilib.o ./AVI/avimod.o:
 	cd AVI; make;
 
 # delete all object files
-clean: hip_clean
+clean: 
 	rm -f *.o AVI/*.o heartwall *.linkinfo
-
-include ../../../common/hip.epilogue.make

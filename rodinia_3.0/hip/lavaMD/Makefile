@@ -1,4 +1,3 @@
-HIP_PATH= ../../../..
 include ../../common/make.config
 
 OUTPUT = -DOUTPUT
@@ -66,5 +65,3 @@ clean:
                 ./util/device/*.o \
                 lavaMD \
 				result.txt
-
-include ../../../common/hip.epilogue.make

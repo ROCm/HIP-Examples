@@ -301,7 +301,7 @@ int main(int argc, char **argv)
         return -1;
     }
     hipDeviceProp_t devProp;                                          
-    hipDeviceGetProperties(&devProp, device);  
+    hipGetDeviceProperties(&devProp, device);  
     if (devProp.major < 1) {                                         
         printf("Device %d does not support CUDA\n", device);
         return -1;
@@ -363,7 +363,7 @@ int main(int argc, char **argv)
     //writeComponent(g_wave_cuda, 512000, ".g");
     //writeComponent(g_cuda, componentSize, ".g");
     //writeComponent(b_wave_cuda, componentSize, ".b");
-    hipFreeHost(d->srcImg);
+    hipHostFree(d->srcImg);
 
     return 0;
 }

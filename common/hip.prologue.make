@@ -31,7 +31,7 @@ HIPLD=$(HIP_PATH)/bin/hipcc
 #-- 
 # Set up automatic make of HIP cpp depenendencies
 # TODO - this can be removed when HIP has a proper make structure.
-HIP_SOURCES = $(HIP_PATH)/src/hip_hcc.cpp
+#HIP_SOURCES = $(HIP_PATH)/src/hip_hcc.cpp
 
 HIPCC_FLAGS += -I../../common
 # 'make dbg=1' enables HIPCC debugging and no opt switch.
@@ -55,15 +55,15 @@ OMP_FLAGS = $(HIPCC_FLAGS)
 HIP_DEPS = 
 
 else ifeq ($(HIP_PLATFORM), hcc)
-HIP_DEPS = $(HIP_SOURCES:.cpp=.o)
+#HIP_DEPS = $(HIP_SOURCES:.cpp=.o)
 OMPCC = gcc
 OMP_FLAGS += -fopenmp
 
 # Add dependencies to make hip_cc.o and other support files.
 HSA_PATH ?= /opt/hsa
-HIP_SOURCES = $(HIP_PATH)/src/hip_hcc.cpp 
-HIP_DEPS = $(HIP_SOURCES:.cpp=.o)
-$(HIP_DEPS): HIPCC_FLAGS += -I$(HSA_PATH)/include
+#HIP_SOURCES = $(HIP_PATH)/src/hip_hcc.cpp 
+#HIP_DEPS = $(HIP_SOURCES:.cpp=.o)
+#$(HIP_DEPS): HIPCC_FLAGS += -I$(HSA_PATH)/include
 %.o:: %.cpp
 	    $(HIPCC) $(HIPCC_FLAGS) $< -c -o $@
 endif

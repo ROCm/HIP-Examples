@@ -30,5 +30,3 @@ kmeans_cuda.o: kmeans_cuda.cu  kmeans_cuda_kernel.cu $(HIP_DEPS)
 
 clean:
 	rm -f *.o *~ kmeans kmeans_cuda.linkinfo
-
-include ../../../common/hip.epilogue.make
