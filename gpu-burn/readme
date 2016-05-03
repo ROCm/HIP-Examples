@@ -1,0 +1,40 @@
+
+Timmy Liu 01/2016
+AMD SYSTEM
+
+following the steps below to compile gpu burn on FIJI
+1. install the latest HSA runtime, HCC compiler and HIP compiler.
+2. edit {HIP_PATH} at the top of the Makefile to the current location
+3. type make
+
+follow the steps below to run the application
+1. be the root user. this is necessary to invoke the agi tool that measures the temperature
+2. export LD_LIBRARY_PATH=/opt/hsa/lib or any other location where hsa runtime might be located
+3. export HCC_LAZYINIT=ON . This is necessary or the system will hang.
+4. you might need to export HCC_HOME and HSA_PATH to hcc and hsa directory if they are not located under /opt/
+5. run the applicaiton ./gpu_burn-hip 20 will run the applicaiton for 20 seconds. 
+
+
+
+
+
+NVIDIA SYSTEM
+The following steps were followed to convert GPU_BURN from CUDA to HIP
+1. hipify compare.cu to compare.cpp: hipify compare.cu > compare.cpp
+2. hipify did a good job converting the index variable and api calls within the kernel, but a few other things need to be modified within compare.hpp
+   a. first add "#include "compare.h" ", compare.h will be added later
+   b. "hip::math::" should be deleted from compare.cpp
+   c. add "hipLaunchParm lp" as the first argument to each kernel
+   d. change "compare" and "compareD" to "compare_kernel" and "compareD_kernel" since host code has a function defined as compare as well
+3. add "compare.h" file that declares the two kernel calls
+4. hipify the host code gpu_burn-drv.cpp to gpu_burn-drv-hip.cpp. This step is largely done manually since most of the gpu_burn uses cuda driver api.
+   a. #include <hip_runtime.h> and #include "compare.h" should be added; need to #define HIP_NVCC
+   b. replacing cuda driver api calls to hip runtime api calls
+   c. initCompareKernel is no longer needed so can be commented out
+   d. within compare() call, based on whether d_doubles is true or false, hipLaunchKernel should call either compareD_kernel or compare_kernel
+5. Makefile modification
+   a. replace NVCC call with HIPCC call
+   b. compile compare.cpp instead of compare.ptx. remove -ptx flag. replace -o with -c
+   c. compile gpu_burn-drv-hip.cpp instead of gpu_burn-drv.cpp
+   d. ${HIPPATH}/include should be included in the include path
+   e. compile executable with gpu_burn-drv.o as well as compare.o
