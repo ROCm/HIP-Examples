@@ -1,15 +1,8 @@
 CXXFLAGS = -std=c++11 -O3
 
-all: gpu-stream-cuda gpu-stream-hip
+all:  gpu-stream-hip
 
 common.o: common.cpp common.h Makefile
-
-gpu-stream-cuda: cuda-stream.cu common.o Makefile
-ifeq ($(shell which nvcc > /dev/null; echo $$?), 0)
-	nvcc $(CXXFLAGS) common.o $< -o $@
-else
-	$(error "Cannot find nvcc, please install CUDA toolkit")
-endif
 
 HIP_PATH?= $(wildcard /opt/rocm/hip)
 ifeq (,$(HIP_PATH))
@@ -31,5 +24,5 @@ endif
 .PHONY: clean
 
 clean:
-	rm -f  gpu-stream-cuda gpu-stream-hip *.o
+	rm -f   gpu-stream-hip *.o
 

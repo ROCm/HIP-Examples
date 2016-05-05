@@ -268,9 +268,7 @@ int main(int argc, char *argv[])
     for (unsigned int i = 0; i < ARRAY_SIZE; i++)
     {
         if (useFloat)
-        {
-            ((float*)h_a)[i] = 1.0f;
-            ((float*)h_b)[i] = 2.0f;
+        { ((float*)h_a)[i] = 1.0f; ((float*)h_b)[i] = 2.0f;
             ((float*)h_c)[i] = 0.0f;
             ((float*)h_d)[i] = 1.0f;
             ((float*)h_e)[i] = 1.0f;
