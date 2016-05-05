@@ -1,0 +1,3 @@
+[submodule "mixbench"]
+	path = mixbench
+	url = https://github.com/ekondis/mixbench.git
