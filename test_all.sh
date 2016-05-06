@@ -10,6 +10,59 @@ make clean
 make
 cd ..
 
+# strided-access
+echo
+echo "==== strided-access ===="
+cd strided-access
+make clean
+make
+./strided_access
+cd ..
+
+
+# rtm8
+echo
+echo "==== rtm8 ===="
+cd rtm8
+./build_hip
+./rtm8_hip
+cd ..
+
+# reduction
+echo
+echo "==== reduction ===="
+cd reduction
+make clean
+make
+./run.sh
+cd ..
+
+# mini-nbody
+echo
+echo "==== mini-nbody ===="
+cd mini-nbody/hip
+./HIP-nbody-orig.sh
+./HIP-nbody-soa.sh
+./HIP-nbody-block.sh
+./HIP-nbody-unroll.sh
+cd ..
+
+# add4
+echo
+echo "==== add4 ===="
+cd add4
+./buildit.sh
+./runhip.sh
+cd ..
+
+# cuda-stream
+echo
+echo "==== cuda-stream ===="
+cd cuda-stream
+make clean
+make
+./stream
+cd ..
 
 #---
 echo

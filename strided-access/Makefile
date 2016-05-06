@@ -6,7 +6,7 @@ HIPCC=$(HIP_PATH)/bin/hipcc
 
 CXXFLAGS = -std=c++11 -O3
 
-hip: benchmark-hip.cpp
+strided-access: benchmark-hip.cpp
 ifeq ($(shell which $(HIPCC) > /dev/null; echo $$?), 0)
 	${HIPCC} ${CXXFLAGS} -o $@ $^ 
 else
@@ -16,5 +16,5 @@ endif
 .PHONY: clean
 
 clean:
-	rm -f hip *.o
+	rm -f strided-access *.o
 
