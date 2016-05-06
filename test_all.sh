@@ -16,7 +16,7 @@ echo "==== strided-access ===="
 cd strided-access
 make clean
 make
-./strided_access
+./strided-access
 cd ..
 
 
@@ -24,7 +24,7 @@ cd ..
 echo
 echo "==== rtm8 ===="
 cd rtm8
-./build_hip
+./build_hip.sh
 ./rtm8_hip
 cd ..
 
@@ -45,7 +45,7 @@ cd mini-nbody/hip
 ./HIP-nbody-soa.sh
 ./HIP-nbody-block.sh
 ./HIP-nbody-unroll.sh
-cd ..
+cd ../..
 
 # add4
 echo
