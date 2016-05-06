@@ -44,7 +44,6 @@ cd mini-nbody/hip
 ./HIP-nbody-orig.sh
 ./HIP-nbody-soa.sh
 ./HIP-nbody-block.sh
-./HIP-nbody-unroll.sh
 cd ../..
 
 # add4
