@@ -33,7 +33,6 @@ HIP/ : folder containing HIP optimized versions of the original C code (in order
   1. nbody-orig.cpp   : a straight port of the code to HIP (HIP-nbody-orig.sh)
   2. nbody-soa.cpp    : conversion to structure of arrays (SOA) data layout (HIP-nbody-soa.sh)
   3. nbody-block.cu  : cache blocking in CUDA shared memory (shmoo-cuda-nbody-block.sh)
-  4. nbody-unroll.cu : addition of "#pragma unroll" to inner loop (shmoo-cuda-nbody-unroll.sh)
 
 
 
