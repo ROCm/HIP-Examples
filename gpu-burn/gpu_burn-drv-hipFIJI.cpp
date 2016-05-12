@@ -23,8 +23,8 @@
 #include "hipsgemm.h"
 //#include <cuda.h>
 //#include "cublas_v2.h"
-#include<hc.hpp>
-#include <amp_short_vectors.h>
+//#include<hc.hpp>
+//#include <amp_short_vectors.h>
 
 void checkError(int rCode, std::string desc = "") {
 	static std::map<int, std::string> g_errorStrings;
