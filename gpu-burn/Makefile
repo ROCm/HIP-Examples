@@ -12,11 +12,17 @@ ifeq (${HIP_PLATFORM}, hcc)
     HIPCC_FLAGS = -stdlib=libc++
 endif
 
-drv:
+HIP_SRC_DEPS = $(wildcard *.cpp) $(wildcard *.h) Makefile
+GPUBURN_BIN = gpu_burn-hip
+
+${GPUBURN_BIN}: ${HIP_SRC_DEPS}
 	${HIPCC} ${HIPCC_FLAGS} -I${HIP_PATH}/include -c compare.cpp
 	${HIPCC} ${HIPCC_FLAGS} -I${HIP_PATH}/include -c hipsgemm.cpp
 	${HIPCC} ${HIPCC_FLAGS} -O3 -I${HIP_PATH}/include -I/opt/hcc/include -c gpu_burn-drv-hipFIJI.cpp
-	${HIPCC} ${HIPCC_FLAGS} -lm -o gpu_burn-hip gpu_burn-drv-hipFIJI.o compare.o hipsgemm.o -O3
+	${HIPCC} ${HIPCC_FLAGS} -lm -o ${GPUBURN_BIN} gpu_burn-drv-hipFIJI.o compare.o hipsgemm.o -O3
 
+all: ${GPUBURN_BIN}
+
+.PHONY: clean
 clean:
 	rm -f *.o gpu_burn-hip
