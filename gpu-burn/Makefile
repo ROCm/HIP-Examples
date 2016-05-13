@@ -8,9 +8,6 @@ HIPCC=${HIP_PATH}/bin/hipcc
 ifeq (${HIP_PLATFORM}, nvcc)
     HIPCC_FLAGS = -arch=compute_20
 endif
-ifeq (${HIP_PLATFORM}, hcc)
-    HIPCC_FLAGS = -stdlib=libc++
-endif
 
 HIP_SRC_DEPS = $(wildcard *.cpp) $(wildcard *.h) Makefile
 GPUBURN_BIN = gpu_burn-hip
