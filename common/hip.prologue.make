@@ -79,10 +79,10 @@ endif
 #
 #---
 # Rule for automatic HIPIFY call - assumes original cuda files are stored in local 'cusrc' directory.  See kmeans.
-%.cu : cusrc/%.cu
-	$(HIPIFY)  $< > $@
-%.cuh : cusrc/%.cuh
-	$(HIPIFY)  $< > $@
+#%.cu : cusrc/%.cu
+#	$(HIPIFY)  $< > $@
+#%.cuh : cusrc/%.cuh
+#	$(HIPIFY)  $< > $@
 
 
 KCFLAGS += $(OPT) -I$(HSA_PATH)/include  -I$(HIP_PATH)/include -I$(GRID_LAUNCH_PATH) -I$(AM_PATH)/include 

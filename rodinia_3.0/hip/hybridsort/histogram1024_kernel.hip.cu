@@ -69,9 +69,6 @@
 #else
 #define IMUL(a, b) __mul24(a, b)
 #endif
-#ifdef __KALMAR_CC__
-#include "amp.h"
-#endif
 __device__ void addData1024(volatile unsigned int *s_WarpHist, unsigned int data, unsigned int threadTag){
     unsigned int count;
     do{

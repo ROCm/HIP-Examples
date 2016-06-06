@@ -1,0 +1,6 @@
+[submodule "mixbench"]
+	path = mixbench
+	url = https://github.com/ekondis/mixbench.git
+[submodule "GPU-STREAM"]
+	path = GPU-STREAM
+	url = https://github.com/UoB-HPC/GPU-STREAM
