@@ -23,9 +23,7 @@ int checkError(int err, std::string desc)
     std::string errStr = "Unknown error: " + std::to_string(err);
     switch(err) {
         HIP_ERROR_SIMPLE(errStr, hipErrorMemoryAllocation)
-        HIP_ERROR_SIMPLE(errStr, hipErrorMemoryFree)
-        HIP_ERROR_SIMPLE(errStr, hipErrorUnknownSymbol)
-        HIP_ERROR_SIMPLE(errStr, hipErrorOutOfResources)
+        HIP_ERROR_SIMPLE(errStr, hipErrorLaunchOutOfResources)
         HIP_ERROR_SIMPLE(errStr, hipErrorInvalidValue)
         HIP_ERROR_SIMPLE(errStr, hipErrorInvalidResourceHandle)
         HIP_ERROR_SIMPLE(errStr, hipErrorInvalidDevice)
