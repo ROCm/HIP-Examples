@@ -22,6 +22,9 @@ BurnKernel::BurnKernel(int hipDevice)
 
 BurnKernel::~BurnKernel()
 {
+    if (mBurnThread)
+        mBurnThread->join();
+
     if (mDeviceAdata)
         hipFree(mDeviceAdata);
 
@@ -31,8 +34,6 @@ BurnKernel::~BurnKernel()
     if (mDeviceCdata)
         hipFree(mDeviceCdata);
 
-    if (mBurnThread)
-        mBurnThread->join();
 }
 
 // ---------------------------------------------------------------------------
