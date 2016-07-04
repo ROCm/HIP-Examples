@@ -33,7 +33,6 @@ BurnKernel::~BurnKernel()
 
     if (mDeviceCdata)
         hipFree(mDeviceCdata);
-
 }
 
 // ---------------------------------------------------------------------------
@@ -114,6 +113,11 @@ int BurnKernel::threadMain()
 
 int BurnKernel::stopBurn()
 {
+    int hipDevice = bindHipDevice();
+
+    std::string msg = "Stopping burn thread on device (" + std::to_string(hipDevice) + ")\n";
+    std::cout << msg;
+
     mRunKernel = false;
     return 0;
 }
@@ -144,7 +148,7 @@ int BurnKernel::runComputeKernel()
             mDeviceCdata + i*cMatrixSize,
             cRowSize);
     }
-    hipDeviceSynchronize();
+    checkError(hipDeviceSynchronize(), "Sync");
 
     return err;
 }
