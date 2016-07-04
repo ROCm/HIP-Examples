@@ -10,6 +10,15 @@ make clean
 make
 cd ..
 
+# gpu-burn
+echo
+echo "==== gpu-burn ===="
+cd gpu-burn
+make clean
+make
+./build/gpuburn-hip -t 5
+cd ..
+
 # strided-access
 echo
 echo "==== strided-access ===="
