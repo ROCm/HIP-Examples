@@ -9,6 +9,7 @@
 #include <memory>
 #include <vector>
 #include <unistd.h>
+#include <sys/stat.h>
 #include <hip_runtime.h>
 
 #include "common.h"
@@ -49,11 +50,17 @@ std::vector<std::unique_ptr<GpuMonitor>> genGpuMonitors()
     std::vector<std::unique_ptr<GpuMonitor>> monitors;
 
     for (int i = 0; true; i++) {
+            struct stat dirInfo;
+            std::string hwmonDir = "/sys/class/hwmon/hwmon" + std::to_string(i);
+
+            if (stat(hwmonDir.c_str(), &dirInfo))
+                break;
+
             std::string hwmonName;
-            std::ifstream hwmon("/sys/class/hwmon/hwmon" + std::to_string(i) + "/name");
+            std::ifstream hwmon(hwmonDir + "/name");
 
             if (!hwmon.good())
-                break;
+                continue;
 
             hwmon >> hwmonName;
             if (hwmonName == "amdgpu") {

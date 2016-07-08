@@ -7,11 +7,16 @@ then
     rm nbody-orig
 fi
 
+if [ -z  "$HIP_PATH" ]
+then
+
 if [ -d /opt/rocm/hip ]
 then
     HIP_PATH=/opt/rocm/hip
 else
     echo "Please install rocm package"
+fi
+
 fi
 
 echo hipcc -I../ -DSHMOO nbody-orig.cpp -o nbody-orig

@@ -9,11 +9,17 @@ if [ -f nbody-block ]
 then
     rm nbody-block
 fi
+
+if [ -z  "$HIP_PATH" ]
+then
+
 if [ -d /opt/rocm/hip ]
 then
     HIP_PATH=/opt/rocm/hip
 else
     echo "Please install rocm package"
+fi
+
 fi
 
 echo hipcc -I../ -DSHMOO nbody-block.cpp -o nbody-block
