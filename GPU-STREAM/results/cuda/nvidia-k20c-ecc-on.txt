@@ -1,0 +1,14 @@
+GPU-STREAM
+Version: 0.9
+Implementation: CUDA
+Precision: double
+
+Running kernels 10 times
+Array size: 400.0 MB (=0.4 GB)
+Total size: 1200.0 MB (=1.2 GB)
+Using CUDA device Tesla K20c
+Function    MBytes/sec  Min (sec)   Max         Average     
+Copy        152296.519  0.00551     0.00553     0.00552     
+Mul         152284.216  0.00551     0.00553     0.00552     
+Add         150549.336  0.00836     0.00838     0.00837     
+Triad       150597.842  0.00836     0.00838     0.00837     
