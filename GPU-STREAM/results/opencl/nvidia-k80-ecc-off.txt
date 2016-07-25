@@ -1,0 +1,15 @@
+GPU-STREAM
+Version: 0.0
+Implementation: OpenCL
+Precision: double
+
+Warning: array size must divide 1024
+Resizing array from 50000000 to 49999872
+Array size: 381.5 MB (=0.4 GB)
+Total size: 1144.4 MB (=1.1 GB)
+Using OpenCL device Tesla K80
+Function    MBytes/sec  Min (sec)   Max         Average     
+Copy        204118.601  0.00392     0.00397     0.00395
+Mul         204369.626  0.00391     0.00396     0.00395
+Add         204705.951  0.00586     0.00592     0.00591
+Triad       204615.651  0.00586     0.00593     0.00591

@@ -1,0 +1,10 @@
+GPU-STREAM
+Version: 0.0
+Implementation: OpenCL
+
+Using OpenCL device GeForce GTX 580
+Function    MBytes/sec  Min (sec)   Max         Average     
+Copy        176151      0.00454157  0.00454387  0.00454229
+Mul         176314      0.00453736  0.00453922  0.0045382
+Add         172099      0.00697274  0.00697767  0.00697497
+Triad       171998      0.00697684  0.0069785   0.00697772

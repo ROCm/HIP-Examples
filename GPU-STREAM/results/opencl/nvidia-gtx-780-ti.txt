@@ -1,0 +1,10 @@
+GPU-STREAM
+Version: 0.0
+Implementation: OpenCL
+
+Using OpenCL device GeForce GTX 780 Ti
+Function    MBytes/sec  Min (sec)   Max         Average     
+Copy        272926      0.0029312   0.0029951   0.00294692
+Mul         275240      0.00290655  0.00297589  0.00292918
+Add         281845      0.00425766  0.00432828  0.00427445
+Triad       281601      0.00426134  0.00433837  0.00427603

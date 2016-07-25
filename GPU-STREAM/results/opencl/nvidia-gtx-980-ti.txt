@@ -1,0 +1,10 @@
+GPU-STREAM
+Version: 0.0
+Implementation: OpenCL
+
+Using OpenCL device GeForce GTX 980 Ti
+Function    MBytes/sec  Min (sec)   Max         Average     
+Copy        263595      0.00303496  0.00303947  0.00303653
+Mul         263768      0.00303296  0.00303712  0.00303467
+Add         268115      0.0044757   0.00448098  0.00447908
+Triad       268015      0.00447737  0.00448109  0.00447909
