@@ -35,6 +35,14 @@ rodinia_3.0/hip/dwt2d/run1.out
 rodinia_3.0/hip/gaussian/gaussian
 rodinia_3.0/hip/gaussian/run0.diff
 rodinia_3.0/hip/gaussian/run0.out
+rodinia_3.0/hip/gaussian/run1.diff
+rodinia_3.0/hip/gaussian/run1.out
+rodinia_3.0/hip/gaussian/run2.diff
+rodinia_3.0/hip/gaussian/run2.out
+rodinia_3.0/hip/gaussian/run3.diff
+rodinia_3.0/hip/gaussian/run3.out
+rodinia_3.0/hip/gaussian/run4.diff
+rodinia_3.0/hip/gaussian/run4.out
 rodinia_3.0/hip/heartwall/heartwall
 rodinia_3.0/hip/heartwall/run0.diff
 rodinia_3.0/hip/heartwall/run0.out
