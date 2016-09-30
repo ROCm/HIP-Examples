@@ -341,7 +341,7 @@ int main(int argc, char **argv)
     int inputSize = pixWidth*pixHeight*compCount; //<amount of data (in bytes) to proccess
 
     //load img source image
-    hipMallocHost((void **)&d->srcImg, inputSize);
+    hipHostMalloc((void **)&d->srcImg, inputSize);
     if (getImg(d->srcFilename, d->srcImg, inputSize) == -1) 
         return -1;
 
