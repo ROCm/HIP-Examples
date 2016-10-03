@@ -1,1 +1,1 @@
-./lud_cuda -s 256 -v
+./lud -s 256 -v
