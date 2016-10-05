@@ -1,4 +1,4 @@
-#include "hip_runtime.h"
+#include "hip/hip_runtime.h"
 #define LIMIT -999
 #include <stdlib.h>
 #include <stdio.h>

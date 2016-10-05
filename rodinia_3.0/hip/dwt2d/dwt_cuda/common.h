@@ -1,4 +1,4 @@
-#include "hip_runtime.h"
+#include "hip/hip_runtime.h"
 ///  
 /// @file    common.h
 /// @author  Martin Jirman (207962@mail.muni.cz)

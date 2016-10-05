@@ -11,7 +11,7 @@
 #include <sstream>
 #include <stdexcept>
 
-#include <hip_runtime.h>
+#include "hip/hip_runtime.h"
 
 #include "benchmark-utils.hpp"
 

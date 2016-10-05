@@ -1,4 +1,4 @@
-#include "hip_runtime.h"
+#include "hip/hip_runtime.h"
 #ifdef PROFILING
 #include "RDTimer.h"
 #endif

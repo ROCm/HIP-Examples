@@ -1,4 +1,4 @@
-#include "hip_runtime.h"
+#include "hip/hip_runtime.h"
 /// @file    fdwt53.cu
 /// @brief   CUDA implementation of forward 5/3 2D DWT.
 /// @author  Martin Jirman (207962@mail.muni.cz)

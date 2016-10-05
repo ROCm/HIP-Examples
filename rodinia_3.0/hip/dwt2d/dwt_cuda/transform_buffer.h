@@ -1,4 +1,4 @@
-#include "hip_runtime.h"
+#include "hip/hip_runtime.h"
 /// line 248 the index
 /// @file    transform_buffer.h
 /// @brief   Buffer with separated even and odd columns and related algorithms.

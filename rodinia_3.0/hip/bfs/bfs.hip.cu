@@ -1,4 +1,4 @@
-#include "hip_runtime.h"
+#include "hip/hip_runtime.h"
 /***********************************************************************************
   Implementing Breadth first search on CUDA using algorithm given in HiPC'07
   paper "Accelerating Large Graph Algorithms on the GPU using CUDA"

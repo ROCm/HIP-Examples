@@ -1,4 +1,4 @@
-#include "hip_runtime.h"
+#include "hip/hip_runtime.h"
 
 
 #ifndef _BACKPROP_CUDA_KERNEL_H_

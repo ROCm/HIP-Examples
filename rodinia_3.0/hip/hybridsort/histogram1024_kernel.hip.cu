@@ -1,4 +1,4 @@
-#include "hip_runtime.h"
+#include "hip/hip_runtime.h"
 /*
  * Copyright 1993-2007 NVIDIA Corporation.  All rights reserved.
  *

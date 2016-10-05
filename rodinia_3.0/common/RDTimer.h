@@ -1,7 +1,7 @@
 #ifndef RODINIA_TIMER
 #define RODINIA_TIMER
 
-#include "hip_runtime.h"
+#include "hip/hip_runtime.h"
 
 #include <stdio.h>
 #include <stdlib.h>

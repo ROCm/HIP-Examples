@@ -1,7 +1,7 @@
 // Copyright 2009, Andrew Corrigan, acorriga@gmu.edu
 // This code is from the AIAA-2009-4001 paper
 
-#include "hip_runtime.h"
+#include "hip/hip_runtime.h"
 #include <iostream>
 #include <fstream>
 #include <algorithm>

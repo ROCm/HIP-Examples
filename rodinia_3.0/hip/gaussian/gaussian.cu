@@ -1,4 +1,4 @@
-#include "hip_runtime.h"
+#include "hip/hip_runtime.h"
 /*-----------------------------------------------------------
  ** gaussian.cu -- The program is to solve a linear system Ax = b
  **   by using Gaussian Elimination. The algorithm on page 101

@@ -1,4 +1,4 @@
-#include "hip_runtime.h"
+#include "hip/hip_runtime.h"
 ///
 /// @file:   io.h
 /// @brief   Manages loading and saving lineary stored bands and input images.

@@ -1,4 +1,4 @@
-#include "hip_runtime.h"
+#include "hip/hip_runtime.h"
 #include "track_ellipse_kernel.h"
 #include "misc_math.h"
 // #include <cutil.h>

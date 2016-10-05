@@ -1,4 +1,4 @@
-#include "hip_runtime.h"
+#include "hip/hip_runtime.h"
 /* 
  * Copyright (c) 2009, Jiri Matela
  * All rights reserved.

@@ -28,7 +28,7 @@ THE SOFTWARE.
 #include <cfloat>
 #include <iomanip>
 #include <cmath>
-#include "hip_runtime.h"
+#include "hip/hip_runtime.h"
 
 
 void check_hip_error(void)

@@ -1,4 +1,4 @@
-#include "hip_runtime.h"
+#include "hip/hip_runtime.h"
 // statistical kernel
 __global__ void compress(hipLaunchParm lp,	long d_Ne,
 											fp *d_I){									// pointer to output image (DEVICE GLOBAL MEMORY)

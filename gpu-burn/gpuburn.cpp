@@ -10,7 +10,7 @@
 #include <vector>
 #include <unistd.h>
 #include <sys/stat.h>
-#include <hip_runtime.h>
+#include "hip/hip_runtime.h"
 
 #include "common.h"
 #include "AmdGpuMonitor.h"

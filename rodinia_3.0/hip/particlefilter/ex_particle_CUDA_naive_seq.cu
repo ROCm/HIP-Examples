@@ -1,4 +1,4 @@
-#include "hip_runtime.h"
+#include "hip/hip_runtime.h"
 /**
  * @file ex_particle_OPENMP_seq.c
  * @author Michael Trotter & Matt Goodrum

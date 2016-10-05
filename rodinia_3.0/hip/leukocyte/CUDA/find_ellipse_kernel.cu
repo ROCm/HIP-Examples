@@ -1,4 +1,4 @@
-#include "hip_runtime.h"
+#include "hip/hip_runtime.h"
 #include "find_ellipse_kernel.h"
 // #include <cutil.h>
 #include <stdio.h>

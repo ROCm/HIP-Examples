@@ -19,7 +19,7 @@
   Ported to HIP by: Peng Sun, AMD
 */
 
-#include "hip_runtime.h"
+#include "hip/hip_runtime.h"
 #define NTIMES  20
 
 #include <string>

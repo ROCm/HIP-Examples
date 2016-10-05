@@ -1,4 +1,4 @@
-#include "hip_runtime.h"
+#include "hip/hip_runtime.h"
 #ifndef _MATRIXMUL_KERNEL_H_
 #define _MATRIXMUL_KERNEL_H_
 

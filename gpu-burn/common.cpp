@@ -4,7 +4,7 @@
  * edited by Timmy Liu for HIP API 01/2016
  */
 
-#include <hip_runtime.h>
+#include "hip/hip_runtime.h"
 #include "common.h"
 
 // ---------------------------------------------------------------------------

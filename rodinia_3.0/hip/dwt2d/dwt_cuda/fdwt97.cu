@@ -1,4 +1,4 @@
-#include "hip_runtime.h"
+#include "hip/hip_runtime.h"
 /// 
 /// @file    fdwt97.cu
 /// @brief   CUDA implementation of forward 9/7 2D DWT.

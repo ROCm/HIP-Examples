@@ -1,4 +1,4 @@
-#include "hip_runtime.h"
+#include "hip/hip_runtime.h"
 /*=============================================================================
 *------------------------------------------------------------------------------
 * Copyright 2015: Tom Deakin, Simon McIntosh-Smith, University of Bristol HPC

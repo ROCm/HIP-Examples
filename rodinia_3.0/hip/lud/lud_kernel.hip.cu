@@ -1,4 +1,4 @@
-#include "hip_runtime.h"
+#include "hip/hip_runtime.h"
 #include <cuda.h>
 #include <stdio.h>
 

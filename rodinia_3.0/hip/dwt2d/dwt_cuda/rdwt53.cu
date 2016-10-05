@@ -1,4 +1,4 @@
-#include "hip_runtime.h"
+#include "hip/hip_runtime.h"
 /// 
 /// @file    rdwt53.cu
 /// @brief   CUDA implementation of reverse 5/3 2D DWT.

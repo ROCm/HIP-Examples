@@ -6,7 +6,7 @@
 
 #include <iostream>
 #include <thread>
-#include <hip_runtime.h>
+#include "hip/hip_runtime.h"
 
 #include "common.h"
 #include "BurnKernel.h"

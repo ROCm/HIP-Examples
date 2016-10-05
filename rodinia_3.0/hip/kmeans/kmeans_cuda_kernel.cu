@@ -1,4 +1,4 @@
-#include "hip_runtime.h"
+#include "hip/hip_runtime.h"
 #ifndef _KMEANS_CUDA_KERNEL_H_
 #define _KMEANS_CUDA_KERNEL_H_
 
