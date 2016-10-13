@@ -19,6 +19,8 @@ then
     rm rtm8_hip
 fi
 
-echo "hipcc -std=c++11 -O3 -o rtm8_hip rtm8.cpp"
-$HIP_PATH/bin/hipcc -std=c++11 -O3 -o rtm8_hip rtm8.cpp
+GCC_VER=4.8
+
+echo "hipcc -I /usr/include/x86_64-linux-gnu -I /usr/include/x86_64-linux-gnu/c++/$GCC_VER -I /usr/include/c++/$GCC_VER -std=c++11 -O3 -o rtm8_hip rtm8.cpp"
+$HIP_PATH/bin/hipcc -I /usr/include/x86_64-linux-gnu -I /usr/include/x86_64-linux-gnu/c++/$GCC_VER -I /usr/include/c++/$GCC_VER -std=c++11 -O3 -o rtm8_hip rtm8.cpp
 
