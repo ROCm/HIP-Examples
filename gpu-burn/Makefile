@@ -11,9 +11,6 @@ LDFLAGS = -lm
 ifeq (${HIP_PLATFORM}, nvcc)
     CPPFLAGS += -arch=compute_20
 endif
-ifeq (${HIP_PLATFORM}, hcc)
-    CPPFLAGS += -stdlib=libc++
-endif
 
 GPUBURN_SRC = $(wildcard *.cpp)
 GPUBURN_OBJ = $(addprefix ${BUILD_DIR}/,$(subst .cpp,.o, $(GPUBURN_SRC)))
