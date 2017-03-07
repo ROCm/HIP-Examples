@@ -85,10 +85,10 @@ void master(fp timeinst,
 	//=====================================================================
 
 	for(i=0; i<EQUATIONS; i++){
-		if (isnan(finavalu[i]) == 1){ 
+		if (std::isnan(finavalu[i]) == 1){ 
 			finavalu[i] = 0.0001;												// for NAN set rate of change to 0.0001
 		}
-		else if (isinf(finavalu[i]) == 1){ 
+		else if (std::isinf(finavalu[i]) == 1){ 
 			finavalu[i] = 0.0001;												// for INF set rate of change to 0.0001
 		}
 	}

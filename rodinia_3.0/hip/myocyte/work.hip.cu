@@ -260,11 +260,11 @@ int work(	int xmax,
 	//================================================================================80
 
 	printf("Time spent in different stages of the application:\n");
-	printf("%.12f s, %.12f % : SETUP VARIABLES\n", 															(float) (time1-time0) / 1000000, (float) (time1-time0) / (float) (time5-time0) * 100);
-	printf("%.12f s, %.12f % : ALLOCATE CPU MEMORY AND GPU MEMORY\n", 				(float) (time2-time1) / 1000000, (float) (time2-time1) / (float) (time5-time0) * 100);
-	printf("%.12f s, %.12f % : READ DATA FROM FILES\n", 												(float) (time3-time2) / 1000000, (float) (time3-time2) / (float) (time5-time0) * 100);
-	printf("%.12f s, %.12f % : RUN COMPUTATION\n", 														(float) (time4-time3) / 1000000, (float) (time4-time3) / (float) (time5-time0) * 100);
-	printf("%.12f s, %.12f % : FREE MEMORY\n", 																(float) (time5-time4) / 1000000, (float) (time5-time4) / (float) (time5-time0) * 100);
+	printf("%.12f s, %.12f %% : SETUP VARIABLES\n", 															(float) (time1-time0) / 1000000, (float) (time1-time0) / (float) (time5-time0) * 100);
+	printf("%.12f s, %.12f %% : ALLOCATE CPU MEMORY AND GPU MEMORY\n", 				(float) (time2-time1) / 1000000, (float) (time2-time1) / (float) (time5-time0) * 100);
+	printf("%.12f s, %.12f %% : READ DATA FROM FILES\n", 												(float) (time3-time2) / 1000000, (float) (time3-time2) / (float) (time5-time0) * 100);
+	printf("%.12f s, %.12f %% : RUN COMPUTATION\n", 														(float) (time4-time3) / 1000000, (float) (time4-time3) / (float) (time5-time0) * 100);
+	printf("%.12f s, %.12f %% : FREE MEMORY\n", 																(float) (time5-time4) / 1000000, (float) (time5-time4) / (float) (time5-time0) * 100);
 	printf("Total time:\n");
 	printf("%.12f s\n", 																											(float) (time5-time0) / 1000000);
 
