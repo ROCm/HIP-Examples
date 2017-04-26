@@ -12,7 +12,7 @@ ifeq (${HIP_PLATFORM}, nvcc)
     CPPFLAGS += -arch=compute_20
 endif
 ifeq (${HIP_PLATFORM}, hcc)
-    CPPFLAGS += -stdlib=libc++
+    CPPFLAGS +=
 endif
 
 GPUBURN_SRC = $(wildcard *.cpp)
