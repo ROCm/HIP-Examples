@@ -14,6 +14,14 @@
 // ---------------------------------------------------------------------------
 namespace gpuburn {
 
+constexpr int BurnKernel::cRandSeed;
+constexpr float BurnKernel::cUseMem;
+constexpr uint32_t BurnKernel::cRowSize;
+constexpr uint32_t BurnKernel::cMatrixSize;
+constexpr uint32_t BurnKernel::cBlockSize;
+constexpr float BurnKernel::cAlpha;
+constexpr float BurnKernel::cBeta;
+
 BurnKernel::BurnKernel(int hipDevice)
     : mHipDevice(hipDevice), mRunKernel(false),
     mDeviceAdata(NULL), mDeviceBdata(NULL), mDeviceCdata(NULL)
