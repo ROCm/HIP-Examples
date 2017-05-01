@@ -151,7 +151,7 @@ mergeSortPass(hipLaunchParm lp, float4 *result, int nrElems, int threadsPerDiv
 		bool elemsLeftInA; 
 		bool elemsLeftInB;
 
-		elemsLeftInA = (aidx + 1 < nrElems/2); // Astart + aidx + 1 is allways less than division border 
+		elemsLeftInA = (aidx + 1 < nrElems/2) && (Astart + aidx + 1 < constStartAddr[division + 1]);
 		elemsLeftInB = (bidx + 1 < nrElems/2) && (Bstart + bidx + 1 < constStartAddr[division + 1]); 
 
 		if(elemsLeftInA){
