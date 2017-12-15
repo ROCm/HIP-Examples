@@ -342,9 +342,9 @@ int main(int argc, char *argv[])
                 hipLaunchKernel(HIP_KERNEL_NAME(copy_looper<double,1>), dim3(gridSize), dim3(groupSize), 0, 0, (double*)d_a, (double*)d_c, ARRAY_SIZE);
         } else {
             if (useFloat)
-                hipLaunchKernel(HIP_KERNEL_NAME(copy), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (float*)d_a, (float*)d_c);
+                hipLaunchKernel(HIP_KERNEL_NAME(copy<float>), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (float*)d_a, (float*)d_c);
             else
-                hipLaunchKernel(HIP_KERNEL_NAME(copy), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (double*)d_a, (double*)d_c);
+                hipLaunchKernel(HIP_KERNEL_NAME(copy<double>), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (double*)d_a, (double*)d_c);
         }
         check_cuda_error();
         hipDeviceSynchronize();
@@ -356,14 +356,14 @@ int main(int argc, char *argv[])
         t1 = std::chrono::high_resolution_clock::now();
         if (groups) {
             if (useFloat)
-                hipLaunchKernel(HIP_KERNEL_NAME(mul_looper), dim3(gridSize), dim3(groupSize), 0, 0, (float*)d_b, (float*)d_c, ARRAY_SIZE);
+                hipLaunchKernel(HIP_KERNEL_NAME(mul_looper<float>), dim3(gridSize), dim3(groupSize), 0, 0, (float*)d_b, (float*)d_c, ARRAY_SIZE);
             else
-                hipLaunchKernel(HIP_KERNEL_NAME(mul_looper), dim3(gridSize), dim3(groupSize), 0, 0, (double*)d_b, (double*)d_c, ARRAY_SIZE);
+                hipLaunchKernel(HIP_KERNEL_NAME(mul_looper<double>), dim3(gridSize), dim3(groupSize), 0, 0, (double*)d_b, (double*)d_c, ARRAY_SIZE);
         } else {
             if (useFloat)
-                hipLaunchKernel(HIP_KERNEL_NAME(mul), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (float*)d_b, (float*)d_c);
+                hipLaunchKernel(HIP_KERNEL_NAME(mul<float>), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (float*)d_b, (float*)d_c);
             else
-                hipLaunchKernel(HIP_KERNEL_NAME(mul), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (double*)d_b, (double*)d_c);
+                hipLaunchKernel(HIP_KERNEL_NAME(mul<double>), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (double*)d_b, (double*)d_c);
         }
         check_cuda_error();
         hipDeviceSynchronize();
@@ -375,14 +375,14 @@ int main(int argc, char *argv[])
         t1 = std::chrono::high_resolution_clock::now();
         if (groups) {
             if (useFloat)
-                hipLaunchKernel(HIP_KERNEL_NAME(add_looper), dim3(gridSize), dim3(groupSize), 0, 0, (float*)d_a, (float*)d_b,(float*)d_d, (float*)d_e,  (float*)d_c, ARRAY_SIZE);
+                hipLaunchKernel(HIP_KERNEL_NAME(add_looper<float>), dim3(gridSize), dim3(groupSize), 0, 0, (float*)d_a, (float*)d_b,(float*)d_d, (float*)d_e,  (float*)d_c, ARRAY_SIZE);
             else
-                hipLaunchKernel(HIP_KERNEL_NAME(add_looper), dim3(gridSize), dim3(groupSize), 0, 0, (double*)d_a, (double*)d_b, (double*)d_d, (double*)d_e,(double*)d_c, ARRAY_SIZE);
+                hipLaunchKernel(HIP_KERNEL_NAME(add_looper<double>), dim3(gridSize), dim3(groupSize), 0, 0, (double*)d_a, (double*)d_b, (double*)d_d, (double*)d_e,(double*)d_c, ARRAY_SIZE);
         } else {
             if (useFloat)
-                hipLaunchKernel(HIP_KERNEL_NAME(add), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (float*)d_a, (float*)d_b, (float*)d_d,(float*)d_e,(float*)d_c);
+                hipLaunchKernel(HIP_KERNEL_NAME(add<float>), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (float*)d_a, (float*)d_b, (float*)d_d,(float*)d_e,(float*)d_c);
             else
-                hipLaunchKernel(HIP_KERNEL_NAME(add), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (double*)d_a, (double*)d_b, (double*)d_d,(double*)d_e,(double*)d_c);
+                hipLaunchKernel(HIP_KERNEL_NAME(add<double>), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (double*)d_a, (double*)d_b, (double*)d_d,(double*)d_e,(double*)d_c);
         }
         check_cuda_error();
         hipDeviceSynchronize();
@@ -394,14 +394,14 @@ int main(int argc, char *argv[])
         t1 = std::chrono::high_resolution_clock::now();
         if (groups) {
             if (useFloat)
-                hipLaunchKernel(HIP_KERNEL_NAME(triad_looper), dim3(gridSize), dim3(groupSize), 0, 0, (float*)d_a, (float*)d_b, (float*)d_c, ARRAY_SIZE);
+                hipLaunchKernel(HIP_KERNEL_NAME(triad_looper<float>), dim3(gridSize), dim3(groupSize), 0, 0, (float*)d_a, (float*)d_b, (float*)d_c, ARRAY_SIZE);
             else
-                hipLaunchKernel(HIP_KERNEL_NAME(triad_looper), dim3(gridSize), dim3(groupSize), 0, 0, (double*)d_a, (double*)d_b, (double*)d_c, ARRAY_SIZE);
+                hipLaunchKernel(HIP_KERNEL_NAME(triad_looper<double>), dim3(gridSize), dim3(groupSize), 0, 0, (double*)d_a, (double*)d_b, (double*)d_c, ARRAY_SIZE);
         } else {
             if (useFloat)
-                hipLaunchKernel(HIP_KERNEL_NAME(triad), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (float*)d_a, (float*)d_b, (float*)d_c);
+                hipLaunchKernel(HIP_KERNEL_NAME(triad<float>), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (float*)d_a, (float*)d_b, (float*)d_c);
             else
-                hipLaunchKernel(HIP_KERNEL_NAME(triad), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (double*)d_a, (double*)d_b, (double*)d_c);
+                hipLaunchKernel(HIP_KERNEL_NAME(triad<double>), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (double*)d_a, (double*)d_b, (double*)d_c);
         }
 
         check_cuda_error();
