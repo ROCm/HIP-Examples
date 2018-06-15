@@ -111,7 +111,7 @@ int main(int argc, char** argv)
 
 
     int threads=256;
-    int blocks=min((ARRAYSIZE+threads-1)/threads,2048);
+    int blocks=std::min((ARRAYSIZE+threads-1)/threads,2048u);
 
     t1 = std::chrono::high_resolution_clock::now();
     for(int i=0;i<N;i++) {
