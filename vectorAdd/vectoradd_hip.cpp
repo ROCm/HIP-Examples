@@ -40,8 +40,7 @@ THE SOFTWARE.
 #define THREADS_PER_BLOCK_Z  1
 
 __global__ void 
-vectoradd_float(hipLaunchParm lp,
-             float* __restrict__ a, const float* __restrict__ b, const float* __restrict__ c, int width, int height) 
+vectoradd_float(float* __restrict__ a, const float* __restrict__ b, const float* __restrict__ c, int width, int height) 
 
   {
  
@@ -115,7 +114,7 @@ int main() {
   HIP_ASSERT(hipMemcpy(deviceC, hostC, NUM*sizeof(float), hipMemcpyHostToDevice));
 
 
-  hipLaunchKernel(vectoradd_float, 
+  hipLaunchKernelGGL(vectoradd_float, 
                   dim3(WIDTH/THREADS_PER_BLOCK_X, HEIGHT/THREADS_PER_BLOCK_Y),
                   dim3(THREADS_PER_BLOCK_X, THREADS_PER_BLOCK_Y),
                   0, 0,
