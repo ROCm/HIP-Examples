@@ -89,7 +89,7 @@ int doBurn(int burnSec) {
         std::ostringstream msg;
         msg << "Temps: ";
         for (auto& monitor : gpuMonitors) {
-            msg << "[GPU" << monitor->getId() << ":" << monitor->getTemperature() << "C] ";
+            msg << "[GPU" << monitor->getId() << ": " << monitor->getTemperature() << " C] ";
         }
         msg << burnSec << "s\n";
         std::cout << msg.str();
