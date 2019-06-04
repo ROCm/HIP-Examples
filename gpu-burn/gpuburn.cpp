@@ -26,6 +26,7 @@ std::vector<std::unique_ptr<BurnKernel>> genBurnKernels()
 
     try {
         checkError(hipGetDeviceCount(&deviceCount));
+        std::cout<<"Total no. of GPUs found: "<<deviceCount<<std::endl;
     } catch (std::string e) {
         std::cerr << "Error: couldn't find any HIP devices\n";
     }
