@@ -26,10 +26,10 @@ std::vector<std::unique_ptr<BurnKernel>> genBurnKernels()
 
     try {
         checkError(hipGetDeviceCount(&deviceCount));
-        std::cout<<"Total no. of GPUs found: "<<deviceCount<<std::endl;
     } catch (std::string e) {
         std::cerr << "Error: couldn't find any HIP devices\n";
     }
+
 
     for (int i =0; i < deviceCount; ++i) {
         try {
@@ -89,16 +89,53 @@ int doBurn(int burnSec) {
         std::ostringstream msg;
         msg << "Temps: ";
         for (auto& monitor : gpuMonitors) {
-            msg << "[GPU" << monitor->getId() << ": " << monitor->getTemperature() << " C] ";
+            msg << "[GPU" << monitor->getId() << ":" << monitor->getTemperature() << "C] ";
         }
+
+	int cnt = 0;
+        msg << " Accuracy: ";
+        int current_err = 0;            
+        for(auto& kernel : burnKernels){
+            current_err += kernel->get_err_num();
+	    msg << "[GPU " << kernel->mHipDevice << " err: " << kernel->get_err_num() << "] " ;
+	    cnt += 1;
+        }
+
+
         msg << burnSec << "s\n";
         std::cout << msg.str();
+
         sleep(1);
     }
 
     for (auto& kernel : burnKernels) {
         kernel->stopBurn();
     }
+
+
+    // final report, rockyli:
+    // Tested 2 GPUs:
+    // 		GPU 0: FAULTY
+    // 		GPU 1: OK
+
+    std::ostringstream rpt;
+    int gpu_count = 0;
+    for (auto& kernel : burnKernels) {
+      gpu_count +=1;
+    }
+    rpt << "Tested " << gpu_count << " GPUs:\n";
+    for (auto& kernel : burnKernels) {
+      std::string r;
+      if(kernel->get_err_num() > 0){
+        r = "FAULTY";
+      }
+      else{
+        r = "OK";
+      }
+      rpt << "\tGPU " << kernel->mHipDevice << ": " << r << "\n";
+    }
+    std::cout << rpt.str();
+
 
     return 0;
 }
@@ -118,7 +155,6 @@ int main(int argc, char **argv) {
                 std::cerr << "Usage: " << argv[0] << " [-t sec]\n";
                 return -EINVAL;
         }
-
     return doBurn(burnSec);
 }
 

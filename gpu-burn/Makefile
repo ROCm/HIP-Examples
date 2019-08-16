@@ -1,12 +1,12 @@
 HIP_PATH ?= /opt/rocm/hip
 HCC_PATH ?= /opt/rocm/hcc
 HIP_PLATFORM = $(shell $(HIP_PATH)/bin/hipconfig --platform)
-HIP_INCLUDE = -I${HIP_PATH}/include -I${HCC_PATH}/include
+HIP_INCLUDE = -I${HIP_PATH}/include -I${HCC_PATH}/include -I/opt/rocm/include
 BUILD_DIR ?= build
 
 HIPCC = ${HIP_PATH}/bin/hipcc
-CPPFLAGS = -O3
-LDFLAGS = -lm -lpthread
+CPPFLAGS = -lrocblas -L/opt/rocm/lib -I/opt/rocm/include
+LDFLAGS = -lm -lrocblas
 
 ifeq (${HIP_PLATFORM}, nvcc)
     CPPFLAGS += -arch=compute_20
