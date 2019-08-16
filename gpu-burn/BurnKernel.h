@@ -8,6 +8,7 @@
 #define GPUBURN_BURNKERNEL_H_
 
 #include <thread>
+#include <map>
 
 // ---------------------------------------------------------------------------
 namespace gpuburn {
@@ -34,21 +35,35 @@ class BurnKernel {
          */
         int stopBurn();
 
+	// rocky:
+	int get_err_num();
+
     private:
         static constexpr int cRandSeed = 10;
         static constexpr float cUseMem = 0.80;
-        static constexpr uint32_t cRowSize = 512;
+        //static constexpr uint32_t cRowSize = 512;
+        static constexpr uint32_t cRowSize = 8640; // rocky, 20190809
         static constexpr uint32_t cMatrixSize = cRowSize * cRowSize;
         static constexpr uint32_t cBlockSize = 16;
         static constexpr float cAlpha = 1.0f;
         static constexpr float cBeta = 0.0f;
 
-        float mHostAdata[cMatrixSize];
-        float mHostBdata[cMatrixSize];
+        //float mHostAdata[cMatrixSize];
+        //float mHostBdata[cMatrixSize];
 
-        float* mDeviceAdata;
-        float* mDeviceBdata;
-        float* mDeviceCdata;
+        double mHostAdata[cMatrixSize];
+        double mHostBdata[cMatrixSize];
+        //float* mDeviceAdata;
+        //float* mDeviceBdata;
+        //float* mDeviceCdata;
+
+	// rocky:
+        double* mDeviceAdata;
+        double* mDeviceBdata;
+        double* mDeviceCdata;
+
+	int* d_faultyElemData;
+	int err_num;
 
         bool mRunKernel;
         int mNumIterations;

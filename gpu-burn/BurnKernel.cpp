@@ -11,6 +11,9 @@
 #include "common.h"
 #include "BurnKernel.h"
 
+#include "rocblas.h"
+
+#define EPSILOND 0.0000001f
 // ---------------------------------------------------------------------------
 namespace gpuburn {
 
@@ -26,48 +29,55 @@ BurnKernel::BurnKernel(int hipDevice)
     : mHipDevice(hipDevice), mRunKernel(false),
     mDeviceAdata(NULL), mDeviceBdata(NULL), mDeviceCdata(NULL)
 {
+
+    err_num = 0;
+
 }
 
 BurnKernel::~BurnKernel()
 {
-    if (mBurnThread)
+    if (mBurnThread){
         mBurnThread->join();
+    }
 
-    if (mDeviceAdata)
+    if (mDeviceAdata){
         hipFree(mDeviceAdata);
+    }
 
-    if (mDeviceBdata)
+    if (mDeviceBdata){
         hipFree(mDeviceBdata);
+    }
 
-    if (mDeviceCdata)
+    if (mDeviceCdata){
         hipFree(mDeviceCdata);
+    }
 }
 
 // ---------------------------------------------------------------------------
 
-extern "C" __global__ void hip_sgemm_kernel(hipLaunchParm lp, const int M,
-                                            const int N, const int K,
-                                            const float alpha,
-                                            float *A, const int lda, float *B,
-                                            const int ldb, const float beta,
-                                            float *C, const int ldc)
+
+
+extern "C" __global__ void hip_compare_kernel(double *C, int *faultyElems, size_t iters) 
 {
         //column major NN
-        size_t idx_x = hipBlockIdx_x * hipBlockDim_x + hipThreadIdx_x;
-        size_t idx_y = hipBlockIdx_y * hipBlockDim_y + hipThreadIdx_y;
-        size_t dim_x = hipGridDim_x * hipBlockDim_x;
+        size_t idx_x = blockIdx.x * blockDim.x + threadIdx.x;
+        size_t idx_y = blockIdx.y * blockDim.y + threadIdx.y;
+        size_t dim_x = gridDim.x * blockDim.x;
+
         size_t myIdx = idx_y * dim_x + idx_x;
 
-        float local_c = beta * C[myIdx];
 
-        for(int k = 0; k < K; k++) {
-          local_c += alpha * A[ idx_y + k * K] * B[ idx_x * K + k];
+	size_t iterStep = hipBlockDim_x*hipBlockDim_y*hipGridDim_x*hipGridDim_y;
+
+        int myFaulty = 0;
+	for (size_t i = 1; i < iters; ++i){
+	        if(fabs(C[myIdx] - C[myIdx + iterStep]) > EPSILOND){
+			myFaulty++;
+		}
         }
-
-        C[myIdx] = local_c;
+	atomicAdd(faultyElems, myFaulty);
 }
 
-// ---------------------------------------------------------------------------
 
 int BurnKernel::Init()
 {
@@ -82,13 +92,18 @@ int BurnKernel::Init()
         mHostBdata[i] = (rand() % 1000000)/100000.0;
     }
 
+
     size_t freeMem = getAvailableMemory() * cUseMem;
-    size_t matrixSizeBytes = sizeof(float)*cMatrixSize;
+    //size_t matrixSizeBytes = sizeof(float)*cMatrixSize;
+    size_t matrixSizeBytes = sizeof(double)*cMatrixSize;
     mNumIterations = (freeMem - (matrixSizeBytes*2))/matrixSizeBytes;
 
     checkError(hipMalloc((void**)&mDeviceAdata, matrixSizeBytes), "Alloc A");
     checkError(hipMalloc((void**)&mDeviceBdata, matrixSizeBytes), "Alloc B");
     checkError(hipMalloc((void**)&mDeviceCdata, matrixSizeBytes*mNumIterations), "Alloc C");
+
+    //rocky added for acc check:
+    checkError(hipMalloc(&d_faultyElemData, sizeof(int)), "faulty data");
 
     checkError(hipMemcpy(mDeviceAdata, mHostAdata, matrixSizeBytes, hipMemcpyHostToDevice), "A -> device");
     checkError(hipMemcpy(mDeviceBdata, mHostBdata, matrixSizeBytes, hipMemcpyHostToDevice), "B -> device");
@@ -142,24 +157,36 @@ int BurnKernel::runComputeKernel()
 {
     int err = 0;
 
+
     for (int i = 0; mRunKernel && i < mNumIterations; ++i) {
-        hipLaunchKernel(
-            /* Launch params */
-            HIP_KERNEL_NAME(hip_sgemm_kernel),
-            dim3(cRowSize/cBlockSize, cRowSize/cBlockSize, 1),
-            dim3(cBlockSize,cBlockSize,1), 0, 0,
-            /* Kernel params */
-            cRowSize, cRowSize, cRowSize, cAlpha,
-            mDeviceAdata, cRowSize,
-            mDeviceBdata, cRowSize,
-            cBeta,
-            mDeviceCdata + i*cMatrixSize,
-            cRowSize);
+
+	double alpha = 1.1;
+	double beta = 0.0;
+
+    	rocblas_handle handle;
+  	rocblas_create_handle(&handle);
+        rocblas_dgemm(handle, rocblas_operation_none, rocblas_operation_transpose, cRowSize, cRowSize, cRowSize, &alpha, mDeviceAdata, cRowSize, mDeviceBdata,cRowSize , &beta, mDeviceCdata + i*cMatrixSize, cRowSize);
     }
+
+    checkError(hipDeviceSynchronize(), "Sync"); // rocky added to fix seg fault
+
+    hipLaunchKernelGGL(HIP_KERNEL_NAME(hip_compare_kernel),dim3(cRowSize/cBlockSize, cRowSize/cBlockSize, 1),dim3(cBlockSize,cBlockSize,1), 0, 0, mDeviceCdata, d_faultyElemData, mNumIterations);
+
+
+    int *d_faultyElemsHost;
+    checkError(hipMemcpy(d_faultyElemsHost, d_faultyElemData, sizeof(int), hipMemcpyDeviceToHost), "Read faultyelemdata");
+
+    err_num += *d_faultyElemsHost;
+
     checkError(hipDeviceSynchronize(), "Sync");
 
     return err;
 }
+
+int BurnKernel::get_err_num(){
+    return err_num;
+}
+
 
 size_t BurnKernel::getAvailableMemory()
 {
