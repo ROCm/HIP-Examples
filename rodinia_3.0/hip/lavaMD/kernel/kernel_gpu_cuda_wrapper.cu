@@ -216,7 +216,7 @@ kernel_gpu_cuda_wrapper(par_str par_cpu,
     rdtimercpu->Start();
 #endif
 	// launch kernel - all boxes
-	hipLaunchKernel(kernel_gpu_cuda, dim3(blocks), dim3(threads), 0, 0, 	par_cpu,
+	hipLaunchKernelGGL(kernel_gpu_cuda, dim3(blocks), dim3(threads), 0, 0, 	par_cpu,
 											dim_cpu,
 											d_box_gpu,
 											d_rv_gpu,

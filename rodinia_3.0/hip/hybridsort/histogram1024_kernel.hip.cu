@@ -79,7 +79,7 @@ __device__ void addData1024(volatile unsigned int *s_WarpHist, unsigned int data
 }
 
 
-__global__ void histogram1024Kernel(hipLaunchParm lp,  unsigned int *d_Result, float *d_Data, float minimum, float maximum, int dataN){
+__global__ void histogram1024Kernel(unsigned int *d_Result, float *d_Data, float minimum, float maximum, int dataN){
 
     //Current global thread index
     const int    globalTid = IMUL(hipBlockIdx_x, hipBlockDim_x) + hipThreadIdx_x;

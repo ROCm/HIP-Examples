@@ -34,7 +34,7 @@ texture<float, 1, hipReadModeElementType> t_grad_y;
 
 // Kernel to find the maximal GICOV value at each pixel of a
 //  video frame, based on the input x- and y-gradient matrices
-__global__ void GICOV_kernel(hipLaunchParm lp, int grad_m, float *gicov
+__global__ void GICOV_kernel(int grad_m, float *gicov
 #ifdef MEMCPYTOSYMBOL
 )
 #else
@@ -161,7 +161,7 @@ float *GICOV_CUDA(int grad_m, int grad_n, float *host_grad_x, float *host_grad_y
 	int threads_per_block = grad_m - (2 * MaxR);
     
 	// Execute the GICOV kernel
-	hipLaunchKernel(GICOV_kernel, dim3(num_blocks), dim3(threads_per_block ), 0, 0, grad_m, device_gicov
+	hipLaunchKernelGGL(GICOV_kernel, dim3(num_blocks), dim3(threads_per_block ), 0, 0, grad_m, device_gicov
 #ifdef MEMCPYTOSYMBOL
 );
 #else
@@ -206,7 +206,7 @@ texture<float, 1, hipReadModeElementType> t_img;
 // Each element (i, j) of the output matrix is set equal to the maximal value in
 //  the neighborhood surrounding element (i, j) in the input matrix
 // Here the neighborhood is defined by the structuring element (c_strel)
-__global__ void dilate_kernel(grid_launch_parm lp, int img_m, int img_n, int strel_m, int strel_n, float *dilated
+__global__ void dilate_kernel(int img_m, int img_n, int strel_m, int strel_n, float *dilated
 #ifdef MEMCPYTOSYMBOL
 )
 #else
@@ -296,7 +296,7 @@ float *dilate_CUDA(int max_gicov_m, int max_gicov_n, int strel_m, int strel_n) {
 	int num_blocks = (int) (((float) num_threads / (float) threads_per_block) + 0.5);
 
 	// Execute the dilation kernel
-	hipLaunchKernel(dilate_kernel, dim3(num_blocks), dim3(threads_per_block ), 0, 0, max_gicov_m, max_gicov_n, strel_m, strel_n, device_img_dilated
+	hipLaunchKernelGGL(dilate_kernel, dim3(num_blocks), dim3(threads_per_block ), 0, 0, max_gicov_m, max_gicov_n, strel_m, strel_n, device_img_dilated
 #ifdef MEMCPYTOSYMBOL
 );
 #else

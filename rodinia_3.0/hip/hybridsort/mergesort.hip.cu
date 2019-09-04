@@ -58,9 +58,9 @@ float4* runMergeSort(int listsize, int divisions,
 	dim3 grid(blocks, 1);
 	#ifdef USE_TEXTURES
 	hipBindTexture(0,tex,d_origList, channelDesc, listsize*sizeof(float)); 
-	hipLaunchKernel(mergeSortFirst, dim3(grid), dim3(threads ), 0, 0, d_resultList, listsize);
+	hipLaunchKernelGGL(mergeSortFirst, dim3(grid), dim3(threads ), 0, 0, d_resultList, listsize);
 	#else
-	hipLaunchKernel(mergeSortFirst, dim3(grid), dim3(threads ), 0, 0,d_origList, d_resultList, listsize);
+	hipLaunchKernelGGL(mergeSortFirst, dim3(grid), dim3(threads ), 0, 0,d_origList, d_resultList, listsize);
 	#endif
 	////////////////////////////////////////////////////////////////////////////
 	// Then, go level by level
@@ -113,9 +113,9 @@ float4* runMergeSort(int listsize, int divisions,
                 #endif */
 
 		#ifdef MEMCPYTOSYMBOL
-		hipLaunchKernel(mergeSortPass, dim3(grid), dim3(threads ), 0, 0,d_origList, d_resultList, nrElems, threadsPerDiv);
+		hipLaunchKernelGGL(mergeSortPass, dim3(grid), dim3(threads ), 0, 0,d_origList, d_resultList, nrElems, threadsPerDiv);
 		#else
-		hipLaunchKernel(mergeSortPass, dim3(grid), dim3(threads ), 0, 0,d_origList, d_resultList, nrElems, threadsPerDiv,dconstStartAddr); 
+		hipLaunchKernelGGL(mergeSortPass, dim3(grid), dim3(threads ), 0, 0,d_origList, d_resultList, nrElems, threadsPerDiv,dconstStartAddr); 
 		#endif
 		nrElems *= 2; 
 		floatsperthread = (nrElems*4); 
@@ -134,9 +134,9 @@ float4* runMergeSort(int listsize, int divisions,
 			(largestSize/threads.x) + 1; 
 	grid.y = divisions;
 	#ifdef MEMCPYTOSYMBOL 
-	hipLaunchKernel(mergepack, dim3(grid), dim3(threads ), 0, 0, (float *)d_resultList, (float *)d_origList);
+	hipLaunchKernelGGL(mergepack, dim3(grid), dim3(threads ), 0, 0, (float *)d_resultList, (float *)d_origList);
 	#else
-	hipLaunchKernel(mergepack, dim3(grid), dim3(threads ), 0, 0, (float *)d_resultList, (float *)d_origList,dconstStartAddr,dfinalStartAddr,dnullElements);
+	hipLaunchKernelGGL(mergepack, dim3(grid), dim3(threads ), 0, 0, (float *)d_resultList, (float *)d_origList,dconstStartAddr,dfinalStartAddr,dnullElements);
 	#endif
 	free(startaddr);
 	return d_origList; 

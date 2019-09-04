@@ -299,7 +299,7 @@ namespace dwt_cuda {
   /// @param steps   number of steps of sliding window
   template <int WIN_SX, int WIN_SY>
   __launch_bounds__(WIN_SX, CTMIN(SHM_SIZE/sizeof(FDWT97<WIN_SX, WIN_SY>), 8))
-  __global__ void fdwt97Kernel(hipLaunchParm lp, 
+  __global__ void fdwt97Kernel( 
                                const float * const input, float * const output,
                                const int sx, const int sy, const int steps)
   {
@@ -328,7 +328,7 @@ namespace dwt_cuda {
     
     // run kernel, possibly measure time and finally check the call
     PERF_BEGIN
-    hipLaunchKernel(HIP_KERNEL_NAME(fdwt97Kernel<WIN_SX, WIN_SY>), dim3(gSize), dim3(WIN_SX), 0, 0, in, out, sx, sy, steps);
+    hipLaunchKernelGGL(HIP_KERNEL_NAME(fdwt97Kernel<WIN_SX, WIN_SY>), dim3(gSize), dim3(WIN_SX), 0, 0, in, out, sx, sy, steps);
     PERF_END("        FDWT97", sx, sy)
     CudaDWTTester::checkLastKernelCall("FDWT 9/7 kernel");
   }

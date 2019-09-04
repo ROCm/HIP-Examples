@@ -44,7 +44,7 @@ if (err != hipSuccess)
 }
 }
 
-__global__ void atomic_reduction_kernel(hipLaunchParm lp, int *in, int* out, int ARRAYSIZE) {
+__global__ void atomic_reduction_kernel(int *in, int* out, int ARRAYSIZE) {
     int sum=int(0);
     int idx = hipBlockIdx_x*hipBlockDim_x+hipThreadIdx_x;
     for(int i= idx;i<ARRAYSIZE;i+=hipBlockDim_x*hipGridDim_x) {
@@ -53,7 +53,7 @@ __global__ void atomic_reduction_kernel(hipLaunchParm lp, int *in, int* out, int
     atomicAdd(out,sum);
 }
 
-__global__ void atomic_reduction_kernel2(hipLaunchParm lp, int *in, int* out, int ARRAYSIZE) {
+__global__ void atomic_reduction_kernel2(int *in, int* out, int ARRAYSIZE) {
     int sum=int(0);
     int idx = hipBlockIdx_x*hipBlockDim_x+hipThreadIdx_x;
     for(int i= idx*16;i<ARRAYSIZE;i+=hipBlockDim_x*hipGridDim_x*16) {
@@ -63,7 +63,7 @@ __global__ void atomic_reduction_kernel2(hipLaunchParm lp, int *in, int* out, in
     atomicAdd(out,sum);
 }
 
-__global__ void atomic_reduction_kernel3(hipLaunchParm lp, int *in, int* out, int ARRAYSIZE) {
+__global__ void atomic_reduction_kernel3(int *in, int* out, int ARRAYSIZE) {
     int sum=int(0);
     int idx = hipBlockIdx_x*hipBlockDim_x+hipThreadIdx_x;
     for(int i= idx*4;i<ARRAYSIZE;i+=hipBlockDim_x*hipGridDim_x*4) {
@@ -116,7 +116,7 @@ int main(int argc, char** argv)
     t1 = std::chrono::high_resolution_clock::now();
     for(int i=0;i<N;i++) {
         hipMemsetAsync(out,0,sizeof(int));
-        hipLaunchKernel(HIP_KERNEL_NAME(atomic_reduction_kernel), dim3(blocks), dim3(threads), 0, 0, in,out,ARRAYSIZE);
+        hipLaunchKernelGGL(HIP_KERNEL_NAME(atomic_reduction_kernel), dim3(blocks), dim3(threads), 0, 0, in,out,ARRAYSIZE);
         //hipLaunchKernel(HIP_KERNEL_NAME(atomic_reduction_kernel2), dim3(blocks), dim3(threads), 0, 0, in,out,ARRAYSIZE);
         //hipLaunchKernel(HIP_KERNEL_NAME(atomic_reduction_kernel3), dim3(blocks), dim3(threads), 0, 0, in,out,ARRAYSIZE);
 

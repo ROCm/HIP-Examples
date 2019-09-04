@@ -10,7 +10,7 @@
 #include "cuda.h"
 
 
-__global__ void bpnn_layerforward_CUDA(hipLaunchParm lp, 
+__global__ void bpnn_layerforward_CUDA( 
                        float *input_cuda,
 	                   float *output_hidden_cuda,
 					   float *input_hidden_cuda,
@@ -78,7 +78,7 @@ __global__ void bpnn_layerforward_CUDA(hipLaunchParm lp,
 
 }
 
-__global__ void bpnn_adjust_weights_cuda(hipLaunchParm lp, 
+__global__ void bpnn_adjust_weights_cuda( 
                 float * delta,
                 int hid,
                 float * ly,

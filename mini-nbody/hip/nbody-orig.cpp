@@ -20,7 +20,7 @@ void randomizeBodies(float *data, int n) {
 //}//host implementation of cuda function for rsqrtf
 
 __global__
-void bodyForce(hipLaunchParm lp, Body *p, float dt, int n) {
+void bodyForce(Body *p, float dt, int n) {
   int i = hipBlockDim_x * hipBlockIdx_x + hipThreadIdx_x;
   if (i < n) {
     float Fx = 0.0f; float Fy = 0.0f; float Fz = 0.0f;
@@ -66,7 +66,7 @@ int main(const int argc, const char** argv) {
     StartTimer();
 
     hipMemcpy(d_buf, buf, bytes, hipMemcpyHostToDevice);
-    hipLaunchKernel(HIP_KERNEL_NAME(bodyForce), dim3(nBlocks), dim3(BLOCK_SIZE), 0, 0, d_p, dt, nBodies); // compute interbody forces
+    hipLaunchKernelGGL(HIP_KERNEL_NAME(bodyForce), dim3(nBlocks), dim3(BLOCK_SIZE), 0, 0, d_p, dt, nBodies); // compute interbody forces
     hipMemcpy(buf, d_buf, bytes, hipMemcpyDeviceToHost);
 
     for (int i = 0 ; i < nBodies; i++) { // integrate position

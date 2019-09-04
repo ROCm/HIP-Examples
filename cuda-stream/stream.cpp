@@ -106,7 +106,7 @@ double mysecond()
 
 
 template <typename T>
-__global__ void set_array(hipLaunchParm lp, T *a,  T value, int len)
+__global__ void set_array(T *a,  T value, int len)
 {
     int idx = hipThreadIdx_x + hipBlockIdx_x * hipBlockDim_x;
     if (idx < len)
@@ -114,7 +114,7 @@ __global__ void set_array(hipLaunchParm lp, T *a,  T value, int len)
 }
 
 template <typename T>
-__global__ void STREAM_Copy(hipLaunchParm lp, T *a, T *b, int len)
+__global__ void STREAM_Copy(T *a, T *b, int len)
 {
     int idx = hipThreadIdx_x + hipBlockIdx_x * hipBlockDim_x;
     if (idx < len)
@@ -122,7 +122,7 @@ __global__ void STREAM_Copy(hipLaunchParm lp, T *a, T *b, int len)
 }
 
 template <typename T>
-__global__ void STREAM_Scale(hipLaunchParm lp, T *a, T *b, T scale,  int len)
+__global__ void STREAM_Scale(T *a, T *b, T scale,  int len)
 {
     int idx = hipThreadIdx_x + hipBlockIdx_x * hipBlockDim_x;
     if (idx < len)
@@ -130,7 +130,7 @@ __global__ void STREAM_Scale(hipLaunchParm lp, T *a, T *b, T scale,  int len)
 }
 
 template <typename T>
-__global__ void STREAM_Add(hipLaunchParm lp,  T *a, T *b, T *c,  int len)
+__global__ void STREAM_Add(T *a, T *b, T *c,  int len)
 {
     int idx = hipThreadIdx_x + hipBlockIdx_x * hipBlockDim_x;
     if (idx < len)
@@ -138,7 +138,7 @@ __global__ void STREAM_Add(hipLaunchParm lp,  T *a, T *b, T *c,  int len)
 }
 
 template <typename T>
-__global__ void STREAM_Triad(hipLaunchParm lp,  T *a, T *b, T *c, T scalar, int len)
+__global__ void STREAM_Triad(T *a, T *b, T *c, T scalar, int len)
 {
     int idx = hipThreadIdx_x + hipBlockIdx_x * hipBlockDim_x;
     if (idx < len)
@@ -179,9 +179,9 @@ int main(int argc, char** argv)
         printf(" output in IEC units (KiB = 1024 B)\n");
 
     /* Initialize memory on the device */
-    hipLaunchKernel(HIP_KERNEL_NAME(set_array<real>), dim3(dimGrid), dim3(dimBlock), 0, 0, d_a, 2.f, N);
-    hipLaunchKernel(HIP_KERNEL_NAME(set_array<real>), dim3(dimGrid), dim3(dimBlock), 0, 0, d_b, .5f, N);
-    hipLaunchKernel(HIP_KERNEL_NAME(set_array<real>), dim3(dimGrid), dim3(dimBlock), 0, 0, d_c, .5f, N);
+    hipLaunchKernelGGL(HIP_KERNEL_NAME(set_array<real>), dim3(dimGrid), dim3(dimBlock), 0, 0, d_a, 2.f, N);
+    hipLaunchKernelGGL(HIP_KERNEL_NAME(set_array<real>), dim3(dimGrid), dim3(dimBlock), 0, 0, d_b, .5f, N);
+    hipLaunchKernelGGL(HIP_KERNEL_NAME(set_array<real>), dim3(dimGrid), dim3(dimBlock), 0, 0, d_c, .5f, N);
 
     /*  --- MAIN LOOP --- repeat test cases NTIMES times --- */
 
@@ -189,22 +189,22 @@ int main(int argc, char** argv)
     for (k=0; k<NTIMES; k++)
     {
         times[0][k]= mysecond();
-        hipLaunchKernel(HIP_KERNEL_NAME(STREAM_Copy<real>), dim3(dimGrid), dim3(dimBlock), 0, 0, d_a, d_c, N);
+        hipLaunchKernelGGL(HIP_KERNEL_NAME(STREAM_Copy<real>), dim3(dimGrid), dim3(dimBlock), 0, 0, d_a, d_c, N);
         hipDeviceSynchronize();
         times[0][k]= mysecond() -  times[0][k];
 
         times[1][k]= mysecond();
-        hipLaunchKernel(HIP_KERNEL_NAME(STREAM_Scale<real>), dim3(dimGrid), dim3(dimBlock), 0, 0, d_b, d_c, scalar,  N);
+        hipLaunchKernelGGL(HIP_KERNEL_NAME(STREAM_Scale<real>), dim3(dimGrid), dim3(dimBlock), 0, 0, d_b, d_c, scalar,  N);
         hipDeviceSynchronize();
         times[1][k]= mysecond() -  times[1][k];
 
         times[2][k]= mysecond();
-        hipLaunchKernel(HIP_KERNEL_NAME(STREAM_Add<real>), dim3(dimGrid), dim3(dimBlock), 0, 0, d_a, d_b, d_c,  N);
+        hipLaunchKernelGGL(HIP_KERNEL_NAME(STREAM_Add<real>), dim3(dimGrid), dim3(dimBlock), 0, 0, d_a, d_b, d_c,  N);
         hipDeviceSynchronize();
         times[2][k]= mysecond() -  times[2][k];
 
         times[3][k]= mysecond();
-        hipLaunchKernel(HIP_KERNEL_NAME(STREAM_Triad<real>), dim3(dimGrid), dim3(dimBlock), 0, 0, d_b, d_c, d_a, scalar,  N);
+        hipLaunchKernelGGL(HIP_KERNEL_NAME(STREAM_Triad<real>), dim3(dimGrid), dim3(dimBlock), 0, 0, d_b, d_c, d_a, scalar,  N);
         hipDeviceSynchronize();
         times[3][k]= mysecond() -  times[3][k];
     }

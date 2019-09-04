@@ -67,7 +67,7 @@ __device__ void storeComponent(int *d_c, int c, int pos)
 
 /* Copy img src data into three separated component buffers */
 template<typename T>
-__global__ void c_CopySrcToComponents(hipLaunchParm lp, 
+__global__ void c_CopySrcToComponents( 
                                   T *d_r, T *d_g, T *d_b, 
                                   unsigned char * d_src, 
                                   int pixels)
@@ -103,7 +103,7 @@ __global__ void c_CopySrcToComponents(hipLaunchParm lp,
 
 /* Copy img src data into three separated component buffers */
 template<typename T>
-__global__ void c_CopySrcToComponent(hipLaunchParm lp, T *d_c, unsigned char * d_src, int pixels)
+__global__ void c_CopySrcToComponent(T *d_c, unsigned char * d_src, int pixels)
 {
     int x  = hipThreadIdx_x;
     int gX = hipBlockDim_x*hipBlockIdx_x;
@@ -149,7 +149,7 @@ void rgbToComponents(T *d_r, T *d_g, T *d_b, unsigned char * src, int width, int
     dim3 threads(THREADS);
     dim3 grid(alignedSize/(THREADS*3));
     assert(alignedSize%(THREADS*3) == 0);
-    hipLaunchKernel(c_CopySrcToComponents, dim3(grid), dim3(threads), 0, 0, d_r, d_g, d_b, d_src, pixels);
+    hipLaunchKernelGGL(c_CopySrcToComponents, dim3(grid), dim3(threads), 0, 0, d_r, d_g, d_b, d_src, pixels);
 
     /* Free Memory */
     hipFree(d_src);
@@ -177,7 +177,7 @@ void bwToComponent(T *d_c, unsigned char * src, int width, int height)
     dim3 threads(THREADS);
     dim3 grid(alignedSize/(THREADS));
     assert(alignedSize%(THREADS) == 0);
-    hipLaunchKernel(c_CopySrcToComponent, dim3(grid), dim3(threads), 0, 0, d_c, d_src, pixels);
+    hipLaunchKernelGGL(c_CopySrcToComponent, dim3(grid), dim3(threads), 0, 0, d_c, d_src, pixels);
 
     /* Free Memory */
     hipFree(d_src);

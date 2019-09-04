@@ -69,7 +69,7 @@ void check_cuda_error(void)
 // Goal is reduce the dispatch overhead for each group, and also give more controlover the order of memory operations
 template <typename T, int CLUMP_SIZE>
 __global__ void
-copy_looper(hipLaunchParm lp,  const T * a, T * c, int ARRAY_SIZE)
+copy_looper(const T * a, T * c, int ARRAY_SIZE)
 {
     int offset = (hipBlockIdx_x * hipBlockDim_x + hipThreadIdx_x)*CLUMP_SIZE;
     int stride = hipBlockDim_x * hipGridDim_x * CLUMP_SIZE;
@@ -81,7 +81,7 @@ copy_looper(hipLaunchParm lp,  const T * a, T * c, int ARRAY_SIZE)
 
 template <typename T>
 __global__ void
-mul_looper(hipLaunchParm lp,  T * b, const T * c, int ARRAY_SIZE)
+mul_looper(T * b, const T * c, int ARRAY_SIZE)
 {
     int offset = hipBlockIdx_x * hipBlockDim_x + hipThreadIdx_x;
     int stride = hipBlockDim_x * hipGridDim_x;
@@ -94,7 +94,7 @@ mul_looper(hipLaunchParm lp,  T * b, const T * c, int ARRAY_SIZE)
 
 template <typename T>
 __global__ void
-add_looper(hipLaunchParm lp,  const T * a, const T * b, const T * d, const T * e, T * c, int ARRAY_SIZE)
+add_looper(const T * a, const T * b, const T * d, const T * e, T * c, int ARRAY_SIZE)
 {
     int offset = hipBlockIdx_x * hipBlockDim_x + hipThreadIdx_x;
     int stride = hipBlockDim_x * hipGridDim_x;
@@ -106,7 +106,7 @@ add_looper(hipLaunchParm lp,  const T * a, const T * b, const T * d, const T * e
 
 template <typename T>
 __global__ void
-triad_looper(hipLaunchParm lp,  T * a, const T * b, const T * c, int ARRAY_SIZE)
+triad_looper(T * a, const T * b, const T * c, int ARRAY_SIZE)
 {
     int offset = hipBlockIdx_x * hipBlockDim_x + hipThreadIdx_x;
     int stride = hipBlockDim_x * hipGridDim_x;
@@ -122,7 +122,7 @@ triad_looper(hipLaunchParm lp,  T * a, const T * b, const T * c, int ARRAY_SIZE)
 
 template <typename T>
 __global__ void
-copy(hipLaunchParm lp,  const T * a, T * c)
+copy(const T * a, T * c)
 {
     const int i = hipBlockDim_x * hipBlockIdx_x + hipThreadIdx_x;
     c[i] = a[i];
@@ -131,7 +131,7 @@ copy(hipLaunchParm lp,  const T * a, T * c)
 
 template <typename T>
 __global__ void
-mul(hipLaunchParm lp,  T * b, const T * c)
+mul(T * b, const T * c)
 {
     const T scalar = 3.0;
     const int i = hipBlockDim_x * hipBlockIdx_x + hipThreadIdx_x;
@@ -140,7 +140,7 @@ mul(hipLaunchParm lp,  T * b, const T * c)
 
 template <typename T>
 __global__ void
-add(hipLaunchParm lp,  const T * a, const T * b, const T *d, const T *e, T * c)
+add(const T * a, const T * b, const T *d, const T *e, T * c)
 {
     const int i = hipBlockDim_x * hipBlockIdx_x + hipThreadIdx_x;
     c[i] = a[i] + b[i] + d[i] + e[i];
@@ -148,7 +148,7 @@ add(hipLaunchParm lp,  const T * a, const T * b, const T *d, const T *e, T * c)
 
 template <typename T>
 __global__ void
-triad(hipLaunchParm lp,  T * a, const T * b, const T * c)
+triad(T * a, const T * b, const T * c)
 {
     const T scalar = 3.0;
     const int i = hipBlockDim_x * hipBlockIdx_x + hipThreadIdx_x;
@@ -337,14 +337,14 @@ int main(int argc, char *argv[])
         t1 = std::chrono::high_resolution_clock::now();
         if (groups) {
             if (useFloat)
-                hipLaunchKernel(HIP_KERNEL_NAME(copy_looper<float,1>), dim3(gridSize), dim3(groupSize), 0, 0, (float*)d_a, (float*)d_c, ARRAY_SIZE);
+                hipLaunchKernelGGL(HIP_KERNEL_NAME(copy_looper<float,1>), dim3(gridSize), dim3(groupSize), 0, 0, (float*)d_a, (float*)d_c, ARRAY_SIZE);
             else
-                hipLaunchKernel(HIP_KERNEL_NAME(copy_looper<double,1>), dim3(gridSize), dim3(groupSize), 0, 0, (double*)d_a, (double*)d_c, ARRAY_SIZE);
+                hipLaunchKernelGGL(HIP_KERNEL_NAME(copy_looper<double,1>), dim3(gridSize), dim3(groupSize), 0, 0, (double*)d_a, (double*)d_c, ARRAY_SIZE);
         } else {
             if (useFloat)
-                hipLaunchKernel(HIP_KERNEL_NAME(copy<float>), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (float*)d_a, (float*)d_c);
+                hipLaunchKernelGGL(HIP_KERNEL_NAME(copy<float>), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (float*)d_a, (float*)d_c);
             else
-                hipLaunchKernel(HIP_KERNEL_NAME(copy<double>), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (double*)d_a, (double*)d_c);
+                hipLaunchKernelGGL(HIP_KERNEL_NAME(copy<double>), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (double*)d_a, (double*)d_c);
         }
         check_cuda_error();
         hipDeviceSynchronize();
@@ -356,14 +356,14 @@ int main(int argc, char *argv[])
         t1 = std::chrono::high_resolution_clock::now();
         if (groups) {
             if (useFloat)
-                hipLaunchKernel(HIP_KERNEL_NAME(mul_looper<float>), dim3(gridSize), dim3(groupSize), 0, 0, (float*)d_b, (float*)d_c, ARRAY_SIZE);
+                hipLaunchKernelGGL(HIP_KERNEL_NAME(mul_looper<float>), dim3(gridSize), dim3(groupSize), 0, 0, (float*)d_b, (float*)d_c, ARRAY_SIZE);
             else
-                hipLaunchKernel(HIP_KERNEL_NAME(mul_looper<double>), dim3(gridSize), dim3(groupSize), 0, 0, (double*)d_b, (double*)d_c, ARRAY_SIZE);
+                hipLaunchKernelGGL(HIP_KERNEL_NAME(mul_looper<double>), dim3(gridSize), dim3(groupSize), 0, 0, (double*)d_b, (double*)d_c, ARRAY_SIZE);
         } else {
             if (useFloat)
-                hipLaunchKernel(HIP_KERNEL_NAME(mul<float>), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (float*)d_b, (float*)d_c);
+                hipLaunchKernelGGL(HIP_KERNEL_NAME(mul<float>), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (float*)d_b, (float*)d_c);
             else
-                hipLaunchKernel(HIP_KERNEL_NAME(mul<double>), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (double*)d_b, (double*)d_c);
+                hipLaunchKernelGGL(HIP_KERNEL_NAME(mul<double>), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (double*)d_b, (double*)d_c);
         }
         check_cuda_error();
         hipDeviceSynchronize();
@@ -375,14 +375,14 @@ int main(int argc, char *argv[])
         t1 = std::chrono::high_resolution_clock::now();
         if (groups) {
             if (useFloat)
-                hipLaunchKernel(HIP_KERNEL_NAME(add_looper<float>), dim3(gridSize), dim3(groupSize), 0, 0, (float*)d_a, (float*)d_b,(float*)d_d, (float*)d_e,  (float*)d_c, ARRAY_SIZE);
+                hipLaunchKernelGGL(HIP_KERNEL_NAME(add_looper<float>), dim3(gridSize), dim3(groupSize), 0, 0, (float*)d_a, (float*)d_b,(float*)d_d, (float*)d_e,  (float*)d_c, ARRAY_SIZE);
             else
-                hipLaunchKernel(HIP_KERNEL_NAME(add_looper<double>), dim3(gridSize), dim3(groupSize), 0, 0, (double*)d_a, (double*)d_b, (double*)d_d, (double*)d_e,(double*)d_c, ARRAY_SIZE);
+                hipLaunchKernelGGL(HIP_KERNEL_NAME(add_looper<double>), dim3(gridSize), dim3(groupSize), 0, 0, (double*)d_a, (double*)d_b, (double*)d_d, (double*)d_e,(double*)d_c, ARRAY_SIZE);
         } else {
             if (useFloat)
-                hipLaunchKernel(HIP_KERNEL_NAME(add<float>), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (float*)d_a, (float*)d_b, (float*)d_d,(float*)d_e,(float*)d_c);
+                hipLaunchKernelGGL(HIP_KERNEL_NAME(add<float>), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (float*)d_a, (float*)d_b, (float*)d_d,(float*)d_e,(float*)d_c);
             else
-                hipLaunchKernel(HIP_KERNEL_NAME(add<double>), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (double*)d_a, (double*)d_b, (double*)d_d,(double*)d_e,(double*)d_c);
+                hipLaunchKernelGGL(HIP_KERNEL_NAME(add<double>), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (double*)d_a, (double*)d_b, (double*)d_d,(double*)d_e,(double*)d_c);
         }
         check_cuda_error();
         hipDeviceSynchronize();
@@ -394,14 +394,14 @@ int main(int argc, char *argv[])
         t1 = std::chrono::high_resolution_clock::now();
         if (groups) {
             if (useFloat)
-                hipLaunchKernel(HIP_KERNEL_NAME(triad_looper<float>), dim3(gridSize), dim3(groupSize), 0, 0, (float*)d_a, (float*)d_b, (float*)d_c, ARRAY_SIZE);
+                hipLaunchKernelGGL(HIP_KERNEL_NAME(triad_looper<float>), dim3(gridSize), dim3(groupSize), 0, 0, (float*)d_a, (float*)d_b, (float*)d_c, ARRAY_SIZE);
             else
-                hipLaunchKernel(HIP_KERNEL_NAME(triad_looper<double>), dim3(gridSize), dim3(groupSize), 0, 0, (double*)d_a, (double*)d_b, (double*)d_c, ARRAY_SIZE);
+                hipLaunchKernelGGL(HIP_KERNEL_NAME(triad_looper<double>), dim3(gridSize), dim3(groupSize), 0, 0, (double*)d_a, (double*)d_b, (double*)d_c, ARRAY_SIZE);
         } else {
             if (useFloat)
-                hipLaunchKernel(HIP_KERNEL_NAME(triad<float>), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (float*)d_a, (float*)d_b, (float*)d_c);
+                hipLaunchKernelGGL(HIP_KERNEL_NAME(triad<float>), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (float*)d_a, (float*)d_b, (float*)d_c);
             else
-                hipLaunchKernel(HIP_KERNEL_NAME(triad<double>), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (double*)d_a, (double*)d_b, (double*)d_c);
+                hipLaunchKernelGGL(HIP_KERNEL_NAME(triad<double>), dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (double*)d_a, (double*)d_b, (double*)d_c);
         }
 
         check_cuda_error();

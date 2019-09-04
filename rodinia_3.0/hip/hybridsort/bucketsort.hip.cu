@@ -125,9 +125,9 @@ void bucketSort(float *d_input, float *d_output, int listsize,
     dim3 grid(blocks, 1);
 	// Find the new indice for all elements
 #ifndef USE_TEXTURES
-	hipLaunchKernel(bucketcount, dim3(grid), dim3(threads ), 0, 0,l_pivotpoints, d_input, d_indice, d_prefixoffsets, listsize);
+	hipLaunchKernelGGL(bucketcount, dim3(grid), dim3(threads ), 0, 0,l_pivotpoints, d_input, d_indice, d_prefixoffsets, listsize);
 #else 
-	hipLaunchKernel(bucketcount, dim3(grid), dim3(threads ), 0, 0, d_input, d_indice, d_prefixoffsets, listsize);
+	hipLaunchKernelGGL(bucketcount, dim3(grid), dim3(threads ), 0, 0, d_input, d_indice, d_prefixoffsets, listsize);
 #endif
 	///////////////////////////////////////////////////////////////////////////
 	// Prefix scan offsets and align each division to float4 (required by 
@@ -139,7 +139,7 @@ threads.x = BUCKET_WG_SIZE_0;
 	threads.x = 128;  
 #endif
 	grid.x = DIVISIONS / threads.x; 
-	hipLaunchKernel(bucketprefixoffset, dim3(grid), dim3(threads ), 0, 0, d_prefixoffsets, d_offsets, blocks); 	
+	hipLaunchKernelGGL(bucketprefixoffset, dim3(grid), dim3(threads ), 0, 0, d_prefixoffsets, d_offsets, blocks); 	
 
 	// copy the sizes from device to host
 	hipMemcpy(h_offsets, d_offsets, DIVISIONS * sizeof(int), hipMemcpyDeviceToHost);
@@ -167,7 +167,7 @@ threads.x = BUCKET_WG_SIZE_0;
     threads.x = BUCKET_THREAD_N; 
 	blocks = ((listsize - 1) / (threads.x * BUCKET_BAND)) + 1; 
     grid.x = blocks; 
-	hipLaunchKernel(bucketsort, dim3(grid), dim3(threads ), 0, 0, d_input, d_indice, d_output, listsize, d_prefixoffsets, l_offsets);
+	hipLaunchKernelGGL(bucketsort, dim3(grid), dim3(threads ), 0, 0, d_input, d_indice, d_output, listsize, d_prefixoffsets, l_offsets);
 }
 
 

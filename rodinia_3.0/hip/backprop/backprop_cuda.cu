@@ -159,7 +159,7 @@ void bpnn_train_cuda(BPNN *net, float *eo, float *eh)
     //hipDeviceSynchronize();
     rdtimercpu->Start();
 #endif
-  hipLaunchKernel(HIP_KERNEL_NAME(bpnn_layerforward_CUDA), dim3(grid), dim3(threads ), 0, 0, input_cuda,
+  hipLaunchKernelGGL(HIP_KERNEL_NAME(bpnn_layerforward_CUDA), dim3(grid), dim3(threads ), 0, 0, input_cuda,
 	                                          output_hidden_cuda,
 											  input_hidden_cuda,
 											  hidden_partial_sum,
@@ -242,7 +242,7 @@ void bpnn_train_cuda(BPNN *net, float *eo, float *eh)
     rdtimercpu->Start();
 #endif
 
-  hipLaunchKernel(HIP_KERNEL_NAME(bpnn_adjust_weights_cuda), dim3(grid), dim3(threads ), 0, 0, hidden_delta_cuda,  
+  hipLaunchKernelGGL(HIP_KERNEL_NAME(bpnn_adjust_weights_cuda), dim3(grid), dim3(threads ), 0, 0, hidden_delta_cuda,  
 												hid, 
 												input_cuda, 
 												in,

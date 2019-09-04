@@ -54,7 +54,7 @@ int parseCommandline(int argc, char *argv[], char* filename,int *r,float *lat,fl
 * Calculates the Euclidean distance from each record in the database to the target position
 */
 
-__global__ void euclid(hipLaunchParm lp,  LatLong *d_locations, float *d_distances, int numRecords,float lat, float lng)
+__global__ void euclid(LatLong *d_locations, float *d_distances, int numRecords,float lat, float lng)
 {
 	//int globalId = hipGridDim_x * hipBlockDim_x * hipBlockIdx_y + hipBlockDim_x * hipBlockIdx_x + hipThreadIdx_x;
 	int globalId = hipBlockDim_x * ( hipGridDim_x * hipBlockIdx_y + hipBlockIdx_x ) + hipThreadIdx_x; // more efficient
@@ -190,7 +190,7 @@ int main(int argc, char* argv[])
     * Execute kernel
     */
 
-    hipLaunchKernel(euclid, dim3(gridDim), dim3(threadsPerBlock ), 0, 0, d_locations,d_distances,numRecords,lat,lng);
+    hipLaunchKernelGGL(euclid, dim3(gridDim), dim3(threadsPerBlock ), 0, 0, d_locations,d_distances,numRecords,lat,lng);
 #ifdef PROFILING
     kernel_t = (double) rdtimercpu->Stop();
     serializeTime->Serialize(rdtimercpu);

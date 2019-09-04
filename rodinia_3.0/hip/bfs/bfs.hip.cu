@@ -242,11 +242,11 @@ void BFSGraph( int argc, char** argv)
 		//if no thread changes this value then the loop stops
 		stop=false;
 		hipMemcpy( d_over, &stop, sizeof(bool), hipMemcpyHostToDevice) ;
-		hipLaunchKernel(Kernel, dim3(grid), dim3(threads ), 0, 0,  d_graph_nodes, d_graph_edges, d_graph_mask, d_updating_graph_mask, d_graph_visited, d_cost, no_of_nodes);
+		hipLaunchKernelGGL(Kernel, dim3(grid), dim3(threads ), 0, 0,  d_graph_nodes, d_graph_edges, d_graph_mask, d_updating_graph_mask, d_graph_visited, d_cost, no_of_nodes);
 		// check if kernel execution generated and error
 		
 
-		hipLaunchKernel(Kernel2, dim3(grid), dim3(threads ), 0, 0,  d_graph_mask, d_updating_graph_mask, d_graph_visited, d_over, no_of_nodes);
+		hipLaunchKernelGGL(Kernel2, dim3(grid), dim3(threads ), 0, 0,  d_graph_mask, d_updating_graph_mask, d_graph_visited, d_over, no_of_nodes);
 		// check if kernel execution generated and error
 		
 

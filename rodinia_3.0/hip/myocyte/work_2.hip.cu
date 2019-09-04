@@ -232,7 +232,7 @@ int work_2(	int xmax,
 		blocks.y = 1;
 	}
 
-	hipLaunchKernel(solver_2, dim3(blocks), dim3(threads), 0, 0, 	workload,
+	hipLaunchKernelGGL(solver_2, dim3(blocks), dim3(threads), 0, 0, 	workload,
 																xmax,
 
 																d_x,

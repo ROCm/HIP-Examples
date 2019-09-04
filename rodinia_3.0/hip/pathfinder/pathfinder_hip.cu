@@ -82,7 +82,7 @@ fatal(char *s)
 #define CLAMP_RANGE(x, min, max) x = (x<(min)) ? min : ((x>(max)) ? max : x )
 #define MIN(a, b) ((a)<=(b) ? (a) : (b))
 
-__global__ void dynproc_kernel(hipLaunchParm lp, 
+__global__ void dynproc_kernel( 
 	int iteration,
 	int *gpuWall,
 	int *gpuSrc,
@@ -177,7 +177,7 @@ int calc_path(int *gpuWall, int *gpuResult[2], int rows, int cols, \
             int temp = src;
             src = dst;
             dst = temp;
-            hipLaunchKernel(dynproc_kernel, dim3(dimGrid), dim3(dimBlock), 0, 0, 
+            hipLaunchKernelGGL(dynproc_kernel, dim3(dimGrid), dim3(dimBlock), 0, 0, 
                 MIN(pyramid_height, rows-t-1), 
                 gpuWall, gpuResult[src], gpuResult[dst],
                 cols,rows, t, borderCols);

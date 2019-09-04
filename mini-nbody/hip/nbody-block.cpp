@@ -16,7 +16,7 @@ void randomizeBodies(float *data, int n) {
 }
 
 __global__
-void bodyForce(hipLaunchParm lp, float4 *p, float4 *v, float dt, int n) {
+void bodyForce(float4 *p, float4 *v, float dt, int n) {
   int i = hipBlockDim_x * hipBlockIdx_x + hipThreadIdx_x;
   if (i < n) {
     float Fx = 0.0f; float Fy = 0.0f; float Fz = 0.0f;
@@ -69,7 +69,7 @@ int main(const int argc, const char** argv) {
     StartTimer();
 
     hipMemcpy(d_buf, buf, bytes, hipMemcpyHostToDevice);
-    hipLaunchKernel(HIP_KERNEL_NAME(bodyForce), dim3(nBlocks), dim3(BLOCK_SIZE), 0, 0, d_p.pos, d_p.vel, dt, nBodies);
+    hipLaunchKernelGGL(HIP_KERNEL_NAME(bodyForce), dim3(nBlocks), dim3(BLOCK_SIZE), 0, 0, d_p.pos, d_p.vel, dt, nBodies);
     hipMemcpy(buf, d_buf, bytes, hipMemcpyDeviceToHost);
 
     for (int i = 0 ; i < nBodies; i++) { // integrate position
