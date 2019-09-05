@@ -177,7 +177,7 @@ int main(){
 
     for (int t = 0; t < nt; t++) {
         //Launch the HIP kernel
-        hipLaunchKernelGGL(HIP_KERNEL_NAME(rtm8), dim3(gridSize), dim3(groupSize), 0, 0, (float*)vsq_d, (float*)current_s_d, (
+        hipLaunchKernelGGL(rtm8, dim3(gridSize), dim3(groupSize), 0, 0, (float*)vsq_d, (float*)current_s_d, (
                     float*)next_s_d, (float*)current_r_d,(float*)next_r_d, (float*)image_d, (float*)a_d, ArraySize);
     }
     //copy back image value

@@ -229,8 +229,8 @@ runTest( int argc, char** argv)
 	hipMemcpy(J_cuda, J, sizeof(float) * size_I, hipMemcpyHostToDevice);
 
 	//Run kernels
-	hipLaunchKernelGGL(HIP_KERNEL_NAME(srad_cuda_1), dim3(dimGrid), dim3(dimBlock), 0, 0, E_C, W_C, N_C, S_C, J_cuda, C_cuda, cols, rows, q0sqr); 
-	hipLaunchKernelGGL(HIP_KERNEL_NAME(srad_cuda_2), dim3(dimGrid), dim3(dimBlock), 0, 0, E_C, W_C, N_C, S_C, J_cuda, C_cuda, cols, rows, lambda, q0sqr); 
+	hipLaunchKernelGGL(srad_cuda_1, dim3(dimGrid), dim3(dimBlock), 0, 0, E_C, W_C, N_C, S_C, J_cuda, C_cuda, cols, rows, q0sqr); 
+	hipLaunchKernelGGL(srad_cuda_2, dim3(dimGrid), dim3(dimBlock), 0, 0, E_C, W_C, N_C, S_C, J_cuda, C_cuda, cols, rows, lambda, q0sqr); 
 
 	//Copy data from device memory to main memory
     hipMemcpy(J, J_cuda, sizeof(float) * size_I, hipMemcpyDeviceToHost);

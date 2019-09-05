@@ -64,7 +64,7 @@ int main(int argc, char **argv)
 
 
   // Warmup calculation:
-  hipLaunchKernelGGL(HIP_KERNEL_NAME(elementwise_add<NumericT>), dim3(256), dim3(256), 0, 0, x, y, z,
+  hipLaunchKernelGGL(elementwise_add<NumericT>, dim3(256), dim3(256), 0, 0, x, y, z,
                                 static_cast<unsigned int>(1),
                                 static_cast<unsigned int>(N));
   cuda_last_error_check();
@@ -80,7 +80,7 @@ int main(int argc, char **argv)
     // repeat calculation several times, then average
     for (std::size_t num_runs = 0; num_runs < 20; ++num_runs)
     {
-      hipLaunchKernelGGL(HIP_KERNEL_NAME(elementwise_add<NumericT>), dim3(256), dim3(256), 0, 0, x, y, z,
+      hipLaunchKernelGGL(elementwise_add<NumericT>, dim3(256), dim3(256), 0, 0, x, y, z,
                                     static_cast<unsigned int>(stride),
                                     static_cast<unsigned int>(N));
       cuda_last_error_check();
