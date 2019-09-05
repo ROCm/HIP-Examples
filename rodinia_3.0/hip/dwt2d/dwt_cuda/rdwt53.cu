@@ -321,7 +321,7 @@ namespace dwt_cuda {
     
     // finally transform this level
     PERF_BEGIN
-    hipLaunchKernelGGL(rdwt53Kernel<WIN_SX, WIN_SY>, dim3(gSize), dim3(WIN_SX), 0, 0, in, out, sx, sy, steps);
+    hipLaunchKernelGGL(HIP_KERNEL_NAME(rdwt53Kernel<WIN_SX, WIN_SY>), dim3(gSize), dim3(WIN_SX), 0, 0, in, out, sx, sy, steps);
     PERF_END("        RDWT53", sx, sy)
     CudaDWTTester::checkLastKernelCall("RDWT 5/3 kernel");
   }

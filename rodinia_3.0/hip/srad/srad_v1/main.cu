@@ -336,7 +336,7 @@ int main(int argc, char *argv []){
 	// 	SCALE IMAGE DOWN FROM 0-255 TO 0-1 AND EXTRACT
 	//================================================================================80
 
-	hipLaunchKernelGGL(extract, dim3(blocks), dim3(threads), 0, 0, 	Ne,
+	hipLaunchKernelGGL(HIP_KERNEL_NAME(extract), dim3(blocks), dim3(threads), 0, 0, 	Ne,
 									d_I);
 
 	checkCUDAError("extract");
@@ -362,7 +362,7 @@ int main(int argc, char *argv []){
 	// fflush(NULL);
 
 		// execute square kernel
-		hipLaunchKernelGGL(prepare, dim3(blocks), dim3(threads), 0, 0, 	Ne,
+		hipLaunchKernelGGL(HIP_KERNEL_NAME(prepare), dim3(blocks), dim3(threads), 0, 0, 	Ne,
 										d_I,
 										d_sums,
 										d_sums2);
@@ -380,7 +380,7 @@ int main(int argc, char *argv []){
 			checkCUDAError("before reduce");
 
 			// run kernel
-			hipLaunchKernelGGL(reduce, dim3(blocks2), dim3(threads), 0, 0, 	Ne,
+			hipLaunchKernelGGL(HIP_KERNEL_NAME(reduce), dim3(blocks2), dim3(threads), 0, 0, 	Ne,
 											no,
 											mul,
 											d_sums, 
@@ -423,7 +423,7 @@ int main(int argc, char *argv []){
 		q0sqr = varROI / meanROI2;											// gets standard deviation of ROI
 
 		// execute srad kernel
-		hipLaunchKernelGGL(srad, dim3(blocks), dim3(threads), 0, 0, 	lambda,									// SRAD coefficient 
+		hipLaunchKernelGGL(HIP_KERNEL_NAME(srad), dim3(blocks), dim3(threads), 0, 0, 	lambda,									// SRAD coefficient 
 									Nr,										// # of rows in input image
 									Nc,										// # of columns in input image
 									Ne,										// # of elements in input image
@@ -442,7 +442,7 @@ int main(int argc, char *argv []){
 		checkCUDAError("srad");
 
 		// execute srad2 kernel
-		hipLaunchKernelGGL(srad2, dim3(blocks), dim3(threads), 0, 0, 	lambda,									// SRAD coefficient 
+		hipLaunchKernelGGL(HIP_KERNEL_NAME(srad2), dim3(blocks), dim3(threads), 0, 0, 	lambda,									// SRAD coefficient 
 									Nr,										// # of rows in input image
 									Nc,										// # of columns in input image
 									Ne,										// # of elements in input image
@@ -475,7 +475,7 @@ int main(int argc, char *argv []){
 	// 	SCALE IMAGE UP FROM 0-1 TO 0-255 AND COMPRESS
 	//================================================================================80
 
-	hipLaunchKernelGGL(compress, dim3(blocks), dim3(threads), 0, 0, 	Ne,
+	hipLaunchKernelGGL(HIP_KERNEL_NAME(compress), dim3(blocks), dim3(threads), 0, 0, 	Ne,
 									d_I);
 
 	checkCUDAError("compress");

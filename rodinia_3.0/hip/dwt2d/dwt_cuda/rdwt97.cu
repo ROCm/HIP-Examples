@@ -323,7 +323,7 @@ namespace dwt_cuda {
     
     // finally launch kernel
     PERF_BEGIN
-    hipLaunchKernelGGL(rdwt97Kernel<WIN_SX, WIN_SY>, dim3(gSize), dim3(WIN_SX), 0, 0, in, out, sx, sy, steps);
+    hipLaunchKernelGGL(HIP_KERNEL_NAME(rdwt97Kernel<WIN_SX, WIN_SY>), dim3(gSize), dim3(WIN_SX), 0, 0, in, out, sx, sy, steps);
     PERF_END("        RDWT97", sx, sy)
     CudaDWTTester::checkLastKernelCall("RDWT 9/7 kernel");
   }

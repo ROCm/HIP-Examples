@@ -69,7 +69,7 @@ int main(const int argc, const char** argv) {
     StartTimer();
 
     hipMemcpy(d_buf, buf, bytes, hipMemcpyHostToDevice);
-    hipLaunchKernelGGL(bodyForce, dim3(nBlocks), dim3(BLOCK_SIZE), 0, 0, d_p.pos, d_p.vel, dt, nBodies);
+    hipLaunchKernelGGL(HIP_KERNEL_NAME(bodyForce), dim3(nBlocks), dim3(BLOCK_SIZE), 0, 0, d_p.pos, d_p.vel, dt, nBodies);
     hipMemcpy(buf, d_buf, bytes, hipMemcpyDeviceToHost);
 
     for (int i = 0 ; i < nBodies; i++) { // integrate position
