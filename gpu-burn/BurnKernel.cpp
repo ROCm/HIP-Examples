@@ -145,7 +145,7 @@ int BurnKernel::runComputeKernel()
     for (int i = 0; mRunKernel && i < mNumIterations; ++i) {
         hipLaunchKernelGGL(
             /* Launch params */
-            HIP_KERNEL_NAME(hip_sgemm_kernel),
+            hip_sgemm_kernel,
             dim3(cRowSize/cBlockSize, cRowSize/cBlockSize, 1),
             dim3(cBlockSize,cBlockSize,1), 0, 0,
             /* Kernel params */

@@ -116,9 +116,9 @@ int main(int argc, char** argv)
     t1 = std::chrono::high_resolution_clock::now();
     for(int i=0;i<N;i++) {
         hipMemsetAsync(out,0,sizeof(int));
-        hipLaunchKernelGGL(HIP_KERNEL_NAME(atomic_reduction_kernel), dim3(blocks), dim3(threads), 0, 0, in,out,ARRAYSIZE);
-        //hipLaunchKernel(HIP_KERNEL_NAME(atomic_reduction_kernel2), dim3(blocks), dim3(threads), 0, 0, in,out,ARRAYSIZE);
-        //hipLaunchKernel(HIP_KERNEL_NAME(atomic_reduction_kernel3), dim3(blocks), dim3(threads), 0, 0, in,out,ARRAYSIZE);
+        hipLaunchKernelGGL(atomic_reduction_kernel, dim3(blocks), dim3(threads), 0, 0, in,out,ARRAYSIZE);
+        //hipLaunchKernelGGL(atomic_reduction_kernel2, dim3(blocks), dim3(threads), 0, 0, in,out,ARRAYSIZE);
+        //hipLaunchKernelGGL(atomic_reduction_kernel3, dim3(blocks), dim3(threads), 0, 0, in,out,ARRAYSIZE);
 
         check_hip_error();
         hipDeviceSynchronize();
