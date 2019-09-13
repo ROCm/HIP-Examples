@@ -104,7 +104,7 @@ __device__ int findIndexBin(double * CDF, int beginIndex, int endIndex, double v
 * param6: yj
 * param7: Nparticles
 *****************************/
-__global__ void kernel(hipLaunchParm lp,  double * arrayX, double * arrayY, double * CDF, double * u, double * xj, double * yj, int Nparticles){
+__global__ void kernel(double * arrayX, double * arrayY, double * CDF, double * u, double * xj, double * yj, int Nparticles){
 	
 	
 	
@@ -579,7 +579,7 @@ void particleFilter(int * I, int IszX, int IszY, int Nfr, int * seed, int Nparti
 		int num_blocks = ceil((double) Nparticles/(double) threads_per_block);
 		
 		//KERNEL FUNCTION CALL
-		hipLaunchKernel(kernel, dim3(num_blocks), dim3(threads_per_block ), 0, 0, arrayX_GPU, arrayY_GPU, CDF_GPU, u_GPU, xj_GPU, yj_GPU, Nparticles);
+		hipLaunchKernelGGL(kernel, dim3(num_blocks), dim3(threads_per_block ), 0, 0, arrayX_GPU, arrayY_GPU, CDF_GPU, u_GPU, xj_GPU, yj_GPU, Nparticles);
                 hipDeviceSynchronize();
 #ifdef PROFILING		
 		mytimer->Stop();

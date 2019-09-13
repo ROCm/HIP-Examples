@@ -51,7 +51,7 @@ void master(fp timeinst,
 	threads.y = 1;
 	blocks.x = 2;
 	blocks.y = 1;
-	hipLaunchKernel(kernel, dim3(blocks), dim3(threads), 0, 0, 	timeinst,
+	hipLaunchKernelGGL(kernel, dim3(blocks), dim3(threads), 0, 0, 	timeinst,
 															d_initvalu,
 															d_finavalu,
 															d_params,

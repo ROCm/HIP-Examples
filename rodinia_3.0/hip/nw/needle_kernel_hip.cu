@@ -24,7 +24,7 @@ return(k);
 
 }
 
-__global__ void needle_cuda_shared_1(hipLaunchParm lp, 
+__global__ void needle_cuda_shared_1( 
 	int* referrence,
 			  int* matrix_cuda, 
 			  int cols,
@@ -104,7 +104,7 @@ __global__ void needle_cuda_shared_1(hipLaunchParm lp,
 
 }
 
-__global__ void needle_cuda_shared_2(hipLaunchParm lp, 
+__global__ void needle_cuda_shared_2( 
 	int* referrence,
 			  int* matrix_cuda, 			 
 			  int cols,

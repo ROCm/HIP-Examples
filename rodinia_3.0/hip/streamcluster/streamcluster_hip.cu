@@ -73,7 +73,6 @@ d_dist(int p1, int p2, int num, int dim, float *coord_d)
 //=======================================
 
 __global__ void kernel_compute_cost ( 
-    hipLaunchParm lp,
 	int num, int dim, long x, Point *p, int K, int stride,float *coord_d, float *work_mem_d, int *center_table_d, bool *switch_membership_d)
 {
 	// block ID and global thread ID
@@ -262,7 +261,7 @@ float pgain( long x, Points *points, float z, long int *numcenters, int kmax, bo
 	int num_blocks_x = (int) ((float) (num_blocks+num_blocks_y - 1) / (float) num_blocks_y);	
 	dim3 grid_size(num_blocks_x, num_blocks_y, 1);
 
-	hipLaunchKernel(kernel_compute_cost, dim3(grid_size), dim3(THREADS_PER_BLOCK), 0, 0, 	
+	hipLaunchKernelGGL(kernel_compute_cost, dim3(grid_size), dim3(THREADS_PER_BLOCK), 0, 0, 	
 															num,					// in:	# of data
 															dim,					// in:	dimension of point coordinates
 															x,						// in:	point to open a center at

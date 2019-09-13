@@ -4,7 +4,7 @@
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------200
 
 
-__global__ void kernel_gpu_cuda(hipLaunchParm lp,  par_str d_par_gpu,
+__global__ void kernel_gpu_cuda(par_str d_par_gpu,
 								dim_str d_dim_gpu,
 								box_str* d_box_gpu,
 								FOUR_VECTOR* d_rv_gpu,

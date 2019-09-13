@@ -61,8 +61,8 @@ void InitProblemOnce(char *filename);
 void InitPerRun();
 void ForwardSub();
 void BackSub();
-__global__ void Fan1(hipLaunchParm lp, float *m, float *a, int Size, int t);
-__global__ void Fan2(hipLaunchParm lp, float *m, float *a, float *b,int Size, int j1, int t);
+__global__ void Fan1(float *m, float *a, int Size, int t);
+__global__ void Fan2(float *m, float *a, float *b,int Size, int j1, int t);
 void InitMat(float *ary, int nrow, int ncol);
 void InitAry(float *ary, int ary_size);
 void PrintMat(float *ary, int nrow, int ncolumn);
@@ -316,7 +316,7 @@ void InitPerRun()
  ** of t which is defined on the ForwardSub().
  **-------------------------------------------------------
  */
-__global__ void Fan1 (hipLaunchParm lp,
+__global__ void Fan1 (
                       float *m_cuda, float *a_cuda, int Size, int t)
 {   
 	//if(hipThreadIdx_x + hipBlockIdx_x * hipBlockDim_x >= Size-1-t) printf(".");
@@ -332,7 +332,7 @@ __global__ void Fan1 (hipLaunchParm lp,
  */ 
 
 
-__global__ void Fan2 (hipLaunchParm lp,
+__global__ void Fan2 (
 float *m_cuda, float *a_cuda, float *b_cuda,int Size, int j1, int t)
 {
 	if(hipThreadIdx_x + hipBlockIdx_x * hipBlockDim_x >= Size-1-t) return;
@@ -419,9 +419,9 @@ void ForwardSub()
     /*struct timeval time_start;
     gettimeofday(&time_start, NULL);*/
 	for (t=0; t<(Size-1); t++) {
-		hipLaunchKernel(Fan1, dim3(dimGrid), dim3(dimBlock), 0, 0, m_cuda,a_cuda,Size,t);
+		hipLaunchKernelGGL(Fan1, dim3(dimGrid), dim3(dimBlock), 0, 0, m_cuda,a_cuda,Size,t);
 		hipDeviceSynchronize();
-		hipLaunchKernel(Fan2, dim3(dimGridXY), dim3(dimBlockXY), 0, 0, m_cuda,a_cuda,b_cuda,Size,Size-t,t);
+		hipLaunchKernelGGL(Fan2, dim3(dimGridXY), dim3(dimBlockXY), 0, 0, m_cuda,a_cuda,b_cuda,Size,Size-t,t);
 		hipDeviceSynchronize();
 		checkCUDAError("Fan2");
 	}

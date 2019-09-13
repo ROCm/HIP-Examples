@@ -195,7 +195,7 @@ void runTest( int argc, char** argv)
 	for( int i = 1 ; i <= block_width ; i++){
 		dimGrid.x = i;
 		dimGrid.y = 1;
-		hipLaunchKernel(needle_cuda_shared_1, dim3(dimGrid), dim3(dimBlock), 0, 0, referrence_cuda, matrix_cuda
+		hipLaunchKernelGGL(needle_cuda_shared_1, dim3(dimGrid), dim3(dimBlock), 0, 0, referrence_cuda, matrix_cuda
 		                                      ,max_cols, penalty, i, block_width); 
 	}
 	//printf("Processing bottom-right matrix\n");
@@ -203,7 +203,7 @@ void runTest( int argc, char** argv)
 	for( int i = block_width - 1  ; i >= 1 ; i--){
 		dimGrid.x = i;
 		dimGrid.y = 1;
-		hipLaunchKernel(needle_cuda_shared_2, dim3(dimGrid), dim3(dimBlock), 0, 0, referrence_cuda, matrix_cuda
+		hipLaunchKernelGGL(needle_cuda_shared_2, dim3(dimGrid), dim3(dimBlock), 0, 0, referrence_cuda, matrix_cuda
 		                                      ,max_cols, penalty, i, block_width); 
 	}
 

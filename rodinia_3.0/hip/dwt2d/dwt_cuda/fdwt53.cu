@@ -318,7 +318,7 @@ namespace dwt_cuda {
   /// @param winSteps  number of sliding window steps
   template <int WIN_SX, int WIN_SY>
   __launch_bounds__(WIN_SX, CTMIN(SHM_SIZE/sizeof(FDWT53<WIN_SX, WIN_SY>), 8))
-  __global__ void fdwt53Kernel(hipLaunchParm lp, 
+  __global__ void fdwt53Kernel( 
                                const int * const input, int * const output,
                                const int sizeX, const int sizeY,
                                const int winSteps)
@@ -351,7 +351,7 @@ namespace dwt_cuda {
     
     // run kernel, possibly measure time and finally check the call
     // PERF_BEGIN
-    hipLaunchKernel(HIP_KERNEL_NAME(fdwt53Kernel<WIN_SX, WIN_SY>), dim3(gSize), dim3(WIN_SX), 0, 0, in, out, sx, sy, steps);
+    hipLaunchKernelGGL(fdwt53Kernel<WIN_SX, WIN_SY>, dim3(gSize), dim3(WIN_SX), 0, 0, in, out, sx, sy, steps);
     // PERF_END("        FDWT53", sx, sy)
     // CudaDWTTester::checkLastKernelCall("FDWT 5/3 kernel");
     printf("fdwt53Kernel in launchFDWT53Kernel has finished");

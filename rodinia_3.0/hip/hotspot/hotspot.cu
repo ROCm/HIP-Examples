@@ -118,7 +118,7 @@ void readinput(float *vect, int grid_rows, int grid_cols, char *file){
 #define CLAMP_RANGE(x, min, max) x = (x<(min)) ? min : ((x>(max)) ? max : x )
 #define MIN(a, b) ((a)<=(b) ? (a) : (b))
 
-__global__ void calculate_temp(hipLaunchParm lp,  int iteration,  //number of iteration
+__global__ void calculate_temp(int iteration,  //number of iteration
                                float *power,   //power input
                                float *temp_src,    //temperature input/output
                                float *temp_dst,    //temperature input/output
@@ -261,7 +261,7 @@ int compute_tran_temp(float *MatrixPower,float *MatrixTemp[2], int col, int row,
             int temp = src;
             src = dst;
             dst = temp;
-            hipLaunchKernel(calculate_temp, dim3(dimGrid), dim3(dimBlock), 0, 0, MIN(num_iterations, total_iterations-t), MatrixPower,MatrixTemp[src],MatrixTemp[dst],\
+            hipLaunchKernelGGL(calculate_temp, dim3(dimGrid), dim3(dimBlock), 0, 0, MIN(num_iterations, total_iterations-t), MatrixPower,MatrixTemp[src],MatrixTemp[dst],\
 		col,row,borderCols, borderRows, Cap,Rx,Ry,Rz,step,time_elapsed);
 	}
         return dst;

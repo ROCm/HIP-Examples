@@ -4,7 +4,6 @@
 
 __global__ void
 srad_cuda_1(
-          hipLaunchParm lp,
 		  float *E_C, 
 		  float *W_C, 
 		  float *N_C, 
@@ -160,7 +159,6 @@ srad_cuda_1(
 
 __global__ void
 srad_cuda_2(
-          hipLaunchParm lp,
 		  float *E_C, 
 		  float *W_C, 
 		  float *N_C, 

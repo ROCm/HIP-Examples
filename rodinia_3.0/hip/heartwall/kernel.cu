@@ -6,9 +6,9 @@
 //===============================================================================================================================================================================================================
 
 #ifdef USE_CONSTANT_BUFFER
-__global__ void kernel(hipLaunchParm lp){
+__global__ void kernel(){
 #else
-__global__ void kernel(hipLaunchParm lp, params_common d_common, params_common_change d_common_change, params_unique* d_unique){
+__global__ void kernel(params_common d_common, params_common_change d_common_change, params_unique* d_unique){
 #endif
 
 	//======================================================================================================================================================

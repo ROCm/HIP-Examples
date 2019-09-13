@@ -43,7 +43,7 @@ __constant__ float c_clusters[ASSUMED_NR_CLUSTERS*34];		/* constant memory for c
    [dim2,p0][dim2,p1][dim2,p2] ...
 */
 __global__ void 
-invert_mapping(hipLaunchParm lp,
+invert_mapping(
                float *input,			/* original */
                float *output,			/* inverted */
                int npoints,				/* npoints */
@@ -70,7 +70,7 @@ invert_mapping(hipLaunchParm lp,
 /* ----------------- kmeansPoint() --------------------- */
 /* find the index of nearest cluster centers and change membership*/
 __global__ void
- kmeansPoint(hipLaunchParm lp, 
+ kmeansPoint( 
             float  *features,			/* in: [npoints*nfeatures] */
             float  *features_flipped,
             int     nfeatures,

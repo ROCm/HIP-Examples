@@ -288,7 +288,7 @@ kernel_gpu_cuda_wrapper_2(	knode *knodes,
 	//======================================================================================================================================================150
 
 	// [GPU] findRangeK kernel
-	hipLaunchKernel(findRangeK, dim3(numBlocks), dim3(threadsPerBlock), 0, 0, 	maxheight,
+	hipLaunchKernelGGL(findRangeK, dim3(numBlocks), dim3(threadsPerBlock), 0, 0, 	maxheight,
 												knodesD,
 												knodes_elem,
 

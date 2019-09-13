@@ -298,7 +298,7 @@ namespace dwt_cuda {
   /// @param sizeY  height of the output image
   template <int WIN_SX, int WIN_SY>
   __launch_bounds__(WIN_SX, CTMIN(SHM_SIZE/sizeof(RDWT97<WIN_SX, WIN_SY>), 8))
-  __global__ void rdwt97Kernel(hipLaunchParm lp, 
+  __global__ void rdwt97Kernel( 
                                const float * const in, float * const out,
                                const int sx, const int sy, const int steps)
   {
@@ -323,7 +323,7 @@ namespace dwt_cuda {
     
     // finally launch kernel
     PERF_BEGIN
-    hipLaunchKernel(HIP_KERNEL_NAME(rdwt97Kernel<WIN_SX, WIN_SY>), dim3(gSize), dim3(WIN_SX), 0, 0, in, out, sx, sy, steps);
+    hipLaunchKernelGGL(rdwt97Kernel<WIN_SX, WIN_SY>, dim3(gSize), dim3(WIN_SX), 0, 0, in, out, sx, sy, steps);
     PERF_END("        RDWT97", sx, sy)
     CudaDWTTester::checkLastKernelCall("RDWT 9/7 kernel");
   }
