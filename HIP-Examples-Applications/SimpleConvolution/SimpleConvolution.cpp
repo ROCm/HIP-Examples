@@ -40,7 +40,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
  * @param nExWidth          Size of padded input width
  */
 
-__global__ void simpleNonSeparableConvolution(hipLaunchParm lp,  unsigned int  * input,
+__global__ void simpleNonSeparableConvolution(unsigned int  * input,
                                               float  * mask, int  * output,
                                               uint2  inputDimensions,uint2  maskDimensions,
                                               unsigned int nExWidth)
@@ -103,7 +103,7 @@ __global__ void simpleNonSeparableConvolution(hipLaunchParm lp,  unsigned int  *
  * @param filterSize  length of row filter vector
  * @param exInputDimensions      dimensions of padded input
  */
- __global__ void simpleSeparableConvolutionPass1(hipLaunchParm lp, unsigned int  * input,
+ __global__ void simpleSeparableConvolutionPass1(unsigned int  * input,
                                                  float  * rowFilter, float  * tmpOutput,
                                                  uint2  inputDimensions, unsigned int  filterSize,
                                                  uint2  exInputDimensions)
@@ -142,7 +142,7 @@ __global__ void simpleNonSeparableConvolution(hipLaunchParm lp,  unsigned int  *
  * @param filterSize  length of col filter vector
  * @param exInputDimensions      dimensions of padded input
  */
- __global__ void simpleSeparableConvolutionPass2(hipLaunchParm lp,  float  * input,
+ __global__ void simpleSeparableConvolutionPass2(float  * input,
                                                  float  * colFilter, int  * output,
                                                  uint2  inputDimensions, unsigned int  filterSize,
                                                  uint2  exInputDimensions)
@@ -284,7 +284,7 @@ SimpleConvolution::runNonSeparableKernels(void)
     globalThreads = (width*height + localThreads - 1) / localThreads;
     globalThreads *= localThreads;
 
-    hipLaunchKernel(simpleNonSeparableConvolution,
+    hipLaunchKernelGGL(simpleNonSeparableConvolution,
                     dim3(globalThreads/localThreads),
                     dim3(localThreads),
                     0, 0,
@@ -306,7 +306,7 @@ SimpleConvolution::runSeparableKernels(void)
     globalThreads = (globalSizePass1 + localThreads - 1)/localThreads;
     globalThreads *= localThreads;
 
-    hipLaunchKernel(simpleSeparableConvolutionPass1,
+    hipLaunchKernelGGL(simpleSeparableConvolutionPass1,
                     dim3(globalThreads/localThreads),
                     dim3(localThreads),
                     0, 0,
@@ -318,7 +318,7 @@ SimpleConvolution::runSeparableKernels(void)
     globalThreads = (globalSizePass2 + localThreads - 1)/localThreads;
     globalThreads *= localThreads;
 
-    hipLaunchKernel(simpleSeparableConvolutionPass2,
+    hipLaunchKernelGGL(simpleSeparableConvolutionPass2,
                     dim3(globalThreads/localThreads),
                     dim3(localThreads),
                     0, 0,

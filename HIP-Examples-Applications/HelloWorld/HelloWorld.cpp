@@ -34,7 +34,7 @@ THE SOFTWARE.
 
 using namespace std;
 
-__global__ void helloworld(hipLaunchParm lp, char* in, char* out)
+__global__ void helloworld(char* in, char* out)
 {
 	int num = hipThreadIdx_x + hipBlockDim_x * hipBlockIdx_x;
 	out[num] = in[num] + 1;
@@ -63,7 +63,7 @@ int main(int argc, char* argv[])
 
     hipMemcpy(inputBuffer, input, (strlength + 1) * sizeof(char), hipMemcpyHostToDevice);
 
-	hipLaunchKernel(helloworld,
+	hipLaunchKernelGGL(helloworld,
                   dim3(1),
                   dim3(strlength),
                   0, 0,

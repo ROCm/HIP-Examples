@@ -165,7 +165,7 @@ class BitonicSort
 
 
 
-__global__ void bitonicSort(hipLaunchParm lp, unsigned int * theArray,
+__global__ void bitonicSort(unsigned int * theArray,
                             const unsigned int stage,
                             const unsigned int passOfStage,
                             const unsigned int direction)
@@ -339,7 +339,7 @@ BitonicSort::runKernels(void)
         {
         hipEventRecord(start, NULL);
 
-        hipLaunchKernel(bitonicSort,
+        hipLaunchKernelGGL(bitonicSort,
                         dim3(globalThreads/localThreads),
                         dim3(localThreads),
                         0, 0,

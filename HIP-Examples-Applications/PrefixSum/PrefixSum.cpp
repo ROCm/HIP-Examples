@@ -220,10 +220,10 @@ class PrefixSum
 };
 
 __global__
-void group_prefixSum( hipLaunchParm lp,  float * output,
-					 float * input,
-					 const unsigned int length,
-					 const unsigned int idxOffset) {
+void group_prefixSum( float * output,
+		      float * input,
+		      const unsigned int length,
+		      const unsigned int idxOffset) {
 	int localId = hipThreadIdx_x;
 	int localSize = hipBlockDim_x;
 	int globalIdx = hipBlockIdx_x;
@@ -283,7 +283,7 @@ void group_prefixSum( hipLaunchParm lp,  float * output,
  * @param length	lenght of the input data
  */
 __global__
-void global_prefixSum( hipLaunchParm lp,
+void global_prefixSum( 
 		       float * buffer,
                        unsigned int offset,
 		       unsigned int length) {
@@ -352,7 +352,7 @@ PrefixSum::runGroupKernel(unsigned int offset)
                     localThreads;
 
 buf=(offset>1) ? outputBuffer  : inputBuffer;
-hipLaunchKernel(group_prefixSum,
+hipLaunchKernelGGL(group_prefixSum,
                   dim3(globalThreads/localThreads),
                   dim3(localThreads),
                   0, 0,
@@ -376,7 +376,7 @@ PrefixSum::runGlobalKernel(unsigned int offset)
     globalThreads = ((globalThreads + localThreads - 1) / localThreads) *
                     localThreads;
 
-hipLaunchKernel(global_prefixSum,
+hipLaunchKernelGGL(global_prefixSum,
                   dim3(globalThreads/localThreads),
                   dim3(localThreads),
                   0, 0,

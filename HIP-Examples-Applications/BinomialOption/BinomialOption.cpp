@@ -166,7 +166,7 @@ class BinomialOption
 };
 
 
-__global__ void binomial_options(hipLaunchParm lp,
+__global__ void binomial_options(
                                  int numSteps,
                                  const float4* randArray,
                                  float4* out)
@@ -353,7 +353,7 @@ BinomialOption::runKernels()
     // Record the start event
     hipEventRecord(start, NULL);
 
-    hipLaunchKernel(binomial_options,
+    hipLaunchKernelGGL(binomial_options,
                   dim3(samplesPerVectorWidth),
                   dim3(localThreads),
                   0, 0,

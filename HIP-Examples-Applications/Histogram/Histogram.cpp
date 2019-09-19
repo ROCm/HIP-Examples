@@ -30,9 +30,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
  * @param   binResult block-histogram array
  */
 __global__
-void histogram256(hipLaunchParm lp,
-                        unsigned int* data,
-                        unsigned int* binResult)
+void histogram256(
+                  unsigned int* data,
+                  unsigned int* binResult)
 {
     HIP_DYNAMIC_SHARED(unsigned char, sharedArray);
     size_t localId = hipThreadIdx_x;
@@ -209,7 +209,7 @@ Histogram::runKernels(void)
 
     hipEventRecord(start, NULL);
 
-    hipLaunchKernel(histogram256,
+    hipLaunchKernelGGL(histogram256,
                     dim3(globalThreads/localThreads),
                     dim3(localThreads),
                     groupSize * binSize * sizeof(unsigned char), 0,

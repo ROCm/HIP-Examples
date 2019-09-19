@@ -196,7 +196,7 @@ class MatrixMultiplication
 /* Output tile size : 4x4 = Each thread computes 16 float values*/
 /* Required global threads = (widthC / 4, heightC / 4) */
 /* This kernel runs on 7xx and CPU as they don't have hardware local memory */
-__global__ void mmmKernel( hipLaunchParm lp,
+__global__ void mmmKernel(
 			 float4 *matrixA,
                          float4 *matrixB,
                          float4* matrixC,
@@ -335,7 +335,7 @@ hipMemcpy(din0, input0,width0 * height0 * sizeof(float), hipMemcpyHostToDevice);
 hipMemcpy(din1, input1,width1 * height1 * sizeof(float), hipMemcpyHostToDevice);
 
 
-hipLaunchKernel(mmmKernel,
+hipLaunchKernelGGL(mmmKernel,
                   dim3((width1/4)/blockSize,(height0/4)/blockSize),
                   dim3(blockSize,blockSize),
                   0, 0,

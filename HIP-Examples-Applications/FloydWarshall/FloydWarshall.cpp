@@ -198,8 +198,8 @@ unsigned int uintMin(unsigned int a, unsigned int b)
  * provided with the sample
  */
 
-__global__ void floydWarshallPass(hipLaunchParm lp,
-		                          unsigned int * pathDistanceBuffer,
+__global__ void floydWarshallPass(
+		                  unsigned int * pathDistanceBuffer,
                                   unsigned int * pathBuffer        ,
                                   const unsigned int numNodes      ,
                                   const unsigned int pass)
@@ -373,7 +373,7 @@ FloydWarshall::runKernels(void)
     // Record the start event
     hipEventRecord(start, NULL);
 
-    hipLaunchKernel(floydWarshallPass,
+    hipLaunchKernelGGL(floydWarshallPass,
                   dim3(globalThreads[0]/localThreads[0],globalThreads[1]/localThreads[1]),
                   dim3(localThreads[0],localThreads[1]),
                   0, 0,
