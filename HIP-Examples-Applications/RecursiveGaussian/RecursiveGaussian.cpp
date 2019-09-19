@@ -29,7 +29,7 @@ THE SOFTWARE.
  * input image is transposed by reading the data into a block
  * and writing it to output image
  */
-__global__ void transpose_kernel(hipLaunchParm lp, 
+__global__ void transpose_kernel( 
                                  uchar4 *output,
                                  uchar4  *input,
                                  unsigned int    width,
@@ -68,7 +68,7 @@ __global__ void transpose_kernel(hipLaunchParm lp,
  *      iheight  - image height
  *      a0-a3, b1, b2, coefp, coefn - gaussian parameters
  */
-__global__ void RecursiveGaussian_kernel(hipLaunchParm lp,
+__global__ void RecursiveGaussian_kernel(
                                        const uchar4* input, uchar4* output, 
 				       const int width, const int height, 
 				       const float a0, const float a1, 
@@ -314,7 +314,7 @@ RecursiveGaussian::runKernels()
 
     hipEventRecord(start, NULL);
 
-    hipLaunchKernel(RecursiveGaussian_kernel,
+    hipLaunchKernelGGL(RecursiveGaussian_kernel,
                     dim3(width/blockSizeX, 1/blockSizeY),
                     dim3(blockSizeX,blockSizeY),
                     0, 0,
@@ -328,7 +328,7 @@ RecursiveGaussian::runKernels()
 
     hipEventRecord(start, NULL);
 
-    hipLaunchKernel(transpose_kernel,
+    hipLaunchKernelGGL(transpose_kernel,
                     dim3(width/blockSize,height/blockSize),
                     dim3(blockSize,blockSize),
                     0, 0,
@@ -345,7 +345,7 @@ RecursiveGaussian::runKernels()
     new_width = height
     new_height = width */
     hipEventRecord(start, NULL);
-    hipLaunchKernel(RecursiveGaussian_kernel,
+    hipLaunchKernelGGL(RecursiveGaussian_kernel,
                     dim3(height/blockSizeX, 1/blockSizeY),
                     dim3(blockSizeX,blockSizeY),
                     0, 0,
@@ -359,7 +359,7 @@ RecursiveGaussian::runKernels()
 
     hipEventRecord(start, NULL);
     // Enqueue final Transpose Kernel
-    hipLaunchKernel(transpose_kernel,
+    hipLaunchKernelGGL(transpose_kernel,
                     dim3(height/blockSize,width/blockSize),
                     dim3(blockSize,blockSize),
                     0, 0,

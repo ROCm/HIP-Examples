@@ -108,8 +108,8 @@ class FastWalshTransform
 };
 
 
-__global__ void fastWalshTransform(hipLaunchParm lp,
-			                       float * tArray,
+__global__ void fastWalshTransform(
+			           float * tArray,
                                    int   step  )
 {
 		unsigned int tid = hipThreadIdx_x+hipBlockIdx_x*hipBlockDim_x;
@@ -206,7 +206,7 @@ FastWalshTransform::runKernels(void)
     // Record the start event
     hipEventRecord(start, NULL);
 
-    hipLaunchKernel(fastWalshTransform,
+    hipLaunchKernelGGL(fastWalshTransform,
                     dim3(globalThreads/localThreads),
                     dim3(localThreads),
                     0, 0,
