@@ -246,7 +246,7 @@ kernel_gpu_cuda_wrapper(record *records,
 	// findK kernel
 	//======================================================================================================================================================150
 
-	hipLaunchKernel(findK, dim3(numBlocks), dim3(threadsPerBlock), 0, 0, 	maxheight,
+	hipLaunchKernelGGL(findK, dim3(numBlocks), dim3(threadsPerBlock), 0, 0, 	maxheight,
 
 											knodesD,
 											knodes_elem,

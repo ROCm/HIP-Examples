@@ -239,7 +239,7 @@ __device__ double dev_round_double(double value) {
  * param7: weights
  * param8: Nparticles
  *****************************/
-__global__ void find_index_kernel(hipLaunchParm lp,  double * arrayX, double * arrayY, double * CDF, double * u, 
+__global__ void find_index_kernel(double * arrayX, double * arrayY, double * CDF, double * u, 
 									double * xj, double * yj, double * weights, int Nparticles) {
     
 	
@@ -273,7 +273,7 @@ __global__ void find_index_kernel(hipLaunchParm lp,  double * arrayX, double * a
 	} 
 
 
-__global__ void normalize_weights_kernel(hipLaunchParm lp, double * weights, int Nparticles, double* partial_sums, double * CDF, double * u, int * seed) {
+__global__ void normalize_weights_kernel(double * weights, int Nparticles, double* partial_sums, double * CDF, double * u, int * seed) {
 
 
     int block_id = hipBlockIdx_x;
@@ -310,7 +310,7 @@ __global__ void normalize_weights_kernel(hipLaunchParm lp, double * weights, int
 	}
 
 
-__global__ void sum_kernel(hipLaunchParm lp,  double* partial_sums, int Nparticles) {
+__global__ void sum_kernel(double* partial_sums, int Nparticles) {
 
 
     int block_id = hipBlockIdx_x;
@@ -347,7 +347,7 @@ __global__ void sum_kernel(hipLaunchParm lp,  double* partial_sums, int Nparticl
  * param11: IszY
  * param12: Nfr
  *****************************/
-__global__ void likelihood_kernel(hipLaunchParm lp, double * arrayX, double * arrayY, double * xj, double * yj, double * CDF, int * ind, int * objxy, double * likelihood, unsigned char * I, double * u, double * weights, int Nparticles, int countOnes, int max_size, int k, int IszY, int Nfr, int *seed, double* partial_sums) {
+__global__ void likelihood_kernel(double * arrayX, double * arrayY, double * xj, double * yj, double * CDF, int * ind, int * objxy, double * likelihood, unsigned char * I, double * u, double * weights, int Nparticles, int countOnes, int max_size, int k, int IszY, int Nfr, int *seed, double* partial_sums) {
     
 	
 	
@@ -750,13 +750,13 @@ void particleFilter(unsigned char * I, int IszX, int IszY, int Nfr, int * seed, 
 
     for (k = 1; k < Nfr; k++) {
         
-        hipLaunchKernel(likelihood_kernel, dim3(num_blocks), dim3(threads_per_block ), 0, 0, arrayX_GPU, arrayY_GPU, xj_GPU, yj_GPU, CDF_GPU, ind_GPU, objxy_GPU, likelihood_GPU, I_GPU, u_GPU, weights_GPU, Nparticles, countOnes, max_size, k, IszY, Nfr, seed_GPU, partial_sums);
+        hipLaunchKernelGGL(likelihood_kernel, dim3(num_blocks), dim3(threads_per_block ), 0, 0, arrayX_GPU, arrayY_GPU, xj_GPU, yj_GPU, CDF_GPU, ind_GPU, objxy_GPU, likelihood_GPU, I_GPU, u_GPU, weights_GPU, Nparticles, countOnes, max_size, k, IszY, Nfr, seed_GPU, partial_sums);
 
-        hipLaunchKernel(sum_kernel, dim3(num_blocks), dim3(threads_per_block ), 0, 0, partial_sums, Nparticles);
+        hipLaunchKernelGGL(sum_kernel, dim3(num_blocks), dim3(threads_per_block ), 0, 0, partial_sums, Nparticles);
 
-        hipLaunchKernel(normalize_weights_kernel, dim3(num_blocks), dim3(threads_per_block ), 0, 0, weights_GPU, Nparticles, partial_sums, CDF_GPU, u_GPU, seed_GPU);
+        hipLaunchKernelGGL(normalize_weights_kernel, dim3(num_blocks), dim3(threads_per_block ), 0, 0, weights_GPU, Nparticles, partial_sums, CDF_GPU, u_GPU, seed_GPU);
         
-        hipLaunchKernel(find_index_kernel, dim3(num_blocks), dim3(threads_per_block ), 0, 0, arrayX_GPU, arrayY_GPU, CDF_GPU, u_GPU, xj_GPU, yj_GPU, weights_GPU, Nparticles);
+        hipLaunchKernelGGL(find_index_kernel, dim3(num_blocks), dim3(threads_per_block ), 0, 0, arrayX_GPU, arrayY_GPU, CDF_GPU, u_GPU, xj_GPU, yj_GPU, weights_GPU, Nparticles);
 
     }//end loop
 

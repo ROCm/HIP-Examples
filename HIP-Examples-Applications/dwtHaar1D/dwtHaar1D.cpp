@@ -202,7 +202,7 @@ class DwtHaar1D
 };
 
 
-__global__ void dwtHaar1D(hipLaunchParm lp,
+__global__ void dwtHaar1D(
                           float *inSignal,
                           float *coefsSignal,
                           float *AverageSignal,
@@ -412,7 +412,7 @@ int DwtHaar1D::runDwtHaar1DKernel()
     // Record the start event
     hipEventRecord(start, NULL);
 
-    hipLaunchKernel(dwtHaar1D,
+    hipLaunchKernelGGL(dwtHaar1D,
                   dim3(globalThreads/localThreads),
                   dim3(localThreads),
                   0, 0,

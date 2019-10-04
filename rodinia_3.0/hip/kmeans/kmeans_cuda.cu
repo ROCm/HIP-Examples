@@ -72,7 +72,7 @@ void allocateMemory(int npoints, int nfeatures, int nclusters, float **features)
 	hipMalloc((void**) &feature_d, npoints*nfeatures*sizeof(float));
 		
 	/* invert the data array (kernel execution) */	
-	hipLaunchKernel(invert_mapping, dim3(num_blocks), dim3(num_threads), 0, 0, feature_flipped_d,feature_d,npoints,nfeatures);
+	hipLaunchKernelGGL(invert_mapping, dim3(num_blocks), dim3(num_threads), 0, 0, feature_flipped_d,feature_d,npoints,nfeatures);
 		
 	/* allocate memory for membership_d[] and clusters_d[][] (device) */
 	hipMalloc((void**) &membership_d, npoints*sizeof(int));
@@ -206,7 +206,7 @@ kmeansCuda(float  **feature,				/* in: [npoints][nfeatures] */
     dim3  threads( num_threads_perdim*num_threads_perdim );
     
 	/* execute the kernel */
-    hipLaunchKernel(kmeansPoint, dim3(grid), dim3(threads ), 0, 0,  feature_d,
+    hipLaunchKernelGGL(kmeansPoint, dim3(grid), dim3(threads ), 0, 0,  feature_d,
                                       feature_flipped_d,
                                       nfeatures,
                                       npoints,

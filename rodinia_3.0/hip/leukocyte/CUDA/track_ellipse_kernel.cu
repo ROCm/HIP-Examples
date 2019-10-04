@@ -41,7 +41,7 @@ __device__ float heaviside(float x) {
 
 
 // Kernel to compute the Motion Gradient Vector Field (MGVF) matrix for multiple cells
-__global__ void IMGVF_kernel(hipLaunchParm lp, float **IMGVF_array, float **I_array, int *m_array, int *n_array, float vx, float vy, float e, int max_iterations, float cutoff)
+__global__ void IMGVF_kernel(float **IMGVF_array, float **I_array, int *m_array, int *n_array, float vx, float vy, float e, int max_iterations, float cutoff)
 {
 	
 	// Shared copy of the matrix being computed
@@ -233,7 +233,7 @@ void IMGVF_cuda(MAT **I, MAT **IMGVF, double vx, double vy, double e, int max_it
 	IMGVF_cuda_init(I, num_cells);
 	
 	// Compute the MGVF on the GPU
-	hipLaunchKernel(IMGVF_kernel, dim3(num_cells), dim3(threads_per_block ), 0, 0,  device_IMGVF_array, device_I_array, device_m_array, device_n_array,
+	hipLaunchKernelGGL(IMGVF_kernel, dim3(num_cells), dim3(threads_per_block ), 0, 0,  device_IMGVF_array, device_I_array, device_m_array, device_n_array,
 				  (float) vx, (float) vy, (float) e, max_iterations, (float) cutoff );
 	
 	// Check for kernel errors

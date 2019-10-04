@@ -12,7 +12,7 @@
         #define BLOCK_SIZE 16
 #endif
 
-__global__ void lud_diagonal(hipLaunchParm lp, float *m, int matrix_dim, int offset)
+__global__ void lud_diagonal(float *m, int matrix_dim, int offset)
 {
 
   int i,j;
@@ -61,7 +61,7 @@ __global__ void lud_diagonal(hipLaunchParm lp, float *m, int matrix_dim, int off
 }
 
 
-__global__ void lud_perimeter(hipLaunchParm lp, float *m, int matrix_dim, int offset)
+__global__ void lud_perimeter(float *m, int matrix_dim, int offset)
 {
   __shared__ float dia[BLOCK_SIZE][BLOCK_SIZE];
   __shared__ float peri_row[BLOCK_SIZE][BLOCK_SIZE];
@@ -171,7 +171,7 @@ __global__ void lud_perimeter(hipLaunchParm lp, float *m, int matrix_dim, int of
 }
 
 
-__global__ void lud_internal(hipLaunchParm lp, float *m, int matrix_dim, int offset)
+__global__ void lud_internal(float *m, int matrix_dim, int offset)
 {
   __shared__ float peri_row[BLOCK_SIZE][BLOCK_SIZE];
   __shared__ float peri_col[BLOCK_SIZE][BLOCK_SIZE];
@@ -204,11 +204,11 @@ void lud_cuda(float *m, int matrix_dim)
   float *m_debug = (float*)malloc(matrix_dim*matrix_dim*sizeof(float));
 
   for (i=0; i < matrix_dim-BLOCK_SIZE; i += BLOCK_SIZE) {
-      hipLaunchKernel(lud_diagonal, dim3(1), dim3(BLOCK_SIZE), 0, 0, m, matrix_dim, i);
-      hipLaunchKernel(lud_perimeter, dim3((matrix_dim-i)/BLOCK_SIZE-1), dim3(BLOCK_SIZE*2), 0, 0, m, matrix_dim, i);
+      hipLaunchKernelGGL(lud_diagonal, dim3(1), dim3(BLOCK_SIZE), 0, 0, m, matrix_dim, i);
+      hipLaunchKernelGGL(lud_perimeter, dim3((matrix_dim-i)/BLOCK_SIZE-1), dim3(BLOCK_SIZE*2), 0, 0, m, matrix_dim, i);
       dim3 dimGrid((matrix_dim-i)/BLOCK_SIZE-1, (matrix_dim-i)/BLOCK_SIZE-1);
-      hipLaunchKernel(lud_internal, dim3(dimGrid), dim3(dimBlock), 0, 0, m, matrix_dim, i); 
+      hipLaunchKernelGGL(lud_internal, dim3(dimGrid), dim3(dimBlock), 0, 0, m, matrix_dim, i); 
   }
-  hipLaunchKernel(lud_diagonal, dim3(1), dim3(BLOCK_SIZE), 0, 0, m, matrix_dim, i);
+  hipLaunchKernelGGL(lud_diagonal, dim3(1), dim3(BLOCK_SIZE), 0, 0, m, matrix_dim, i);
 }
 

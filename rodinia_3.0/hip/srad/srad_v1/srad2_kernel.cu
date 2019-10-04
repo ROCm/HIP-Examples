@@ -2,7 +2,7 @@
 // BUG IN SRAD APPLICATIONS SEEMS TO BE SOMEWHERE IN THIS CODE, MEMORY CORRUPTION
 
 // srad kernel
-__global__ void srad2(hipLaunchParm lp,	fp d_lambda, 
+__global__ void srad2(fp d_lambda, 
 										int d_Nr, 
 										int d_Nc, 
 										long d_Ne, 

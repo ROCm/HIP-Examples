@@ -38,7 +38,7 @@ inline __host__ __device__ int indexTo1D(int x, int y, int z){
 }
 
 __global__ void
-rtm8(hipLaunchParm lp, float* vsq, float* current_s, float* current_r, float* next_s, float* next_r, float* image, float* a, size_t N)
+rtm8(float* vsq, float* current_s, float* current_r, float* next_s, float* next_r, float* image, float* a, size_t N)
 {
     unsigned x = hipBlockIdx_x*hipBlockDim_x + hipThreadIdx_x;
     unsigned y = hipBlockIdx_y*hipBlockDim_y + hipThreadIdx_y;
@@ -177,7 +177,7 @@ int main(){
 
     for (int t = 0; t < nt; t++) {
         //Launch the HIP kernel
-        hipLaunchKernel(HIP_KERNEL_NAME(rtm8), dim3(gridSize), dim3(groupSize), 0, 0, (float*)vsq_d, (float*)current_s_d, (
+        hipLaunchKernelGGL(rtm8, dim3(gridSize), dim3(groupSize), 0, 0, (float*)vsq_d, (float*)current_s_d, (
                     float*)next_s_d, (float*)current_r_d,(float*)next_r_d, (float*)image_d, (float*)a_d, ArraySize);
     }
     //copy back image value

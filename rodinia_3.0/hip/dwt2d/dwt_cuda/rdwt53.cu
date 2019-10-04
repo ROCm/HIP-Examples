@@ -297,7 +297,7 @@ namespace dwt_cuda {
   template <int WIN_SX, int WIN_SY>
   __launch_bounds__(WIN_SX, CTMIN(SHM_SIZE/sizeof(RDWT53<WIN_SX, WIN_SY>), 8))
   __global__ void 
-  rdwt53Kernel(hipLaunchParm lp, const int * const in, int * const out,
+  rdwt53Kernel(const int * const in, int * const out,
                                const int sx, const int sy, const int steps) 
   {
     RDWT53<WIN_SX, WIN_SY>::run(in, out, sx, sy, steps);
@@ -321,7 +321,7 @@ namespace dwt_cuda {
     
     // finally transform this level
     PERF_BEGIN
-    hipLaunchKernel(HIP_KERNEL_NAME(rdwt53Kernel<WIN_SX, WIN_SY>), dim3(gSize), dim3(WIN_SX), 0, 0, in, out, sx, sy, steps);
+    hipLaunchKernelGGL(rdwt53Kernel<WIN_SX, WIN_SY>, dim3(gSize), dim3(WIN_SX), 0, 0, in, out, sx, sy, steps);
     PERF_END("        RDWT53", sx, sy)
     CudaDWTTester::checkLastKernelCall("RDWT 5/3 kernel");
   }

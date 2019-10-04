@@ -45,7 +45,7 @@ BurnKernel::~BurnKernel()
 
 // ---------------------------------------------------------------------------
 
-extern "C" __global__ void hip_sgemm_kernel(hipLaunchParm lp, const int M,
+extern "C" __global__ void hip_sgemm_kernel(const int M,
                                             const int N, const int K,
                                             const float alpha,
                                             float *A, const int lda, float *B,
@@ -143,9 +143,9 @@ int BurnKernel::runComputeKernel()
     int err = 0;
 
     for (int i = 0; mRunKernel && i < mNumIterations; ++i) {
-        hipLaunchKernel(
+        hipLaunchKernelGGL(
             /* Launch params */
-            HIP_KERNEL_NAME(hip_sgemm_kernel),
+            hip_sgemm_kernel,
             dim3(cRowSize/cBlockSize, cRowSize/cBlockSize, 1),
             dim3(cBlockSize,cBlockSize,1), 0, 0,
             /* Kernel params */

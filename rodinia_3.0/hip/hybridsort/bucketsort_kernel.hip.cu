@@ -32,9 +32,9 @@ __device__ int addOffset(volatile unsigned int *s_offset, unsigned int data, uns
 
 __global__ void
 #ifndef USE_TEXTURES
-bucketcount(hipLaunchParm lp, float* pivotpoints,float *input, int *indice, unsigned int *d_prefixoffsets, int size)
+bucketcount(float* pivotpoints,float *input, int *indice, unsigned int *d_prefixoffsets, int size)
 #else
-bucketcount(hipLaunchParm lp, float *input, int *indice, unsigned int *d_prefixoffsets, int size)
+bucketcount(float *input, int *indice, unsigned int *d_prefixoffsets, int size)
 #endif
 {
 	volatile __shared__ unsigned int s_offset[BUCKET_BLOCK_MEMORY]; 
@@ -79,7 +79,7 @@ bucketcount(hipLaunchParm lp, float *input, int *indice, unsigned int *d_prefixo
 }
 
 
-__global__ void bucketprefixoffset(hipLaunchParm lp,  unsigned int *d_prefixoffsets, unsigned int *d_offsets, int blocks) {
+__global__ void bucketprefixoffset(unsigned int *d_prefixoffsets, unsigned int *d_offsets, int blocks) {
 
 	int tid = hipBlockIdx_x * hipBlockDim_x + hipThreadIdx_x; 
 	int size = blocks * BUCKET_BLOCK_MEMORY; 
@@ -96,7 +96,7 @@ __global__ void bucketprefixoffset(hipLaunchParm lp,  unsigned int *d_prefixoffs
 
 
 
-__global__ void bucketsort(hipLaunchParm lp, float *input, int *indice, float *output, int size, unsigned int *d_prefixoffsets, 
+__global__ void bucketsort(float *input, int *indice, float *output, int size, unsigned int *d_prefixoffsets, 
 		   unsigned int *l_offsets)
 {
 	volatile __shared__ unsigned int s_offset[BUCKET_BLOCK_MEMORY]; 

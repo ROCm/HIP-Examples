@@ -57,9 +57,9 @@ __constant__ int nullElems[DIVISIONS];
 
 __global__ void
 #ifndef USE_TEXTURES
-mergeSortFirst(hipLaunchParm lp, float4 * origList,float4 *result, int listsize)
+mergeSortFirst(float4 * origList,float4 *result, int listsize)
 #else
-mergeSortFirst(hipLaunchParm lp, float4 *result, int listsize)
+mergeSortFirst(float4 *result, int listsize)
 #endif
 {
     // Block index
@@ -80,9 +80,9 @@ mergeSortFirst(hipLaunchParm lp, float4 *result, int listsize)
 
 __global__ void
 #ifndef USE_TEXTURES
-mergeSortPass(hipLaunchParm lp, float4 *origList,float4 *result, int nrElems, int threadsPerDiv
+mergeSortPass(float4 *origList,float4 *result, int nrElems, int threadsPerDiv
 #else
-mergeSortPass(hipLaunchParm lp, float4 *result, int nrElems, int threadsPerDiv
+mergeSortPass(float4 *result, int nrElems, int threadsPerDiv
 #endif
 #ifdef MEMCPYTOSYMBOL
 )
@@ -179,7 +179,7 @@ mergeSortPass(hipLaunchParm lp, float4 *result, int nrElems, int threadsPerDiv
 
 
 __global__ void
-mergepack(hipLaunchParm lp, float *orig, float *result
+mergepack(float *orig, float *result
 #ifdef MEMCPYTOSYMBOL
 )
 #else

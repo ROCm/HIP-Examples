@@ -1,6 +1,6 @@
 #include "hip/hip_runtime.h"
 // statistical kernel
-__global__ void prepare(hipLaunchParm lp,	long d_Ne,
+__global__ void prepare(long d_Ne,
 											fp *d_I,										// pointer to output image (DEVICE GLOBAL MEMORY)
 											fp *d_sums,									// pointer to input image (DEVICE GLOBAL MEMORY)
 											fp *d_sums2){

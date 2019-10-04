@@ -244,7 +244,7 @@ getIdx(unsigned int blockIdx, unsigned int blockIdy, unsigned int localIdx, unsi
  * @param inverse  flag to perform inverse DCT
  */
 
-__global__ void DCTKernel(hipLaunchParm lp,
+__global__ void DCTKernel(
 	                      float * output,
                           float * input,
                           float * dct8x8,
@@ -393,7 +393,7 @@ DCT::runKernels(void)
     // Record the start event
     hipEventRecord(start, NULL);
 
-    hipLaunchKernel(DCTKernel,
+    hipLaunchKernelGGL(DCTKernel,
                   dim3(width/blockWidth, height/blockWidth),
                   dim3(blockWidth,blockWidth),
                   0, 0,

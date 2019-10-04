@@ -687,10 +687,10 @@ int main(int argc, char *argv []){
 		hipMemcpyToSymbol(d_common_change, &common_change, sizeof(params_common_change));
 
 		// launch GPU kernel
-		hipLaunchKernel(kernel, dim3(blocks), dim3(threads), 0, 0, );
+		hipLaunchKernelGGL(kernel, dim3(blocks), dim3(threads), 0, 0, );
 #else
 
-        hipLaunchKernel(kernel, dim3(blocks), dim3(threads), 0, 0, common, common_change, d_unique);
+        hipLaunchKernelGGL(kernel, dim3(blocks), dim3(threads), 0, 0, common, common_change, d_unique);
 #endif
 #ifdef PROFILING
 		mytimer->Accumulate();

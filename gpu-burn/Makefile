@@ -5,8 +5,8 @@ HIP_INCLUDE = -I${HIP_PATH}/include -I${HCC_PATH}/include
 BUILD_DIR ?= build
 
 HIPCC = ${HIP_PATH}/bin/hipcc
-CPPFLAGS =
-LDFLAGS = -lm
+CPPFLAGS = -O3
+LDFLAGS = -lm -lpthread
 
 ifeq (${HIP_PLATFORM}, nvcc)
     CPPFLAGS += -arch=compute_20
