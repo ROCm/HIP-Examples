@@ -28,7 +28,9 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
-#include <cuda.h>
+#ifdef __CUDA_CC__
+#include "cuda.h"
+#endif
 
 #include "define.c"
 #include "extract_kernel.cu"

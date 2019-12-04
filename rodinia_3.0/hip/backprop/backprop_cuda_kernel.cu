@@ -7,8 +7,9 @@
 #include <stdio.h>
 #include "backprop.h"
 #include "math.h"
+#ifdef __CUDA_CC__
 #include "cuda.h"
-
+#endif
 
 __global__ void bpnn_layerforward_CUDA( 
                        float *input_cuda,

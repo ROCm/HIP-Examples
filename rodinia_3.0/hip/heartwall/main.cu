@@ -18,7 +18,9 @@
 
 #include <avilib.h>
 #include <avimod.h>
-#include <cuda.h>
+#ifdef __CUDA_CC__
+#include "cuda.h"
+#endif
 
 #ifdef PROFILING
 SimplePerfSerializer* serializeTime;

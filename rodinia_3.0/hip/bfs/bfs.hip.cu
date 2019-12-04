@@ -20,7 +20,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
-#include <cuda.h>
+#ifdef __CUDA_CC__
+#include "cuda.h"
+#endif
 #include <sys/time.h>
 
 #define MAX_THREADS_PER_BLOCK 512
