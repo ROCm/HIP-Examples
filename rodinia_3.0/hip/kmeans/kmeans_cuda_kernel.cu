@@ -3,7 +3,9 @@
 #define _KMEANS_CUDA_KERNEL_H_
 
 #include <stdio.h>
-#include <cuda.h>
+#ifdef __CUDA_CC__
+#include "cuda.h"
+#endif
 
 #include "kmeans.h"
 

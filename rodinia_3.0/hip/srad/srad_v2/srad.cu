@@ -7,7 +7,9 @@
 #include "srad.h"
 
 // includes, project
-#include <cuda.h>
+#ifdef __CUDA_CC__
+#include "cuda.h"
+#endif
 
 // includes, kernels
 #include "srad_kernel.cu"

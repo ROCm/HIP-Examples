@@ -6,8 +6,9 @@
 #include <assert.h>
 
 //#include <omp.h>
-
-#include <cuda.h>
+#ifdef __CUDA_CC__
+#include "cuda.h"
+#endif
 
 #define THREADS_PER_DIM 16
 #define BLOCKS_PER_DIM 16
