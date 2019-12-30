@@ -1,5 +1,7 @@
 #include "hip/hip_runtime.h"
-#include <cuda.h>
+#ifdef __CUDA_CC__
+#include "cuda.h"
+#endif
 #include <stdio.h>
 
 #ifdef RD_WG_SIZE_0_0

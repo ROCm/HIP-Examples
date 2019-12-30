@@ -5,7 +5,10 @@
 #include <string.h>
 #include <math.h>
 #include "needle.h"
-#include <cuda.h>
+#ifdef __CUDA_CC__
+#include "cuda.h"
+#endif
+
 #include <sys/time.h>
 
 // includes, kernels

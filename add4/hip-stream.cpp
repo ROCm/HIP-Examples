@@ -337,9 +337,9 @@ int main(int argc, char *argv[])
         t1 = std::chrono::high_resolution_clock::now();
         if (groups) {
             if (useFloat)
-                hipLaunchKernelGGL(copy_looper<float,1>, dim3(gridSize), dim3(groupSize), 0, 0, (float*)d_a, (float*)d_c, ARRAY_SIZE);
+                hipLaunchKernelGGL((copy_looper<float,1>), dim3(gridSize), dim3(groupSize), 0, 0, (float*)d_a, (float*)d_c, ARRAY_SIZE);
             else
-                hipLaunchKernelGGL(copy_looper<double,1>, dim3(gridSize), dim3(groupSize), 0, 0, (double*)d_a, (double*)d_c, ARRAY_SIZE);
+                hipLaunchKernelGGL((copy_looper<double,1>), dim3(gridSize), dim3(groupSize), 0, 0, (double*)d_a, (double*)d_c, ARRAY_SIZE);
         } else {
             if (useFloat)
                 hipLaunchKernelGGL(copy<float>, dim3(ARRAY_SIZE/groupSize), dim3(groupSize), 0, 0, (float*)d_a, (float*)d_c);

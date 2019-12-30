@@ -17,7 +17,9 @@
  * =====================================================================================
  */
 
-#include <cuda.h>
+#ifdef __CUDA_CC__
+#include "cuda.h"
+#endif
 #include <stdio.h>
 #include <unistd.h>
 #include <getopt.h>
