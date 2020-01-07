@@ -256,10 +256,10 @@ __global__ void binomial_options(
     profit.z = s.z * expf(vsdt.z * (2.0f * tid - (float)numSteps)) - x.z;
     profit.w = s.w * expf(vsdt.w * (2.0f * tid - (float)numSteps)) - x.w;
 
-    callA[tid].x = profit.x > 0 ? profit.x : 0.0f;
-    callA[tid].y = profit.y > 0 ? profit.y : 0.0f;
-    callA[tid].z = profit.z > 0 ? profit.z: 0.0f;
-    callA[tid].w = profit.w > 0 ? profit.w: 0.0f;
+    callA[tid].x = profit.x > 0 ? (float)profit.x : 0.0f;
+    callA[tid].y = profit.y > 0 ? (float)profit.y : 0.0f;
+    callA[tid].z = profit.z > 0 ? (float)profit.z : 0.0f;
+    callA[tid].w = profit.w > 0 ? (float)profit.w : 0.0f;
 
     __syncthreads();
 
