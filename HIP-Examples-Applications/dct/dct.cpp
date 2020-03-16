@@ -640,12 +640,12 @@ int DCT::verifyResults()
         // compare the results and see if they match
 		if(compare(output, verificationOutput, width*height))
         {
-            std::cout<<"Passed!\n" << std::endl;
+            std::cout<<"PASSED!\n" << std::endl;
             return SDK_SUCCESS;
         }
         else
         {
-            std::cout<<"Failed\n" << std::endl;
+            std::cout<<"FAILED\n" << std::endl;
             return SDK_FAILURE;
         }
     }

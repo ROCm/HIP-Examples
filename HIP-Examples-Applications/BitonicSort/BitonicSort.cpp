@@ -567,12 +567,12 @@ int BitonicSort::verifyResults()
         // compare the results and see if they match
         if(memcmp(input, verificationInput, length*sizeof(unsigned int)) == 0)
         {
-            std::cout<<"Passed!\n" << std::endl;
+            std::cout<<"PASSED!\n" << std::endl;
             return SDK_SUCCESS;
         }
         else
         {
-            std::cout<<"Failed\n" << std::endl;
+            std::cout<<"FAILED\n" << std::endl;
             return SDK_FAILURE;
         }
 
