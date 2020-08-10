@@ -1,7 +1,6 @@
 HIP_PATH ?= /opt/rocm/hip
-HCC_PATH ?= /opt/rocm/hcc
 HIP_PLATFORM = $(shell $(HIP_PATH)/bin/hipconfig --platform)
-HIP_INCLUDE = -I${HIP_PATH}/include -I${HCC_PATH}/include
+HIP_INCLUDE = -I${HIP_PATH}/include
 BUILD_DIR ?= build
 
 HIPCC = ${HIP_PATH}/bin/hipcc
@@ -29,7 +28,7 @@ ${BUILD_DIR}/%.o: %.cpp Makefile
 
 run: itburn
 itburn:
-	HCC_LAZYINIT=ON ${GPUBURN_BIN}
+	${GPUBURN_BIN}
 
 clean:
 	rm -rf ${BUILD_DIR}
