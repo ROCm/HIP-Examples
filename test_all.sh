@@ -78,8 +78,17 @@ echo
 echo "==== Rodinia ===="
 cd rodinia_3.0/hip
 make clean -j ${HIP_MAKEJ}
-make test 
+make test
 cd ..
 
-
+# openmp-helloworld
+echo
+echo "==== OpenMP Hello World ===="
+cd openmp-helloworld
+mkdir -p build
+cd build
+cmake ..
+make
+./test_openmp_helloworld
+cd ../..
 
