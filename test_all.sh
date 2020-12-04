@@ -77,7 +77,7 @@ echo
 : ${HIP_MAKEJ:="4"}
 echo "==== Rodinia ===="
 cd rodinia_3.0/hip
-make clean -j ${HIP_MAKEJ}
+make clean -j$(nproc) ${HIP_MAKEJ}
 make test
 cd ..
 
