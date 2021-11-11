@@ -7,7 +7,7 @@ if [ -d /opt/rocm/hip ]
 then
     HIP_PATH=/opt/rocm/hip
 else
-    echo "Please install rocm package"
+    HIP_PATH=/opt/rocm
 fi
 
 fi 

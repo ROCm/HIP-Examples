@@ -1,4 +1,9 @@
-HIP_PATH ?= /opt/rocm/hip
+HIP_PATH?= $(wildcard /opt/rocm/hip)
+ifeq (,$(HIP_PATH))
+        HIP_PATH=/opt/rocm
+endif
+
+
 HCC_PATH ?= /opt/rocm/hcc
 HIP_PLATFORM = $(shell $(HIP_PATH)/bin/hipconfig --platform)
 HIP_INCLUDE = -I${HIP_PATH}/include -I${HCC_PATH}/include

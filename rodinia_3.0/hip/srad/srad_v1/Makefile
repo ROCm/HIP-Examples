@@ -1,6 +1,6 @@
 HIP_PATH?= $(wildcard /opt/rocm/hip)
 ifeq (,$(HIP_PATH))
-	HIP_PATH=../../../../..
+	HIP_PATH=/opt/rocm
 endif
 HIP_EXAMPLES ?=../../../..
 include ../../../common/make.config
