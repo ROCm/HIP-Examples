@@ -14,16 +14,16 @@ $(TESTNAME): backprop.o facetrain.o imagenet.o backprop_cuda.o
 	$(HIPCC) $(HIPCC_FLAGS) $< -c
 
 facetrain.o: facetrain.c backprop.h
-	$(OMPCC) $(OMP_FLAGS) facetrain.c -c
+	$(HIPCC) $(OMP_FLAGS) facetrain.c -c
 	
 backprop.o: backprop.c backprop.h
-	$(OMPCC) $(OMP_FLAGS) backprop.c -c
+	$(HIPCC) $(OMP_FLAGS) backprop.c -c
 	
 backprop_cuda.o: backprop_cuda.cu backprop_cuda_kernel.cu backprop.h $(HIP_DEPS)
 	$(HIPCC) $(HIPCC_FLAGS) -c backprop_cuda.cu
 
 imagenet.o: imagenet.c backprop.h
-	$(OMPCC) $(OMP_FLAGS) imagenet.c -c
+	$(HIPCC) $(OMP_FLAGS) imagenet.c -c
 	
 clean:
 	rm -f *.o *~ backprop out_hip.txt backprop_cuda.linkinfo *.perf
