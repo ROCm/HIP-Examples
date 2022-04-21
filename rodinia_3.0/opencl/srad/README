@@ -1,7 +1,0 @@
-******Adjustable work group size*****
-The kernel has square shape 
-RD_WG_SIZE_0 or RD_WG_SIZE_0_0 describe the total number of threads
-
-USAGE:
-make clean
-make KERNEL_DIM="-DRD_WG_SIZE_0=256"

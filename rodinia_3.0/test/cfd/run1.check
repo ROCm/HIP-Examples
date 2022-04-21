@@ -1,4 +1,0 @@
-#!/bin/bash
-../../common/numdiff -q -a 1e-3 -r 1.08e-3 `dirname $0`/gold/run1/density density || exit 1
-../../common/numdiff -q -a 1e-3 -r 1.08e-3 `dirname $0`/gold/run1/density_energy density_energy || exit 1
-../../common/numdiff -q -a 1e-3 -r 1.08e-3 `dirname $0`/gold/run1/momentum momentum || exit 1

@@ -1,2 +1,0 @@
-#!/bin/bash
-../../common/numdiff -q -a 1 `dirname $0`/gold/image_out.pgm image_out.pgm

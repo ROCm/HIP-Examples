@@ -1,1 +1,0 @@
-./dwt RGB_color_solid_cube_1.bmp -d 1024x1024 -f -5
