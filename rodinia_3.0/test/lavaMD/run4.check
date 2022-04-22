@@ -1,3 +1,0 @@
-#!/bin/bash
-diff result.txt `dirname $0`/gold/run4.txt
-

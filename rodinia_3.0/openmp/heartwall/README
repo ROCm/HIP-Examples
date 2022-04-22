@@ -1,4 +1,0 @@
-######OUTPUT FOR VALIDATION########
-USAGE:
-make clean
-make OUTPUT=Y

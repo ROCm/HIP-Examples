@@ -72,15 +72,6 @@ make
 ./stream
 cd ..
 
-#---
-echo
-: ${HIP_MAKEJ:="4"}
-echo "==== Rodinia ===="
-cd rodinia_3.0/hip
-make clean -j ${HIP_MAKEJ}
-make test
-cd ..
-
 # openmp-helloworld
 echo
 echo "==== OpenMP Hello World ===="

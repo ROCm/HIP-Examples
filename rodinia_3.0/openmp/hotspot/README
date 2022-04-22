@@ -1,7 +1,0 @@
-Usage: ./hotspot <grid_rows> <grid_cols> <sim_time> <no. of threads><temp_file> <power_file>
-        <grid_rows>  		- number of rows in the grid (positive integer)
-        <grid_cols>  		- number of columns in the grid (positive integer)
-        <sim_time>   		- number of iterations
-        <no. of threads>    - number of threads
-        <temp_file>  		- name of the file containing the initial temperature values of each cell
-        <power_file> 		- name of the file containing the dissipated power values of each cell
