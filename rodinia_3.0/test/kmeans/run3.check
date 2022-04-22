@@ -1,2 +1,0 @@
-#!/bin/bash
-diff run3.out `dirname $0`/gold/

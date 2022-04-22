@@ -1,4 +1,0 @@
-#!/bin/bash
-diff `dirname $0`/gold/run1/rgb.bmp.dwt.r rgb.bmp.dwt.r || exit 1
-diff `dirname $0`/gold/run1/rgb.bmp.dwt.r rgb.bmp.dwt.r || exit 1
-diff `dirname $0`/gold/run1/rgb.bmp.dwt.r rgb.bmp.dwt.r || exit 1
