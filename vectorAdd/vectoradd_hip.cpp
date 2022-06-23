@@ -27,7 +27,11 @@ THE SOFTWARE.
 #include "hip/hip_runtime.h"
 
 
+#ifdef NDEBUG
+#define HIP_ASSERT(x) x
+#else
 #define HIP_ASSERT(x) (assert((x)==hipSuccess))
+#endif
 
 
 #define WIDTH     1024
