@@ -1,2 +1,2 @@
-include $(HIP_PATH)/examples/common/hip.prologue.make
-include $(HIP_PATH)/examples/common/hip.epilogue.make
+include /opt/rocm/hip/examples/common/hip.prologue.make
+include /opt/rocm/hip/examples/common/hip.epilogue.make

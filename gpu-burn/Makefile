@@ -1,15 +1,8 @@
-HIP_PATH?= $(wildcard /opt/rocm/hip)
-ifeq (,$(HIP_PATH))
-        HIP_PATH=/opt/rocm
-endif
-
-
-HCC_PATH ?= /opt/rocm/hcc
-HIP_PLATFORM = $(shell $(HIP_PATH)/bin/hipconfig --platform)
-HIP_INCLUDE = -I${HIP_PATH}/include -I${HCC_PATH}/include
+HIP_PLATFORM = $(shell /opt/rocm/bin/hipconfig --platform)
+HIP_INCLUDE = -I/opt/rocm/include
 BUILD_DIR ?= build
 
-HIPCC = ${HIP_PATH}/bin/hipcc
+HIPCC = /opt/rocm/bin/hipcc
 CPPFLAGS = -O3
 LDFLAGS = -lm -lpthread
 

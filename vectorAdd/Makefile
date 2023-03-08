@@ -1,9 +1,4 @@
-HIP_PATH?= $(wildcard /opt/rocm/hip)
-ifeq (,$(HIP_PATH))
-	HIP_PATH=/opt/rocm
-endif
-
-HIPCC=$(HIP_PATH)/bin/hipcc
+HIPCC=/opt/rocm/bin/hipcc
 
 TARGET=hcc
 
@@ -33,6 +28,3 @@ test: $(EXECUTABLE)
 clean:
 	rm -f $(EXECUTABLE)
 	rm -f $(OBJECTS)
-	rm -f $(HIP_PATH)/src/*.o
-
-
