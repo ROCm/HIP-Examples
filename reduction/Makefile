@@ -1,4 +1,5 @@
-HIPCC=/opt/rocm/bin/hipcc
+HIP_PATH?= $(wildcard /opt/rocm)
+HIPCC=$(HIP_PATH)/bin/hipcc
 
 CXXFLAGS += -std=c++11 -O3
 
@@ -13,4 +14,3 @@ endif
 
 clean:
 	rm -f reduction *.o
-

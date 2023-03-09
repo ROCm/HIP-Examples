@@ -1,6 +1,5 @@
-HIPCC=/opt/rocm/bin/hipcc
-
-TARGET=hcc
+HIP_PATH?= $(wildcard /opt/rocm)
+HIPCC=$(HIP_PATH)/bin/hipcc
 
 SOURCES = HelloWorld.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
@@ -27,3 +26,4 @@ test: $(EXECUTABLE)
 clean:
 	rm -f $(EXECUTABLE)
 	rm -f $(OBJECTS)
+	rm -f $(HIP_PATH)/src/*.o
