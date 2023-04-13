@@ -4,9 +4,8 @@ ifeq (,$(HIP_PATH))
 endif
 
 
-HCC_PATH ?= /opt/rocm/hcc
 HIP_PLATFORM = $(shell $(HIP_PATH)/bin/hipconfig --platform)
-HIP_INCLUDE = -I${HIP_PATH}/include -I${HCC_PATH}/include
+HIP_INCLUDE = -I${HIP_PATH}/../include
 BUILD_DIR ?= build
 
 HIPCC = ${HIP_PATH}/bin/hipcc
