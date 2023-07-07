@@ -1,11 +1,5 @@
-HIP_PATH?= $(wildcard /opt/rocm/hip)
-ifeq (,$(HIP_PATH))
-	HIP_PATH=../../..
-endif
-
+HIP_PATH?= $(wildcard /opt/rocm)
 HIPCC=$(HIP_PATH)/bin/hipcc
-
-TARGET=hcc
 
 SOURCES = Histogram.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
@@ -32,5 +26,4 @@ test: $(EXECUTABLE)
 clean:
 	rm -f $(EXECUTABLE)
 	rm -f $(OBJECTS)
-	rm -f $(HIP_PATH)/src/*.o
-
+	rm -f $(HIP_PATH)src/*.o

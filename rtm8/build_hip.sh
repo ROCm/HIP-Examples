@@ -10,9 +10,7 @@ else
     HIP_PATH=/opt/rocm
 fi
 
-fi 
-
-echo "Using HIP_PATH=$HIP_PATH"
+fi
 
 if [ -f "rtm8_hip" ]
 then

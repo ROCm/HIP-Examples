@@ -1,11 +1,5 @@
-HIP_PATH?= $(wildcard /opt/rocm/hip)
-ifeq (,$(HIP_PATH))
-	HIP_PATH=../../..
-endif
-
+HIP_PATH?= $(wildcard /opt/rocm)
 HIPCC=$(HIP_PATH)/bin/hipcc
-
-TARGET=hcc
 
 SOURCES = FloydWarshall.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
@@ -33,4 +27,3 @@ clean:
 	rm -f $(EXECUTABLE)
 	rm -f $(OBJECTS)
 	rm -f $(HIP_PATH)/src/*.o
-

@@ -1,6 +1,6 @@
 # This file is designed to be included at beginning of Makefile, right after setting HIP_PATH.
 # Note: define $HIP_PATH before including this file.
-# HIP_PATH should be relevant to the parent makefile 
+# HIP_PATH should be relevant to the parent makefile
 #
 # It should not include any concrete makefile steps, so "make" still runs the first step in the Makefile.
 #
@@ -61,7 +61,7 @@ OMP_FLAGS += -fopenmp
 
 # Add dependencies to make hip_cc.o and other support files.
 HSA_PATH ?= /opt/hsa
-#HIP_SOURCES = $(HIP_PATH)/src/hip_hcc.cpp 
+#HIP_SOURCES = $(HIP_PATH)/src/hip_hcc.cpp
 #HIP_DEPS = $(HIP_SOURCES:.cpp=.o)
 #$(HIP_DEPS): HIPCC_FLAGS += -I$(HSA_PATH)/include
 %.o:: %.cpp
@@ -85,7 +85,7 @@ endif
 #	$(HIPIFY)  $< > $@
 
 
-KCFLAGS += $(OPT) -I$(HSA_PATH)/include  -I$(HIP_PATH)/include -I$(GRID_LAUNCH_PATH) -I$(AM_PATH)/include 
+KCFLAGS += $(OPT) -I$(HSA_PATH)/include  -I$(HIP_PATH)/include -I$(GRID_LAUNCH_PATH) -I$(AM_PATH)/include
 
 %.o:: %.cpp
 	$(HIPCC) $(HIPCC_FLAGS) $< -c -o $@

@@ -4,10 +4,8 @@ all:  gpu-stream-hip
 
 common.o: common.cpp common.h Makefile
 
-HIP_PATH?= $(wildcard /opt/rocm/hip)
-ifeq (,$(HIP_PATH))
-	HIP_PATH=/opt/rocm
-endif
+HIP_PATH?= $(wildcard /opt/rocm)
+
 HIPCC=$(HIP_PATH)/bin/hipcc
 
 hip-stream.o : hip-stream.cpp

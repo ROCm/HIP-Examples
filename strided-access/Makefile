@@ -1,7 +1,4 @@
-HIP_PATH?= $(wildcard /opt/rocm/hip)
-ifeq (,$(HIP_PATH))
-	HIP_PATH=/opt/rocm
-endif
+HIP_PATH?= $(wildcard /opt/rocm)
 HIPCC=$(HIP_PATH)/bin/hipcc
 
 CXXFLAGS += -std=c++11 -O3
@@ -17,4 +14,3 @@ endif
 
 clean:
 	rm -f strided-access *.o
-
