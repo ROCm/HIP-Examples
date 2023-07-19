@@ -560,12 +560,12 @@ int BinomialOption::verifyResults()
         // compare the results and see if they match
         if(compare(output, refOutput, numSamples, 0.001f))
         {
-            std::cout << "Passed!\n" << std::endl;
+            std::cout << "PASSED!\n" << std::endl;
             return SDK_SUCCESS;
         }
         else
         {
-            std::cout <<" Failed\n" << std::endl;
+            std::cout <<" FAILED\n" << std::endl;
 
             std::cout <<"\n\n\nNo. Output Output(hex) Refoutput Refoutput(hex)\n";
             for(int i = 0; i < numSamples; ++i)

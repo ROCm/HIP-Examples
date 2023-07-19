@@ -545,11 +545,11 @@ int SimpleConvolution::verifyResults()
         // compare the results and see if they match
         if(memcmp(output, verificationOutput, height*width*sizeof(int)) == 0)
         {
-            std::cout<<"Passed!\n" << std::endl;
+            std::cout<<"PASSED!\n" << std::endl;
         }
         else
         {
-            std::cout<<"Failed\n" << std::endl;
+            std::cout<<"FAILED\n" << std::endl;
             return SDK_FAILURE;
         }
 
@@ -557,12 +557,12 @@ int SimpleConvolution::verifyResults()
         // compare the results and see if they match
         if(memcmp(outputSep, verificationOutput, height*width*sizeof(int)) == 0)
         {
-            std::cout<<"Passed!\n" << std::endl;
+            std::cout<<"PASSED!\n" << std::endl;
             return SDK_SUCCESS;
         }
         else
         {
-            std::cout<<"Failed\n" << std::endl;
+            std::cout<<"FAILED\n" << std::endl;
             return SDK_FAILURE;
         }
     }

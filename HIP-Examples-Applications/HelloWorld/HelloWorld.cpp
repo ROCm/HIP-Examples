@@ -80,6 +80,6 @@ int main(int argc, char* argv[])
 
 	free(output);
 
-	std::cout<<"Passed!\n";
+	std::cout<<"PASSED!\n";
 	return SUCCESS;
 }

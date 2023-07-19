@@ -549,12 +549,12 @@ int PrefixSum::verifyResults()
         float epsilon = length * 1e-7f;
         if(compare(out, verificationOutput, length, epsilon))
         {
-            std::cout << "Passed!\n" << std::endl;
+            std::cout << "PASSED!\n" << std::endl;
             status = SDK_SUCCESS;
         }
         else
         {
-            std::cout << "Failed\n" << std::endl;
+            std::cout << "FAILED\n" << std::endl;
             status = SDK_FAILURE;
         }
 

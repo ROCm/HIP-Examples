@@ -680,14 +680,14 @@ RecursiveGaussian::verifyResults()
                    width * height,
                    (float)0.0001))
         {
-            std::cout <<"Passed!\n" << std::endl;
+            std::cout <<"PASSED!\n" << std::endl;
             delete[] outputDevice;
             delete[] outputReference;
             return SDK_SUCCESS;
         }
         else
         {
-            std::cout << "Failed\n" << std::endl;
+            std::cout << "FAILED\n" << std::endl;
             delete[] outputDevice;
             delete[] outputReference;
             return SDK_FAILURE;
