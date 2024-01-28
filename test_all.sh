@@ -2,6 +2,30 @@
 
 : ${HIP_PLATFORM:="hcc"}
 
+# Look for hipcc
+if [ -z "$HIP_PATH" ]; then
+    # User path first
+    which_hipcc=`which hipcc`
+    if [ $? = 0 ]; then
+	D=`dirname $which_hipcc`
+	# strip the assumed /bin
+	HIP_PATH=${D%/*}
+    else
+	if [ -x /opt/rocm/hip/bin/hipcc ]; then
+	    HIP_PATH=/opt/rocm/hip
+	elif [ -x /opt/rocm/bin/hipcc ]; then
+	    HIP_PATH=/opt/rocm
+	elif [ -x /usr/bin/hipcc ]; then
+	    HIP_PATH=/usr
+	fi
+    fi
+    if [ ! -z "$HIP_PATH" ]; then
+	echo "Setting HIP_PATH to $HIP_PATH"
+	sleep 3
+	export HIP_PATH
+    fi
+fi
+
 # vector_add
 echo
 echo "==== vectorAdd ===="
