@@ -1,29 +1,13 @@
 HIP_PATH?= $(wildcard /opt/rocm)
 HIPCC=$(HIP_PATH)/bin/hipcc
 
-SOURCES = PrefixSum.cpp
-OBJECTS = $(SOURCES:.cpp=.o)
-
-EXECUTABLE=./PrefixSum
+PrefixSum: PrefixSum.cpp ../include/HIPUtil.hpp ../include/SDKUtil.hpp
+	$(HIPCC) -o $@ PrefixSum.cpp
 
 .PHONY: test
+test: PrefixSum
+	$(shell pwd)/PrefixSum
 
-
-all: $(EXECUTABLE) test
-
-CXXFLAGS =-g
-CXX=$(HIPCC)
-
-
-$(EXECUTABLE): $(OBJECTS)
-	$(HIPCC) $(OBJECTS) -o $@
-
-
-test: $(EXECUTABLE)
-	$(EXECUTABLE)
-
-
+.PHONY: clean
 clean:
-	rm -f $(EXECUTABLE)
-	rm -f $(OBJECTS)
-	rm -f $(HIP_PATH)/src/*.o
+	rm -vf PrefixSum *.o

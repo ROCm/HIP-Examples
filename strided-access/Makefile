@@ -3,14 +3,13 @@ HIPCC=$(HIP_PATH)/bin/hipcc
 
 CXXFLAGS += -std=c++11 -O3
 
-strided-access: benchmark-hip.cpp
-ifeq ($(shell which $(HIPCC) > /dev/null; echo $$?), 0)
-	${HIPCC} ${CXXFLAGS} -o $@ $^ 
-else
-	$(error "Cannot find $(HIPCC), please install HIP toolkit")
-endif
+strided-access: benchmark-hip.cpp benchmark-utils.hpp
+	${HIPCC} ${CXXFLAGS} -o $@ benchmark-hip.cpp
+
+.PHONY: test
+test: strided-access
+	$(shell pwd)/strided-access
 
 .PHONY: clean
-
 clean:
-	rm -f strided-access *.o
+	rm -vf strided-access *.o

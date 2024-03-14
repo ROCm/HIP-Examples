@@ -1,26 +1,26 @@
+HIP_PATH?= $(wildcard /opt/rocm)
+HIPCC=$(HIP_PATH)/bin/hipcc
+
 CXXFLAGS += -std=c++11 -O3
 
+.PHONY: all
 all:  gpu-stream-hip
 
 common.o: common.cpp common.h Makefile
-
-HIP_PATH?= $(wildcard /opt/rocm)
-
-HIPCC=$(HIP_PATH)/bin/hipcc
 
 hip-stream.o : hip-stream.cpp
 	$(HIPCC) $(CXXFLAGS) -c $< -o $@
 
 gpu-stream-hip: hip-stream.o common.o Makefile
-ifeq ($(shell which $(HIPCC) > /dev/null; echo $$?), 0)
 	$(HIPCC) $(CXXFLAGS) common.o $< -lm -o $@
-else
-	$(error "Cannot find $(HIPCC), please install HIP toolkit")
-endif
 
+.PHONY: test
+test: gpu-stream-hip
+	$(shell pwd)/gpu-stream-hip
+	$(shell pwd)/gpu-stream-hip --groups 256 --groupSize 256
+	$(shell pwd)/gpu-stream-hip --float
+	$(shell pwd)/gpu-stream-hip --float --groups 256 --groupSize 256
 
 .PHONY: clean
-
 clean:
-	rm -f   gpu-stream-hip *.o
-
+	rm -vf gpu-stream-hip *.o

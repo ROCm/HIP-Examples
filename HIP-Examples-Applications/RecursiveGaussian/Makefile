@@ -1,29 +1,13 @@
 HIP_PATH?= $(wildcard /opt/rocm)
 HIPCC=$(HIP_PATH)/bin/hipcc
 
-SOURCES = RecursiveGaussian.cpp
-OBJECTS = $(SOURCES:.cpp=.o)
-
-EXECUTABLE=./RecursiveGaussian
+RecursiveGaussian: RecursiveGaussian.cpp RecursiveGaussian.hpp ../include/HIPUtil.hpp ../include/SDKUtil.hpp ../include/SDKBitMap.hpp 
+	$(HIPCC) -o $@ RecursiveGaussian.cpp
 
 .PHONY: test
+test: RecursiveGaussian
+	$(shell pwd)/RecursiveGaussian
 
-
-all: $(EXECUTABLE) test
-
-CXXFLAGS =-g
-CXX=$(HIPCC)
-
-
-$(EXECUTABLE): $(OBJECTS)
-	$(HIPCC) $(OBJECTS) -o $@
-
-
-test: $(EXECUTABLE)
-	$(EXECUTABLE)
-
-
+.PHONY: clean
 clean:
-	rm -f $(EXECUTABLE)
-	rm -f $(OBJECTS)
-	rm -f $(HIP_PATH)/src/*.o
+	rm -vf RecursiveGaussian *.o
