@@ -1,29 +1,13 @@
 HIP_PATH?= $(wildcard /opt/rocm)
 HIPCC=$(HIP_PATH)/bin/hipcc
 
-SOURCES = SimpleConvolution.cpp
-OBJECTS = $(SOURCES:.cpp=.o)
-
-EXECUTABLE=./SimpleConvolution
+SimpleConvolution: SimpleConvolution.cpp SimpleConvolution.hpp FilterCoeff.h ../include/HIPUtil.hpp ../include/SDKUtil.hpp
+	$(HIPCC) -o $@ SimpleConvolution.cpp
 
 .PHONY: test
+test: SimpleConvolution
+	$(shell pwd)/SimpleConvolution
 
-
-all: $(EXECUTABLE) test
-
-CXXFLAGS =-g
-CXX=$(HIPCC)
-
-
-$(EXECUTABLE): $(OBJECTS)
-	$(HIPCC) $(OBJECTS) -o $@
-
-
-test: $(EXECUTABLE)
-	$(EXECUTABLE)
-
-
+.PHONY: clean
 clean:
-	rm -f $(EXECUTABLE)
-	rm -f $(OBJECTS)
-	rm -f $(HIP_PATH)/src/*.o
+	rm -vf SimpleConvolution *.o

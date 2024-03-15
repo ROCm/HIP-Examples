@@ -1,12 +1,11 @@
 HIP_PATH?= $(wildcard /opt/rocm)
+HIPCC = $(HIP_PATH)/bin/hipcc
 
 HIP_PLATFORM = $(shell $(HIP_PATH)/bin/hipconfig --platform)
-
 HIP_INCLUDE = -I${HIP_PATH}/../include
 
 BUILD_DIR ?= build
 
-HIPCC = $(HIP_PATH)/bin/hipcc
 CPPFLAGS = -O3
 LDFLAGS = -lm -lpthread
 
@@ -27,11 +26,12 @@ ${GPUBURN_BIN}: ${GPUBURN_OBJ}
 
 ${BUILD_DIR}/%.o: %.cpp Makefile
 	mkdir -p ${BUILD_DIR}
-	${HIPCC} ${HIP_INCLUDE} ${CPPFLAGS} -c -o $@ $<  
+	${HIPCC} ${HIP_INCLUDE} ${CPPFLAGS} -c -o $@ $<
 
 run: itburn
+
 itburn:
-	HCC_LAZYINIT=ON ${GPUBURN_BIN}
+	HCC_LAZYINIT=ON $(shell pwd)/${GPUBURN_BIN}
 
 clean:
-	rm -rf ${BUILD_DIR}
+	rm -vrf ${BUILD_DIR}

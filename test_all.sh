@@ -2,84 +2,95 @@
 
 : ${HIP_PLATFORM:="hcc"}
 
-# vector_add
 echo
 echo "==== vectorAdd ===="
+(
 cd vectorAdd
 make clean
-make
-cd ..
+make test
+)
 
-# gpu-burn
 echo
 echo "==== gpu-burn ===="
+(
 cd gpu-burn
 make clean
-make
-./build/gpuburn-hip -t 5
-cd ..
+make && ./build/gpuburn-hip -t 5
+)
 
-# strided-access
 echo
 echo "==== strided-access ===="
+(
 cd strided-access
 make clean
-make
-./strided-access
-cd ..
+make test
+)
 
 
-# rtm8
 echo
 echo "==== rtm8 ===="
+(
 cd rtm8
-./build_hip.sh
-./rtm8_hip
-cd ..
+make clean
+make test
+)
 
-# reduction
 echo
 echo "==== reduction ===="
+(
 cd reduction
 make clean
-make
+make reduction
 ./run.sh
-cd ..
+)
 
-# mini-nbody
 echo
 echo "==== mini-nbody ===="
+(
 cd mini-nbody/hip
 ./HIP-nbody-orig.sh
 ./HIP-nbody-soa.sh
 ./HIP-nbody-block.sh
-cd ../..
+)
 
-# add4
 echo
 echo "==== add4 ===="
+(
 cd add4
-./buildit.sh
-./runhip.sh
-cd ..
+make clean
+make test
+)
 
-# cuda-stream
 echo
 echo "==== cuda-stream ===="
+(
 cd cuda-stream
 make clean
-make
-./stream
-cd ..
+make test
+)
 
-# openmp-helloworld
 echo
 echo "==== OpenMP Hello World ===="
+(
 cd openmp-helloworld
 mkdir -p build
 cd build
 cmake ..
 make
 ./test_openmp_helloworld
-cd ../..
+)
 
+echo
+echo "==== HIP-Examples-Applications ===="
+(
+cd HIP-Examples-Applications
+for SUBDIR in BinomialOption BitonicSort dct dwtHaar1D FastWalshTransform FloydWarshall HelloWorld Histogram MatrixMultiplication PrefixSum RecursiveGaussian SimpleConvolution; do
+    echo
+    echo "==== HIP-Examples-Applications/${SUBDIR} ===="
+    (
+    cd "${SUBDIR}"
+    make clean
+    make test
+    )
+done
+)

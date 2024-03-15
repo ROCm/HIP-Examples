@@ -1,9 +1,13 @@
 CC=gcc
 ARCH=sm_35
 
-stream : stream.cpp
-	hipcc -std=c++11 -ccbin=$(CC)  stream.cpp -arch=$(ARCH) -o stream
+stream_titan: stream.cpp
+	hipcc -std=c++11 -ccbin=$(CC) -arch=$(ARCH) stream.cpp -o stream_titan
 
+.PHONY: test
+test: stream_titan
+	$(shell pwd)/stream_titan
 
-clean :
-	rm -f stream
+.PHONY: clean
+clean:
+	rm -vf stream_titan

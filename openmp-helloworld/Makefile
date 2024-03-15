@@ -1,27 +1,15 @@
 HIP_PATH?= $(wildcard /opt/rocm)
 HIPCC=$(HIP_PATH)/bin/hipcc
 
-CXX=$(HIPCC)
-CXXFLAGS =-fopenmp
+CXXFLAGS:=-fopenmp
 
-SOURCES = openmp_helloworld.cpp
-
-EXECUTABLE=./openmp_helloworld.exe
+openmp_helloworld: openmp_helloworld.cpp
+	$(HIPCC) $(CXXFLAGS) -o $@ $^
 
 .PHONY: test
+test: openmp_helloworld
+	$(shell pwd)/openmp_helloworld
 
-
-all: $(EXECUTABLE) test
-
-
-$(EXECUTABLE):
-	$(CXX) $(CXXFLAGS) $(SOURCES) -o $@
-
-
-test: $(EXECUTABLE)
-	$(EXECUTABLE)
-
-
+.PHONY: clean
 clean:
-	rm -f $(EXECUTABLE) *.o
-
+	rm -f openmp_helloworld *.o

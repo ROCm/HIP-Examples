@@ -1,29 +1,13 @@
 HIP_PATH?= $(wildcard /opt/rocm)
 HIPCC=$(HIP_PATH)/bin/hipcc
 
-SOURCES = FastWalshTransform.cpp
-OBJECTS = $(SOURCES:.cpp=.o)
-
-EXECUTABLE=./FastWalshTransform
+FastWalshTransform: FastWalshTransform.cpp ../include/HIPUtil.hpp ../include/SDKUtil.hpp
+	$(HIPCC) -o $@ FastWalshTransform.cpp
 
 .PHONY: test
+test: FastWalshTransform
+	$(shell pwd)/FastWalshTransform
 
-
-all: $(EXECUTABLE) test
-
-CXXFLAGS =-g
-CXX=$(HIPCC)
-
-
-$(EXECUTABLE): $(OBJECTS)
-	$(HIPCC) $(OBJECTS) -o $@
-
-
-test: $(EXECUTABLE)
-	$(EXECUTABLE)
-
-
+.PHONY: clean
 clean:
-	rm -f $(EXECUTABLE)
-	rm -f $(OBJECTS)
-	rm -f $(HIP_PATH)/src/*.o
+	rm -vf FastWalshTransform *.o

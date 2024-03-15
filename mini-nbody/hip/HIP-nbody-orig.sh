@@ -1,38 +1,28 @@
-#Hipify the original cuda source code to hip compatible code
-#hipify nbody-orig.cu > nbody-orig.cpp
+#!/bin/bash
 
-#compile the hipified source code into executable 
-if [ -f nbody-orig ]
-then
-    rm nbody-orig
+if ! [ -f nbody-orig.cpp ]; then
+    echo "Hipify the original cuda source code to hip compatible code"
+    hipify nbody-orig.cu > nbody-orig.cpp
 fi
 
-if [ -z  "$HIP_PATH" ]
-then
-
-if [ -d /opt/rocm/hip ]
-then
-    HIP_PATH=/opt/rocm/hip
-else
-    HIP_PATH=/opt/rocm
+HIPCC="$(command -v hipcc)"
+if ! [ -x "${HIPCC}" ]; then
+  if [ -z  "${HIP_PATH}" ]; then
+    if [ -d /opt/rocm/hip ]; then
+      HIP_PATH=/opt/rocm/hip
+    else
+      HIP_PATH=/opt/rocm
+    fi
+    HIPCC="${HIP_PATH}/bin/hipcc"
+  fi
 fi
 
-fi
+echo hipcc -I../ -DSHMOO -o nbody-orig nbody-orig.cpp
+"${HIPCC}" -I../ -DSHMOO -o nbody-orig nbody-orig.cpp
 
-echo hipcc -I../ -DSHMOO nbody-orig.cpp -o nbody-orig
-$HIP_PATH/bin/hipcc -I../ -DSHMOO nbody-orig.cpp -o nbody-orig
-
-#To print our more details, remove  flag
-#hipcc -I../  nbody-orig.cpp -o nbody-orig
-
-#execute the program
-
-EXE=nbody-orig
 K=1024
-for i in {1..10}
-do
-    echo ./$EXE $K
-    ./$EXE $K
+for i in {1..10}; do
+    echo "$(pwd)/nbody-orig" $K
+    ./nbody-orig $K
     K=$(($K*2))
 done
-

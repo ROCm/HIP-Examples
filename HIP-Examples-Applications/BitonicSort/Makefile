@@ -1,29 +1,13 @@
 HIP_PATH?= $(wildcard /opt/rocm)
 HIPCC=$(HIP_PATH)/bin/hipcc
 
-SOURCES = BitonicSort.cpp
-OBJECTS = $(SOURCES:.cpp=.o)
-
-EXECUTABLE=./BitonicSort
+BitonicSort: BitonicSort.cpp ../include/HIPUtil.hpp ../include/SDKUtil.hpp
+	$(HIPCC) -o $@ BitonicSort.cpp
 
 .PHONY: test
+test: BitonicSort
+	$(shell pwd)/BitonicSort
 
-
-all: $(EXECUTABLE) test
-
-CXXFLAGS =-g
-CXX=$(HIPCC)
-
-
-$(EXECUTABLE): $(OBJECTS)
-	$(HIPCC) $(OBJECTS) -o $@
-
-
-test: $(EXECUTABLE)
-	$(EXECUTABLE)
-
-
+.PHONY: clean
 clean:
-	rm -f $(EXECUTABLE)
-	rm -f $(OBJECTS)
-	rm -f $(HIP_PATH)/src/*.o
+	rm -vf BitonicSort *.o

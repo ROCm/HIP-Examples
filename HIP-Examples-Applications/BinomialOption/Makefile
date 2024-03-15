@@ -1,29 +1,13 @@
 HIP_PATH?= $(wildcard /opt/rocm)
 HIPCC=$(HIP_PATH)/bin/hipcc
 
-SOURCES = BinomialOption.cpp
-OBJECTS = $(SOURCES:.cpp=.o)
-
-EXECUTABLE=./BinomialOption
+BinomialOption: BinomialOption.cpp ../include/HIPUtil.hpp ../include/SDKUtil.hpp
+	$(HIPCC) -o $@ BinomialOption.cpp
 
 .PHONY: test
+test: BinomialOption
+	$(shell pwd)/BinomialOption
 
-
-all: $(EXECUTABLE) test
-
-CXXFLAGS =-g
-CXX=$(HIPCC)
-
-
-$(EXECUTABLE): $(OBJECTS)
-	$(HIPCC) $(OBJECTS) -o $@
-
-
-test: $(EXECUTABLE)
-	$(EXECUTABLE)
-
-
+.PHONY: clean
 clean:
-	rm -f $(EXECUTABLE)
-	rm -f $(OBJECTS)
-	rm -f $(HIP_PATH)/src/*.o
+	rm -vf BinomialOption *.o

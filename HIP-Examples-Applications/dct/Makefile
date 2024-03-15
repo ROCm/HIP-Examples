@@ -1,27 +1,13 @@
-HIPCC=/opt/rocm/bin/hipcc
+HIP_PATH?= $(wildcard /opt/rocm)
+HIPCC=$(HIP_PATH)/bin/hipcc
 
-SOURCES = dct.cpp
-OBJECTS = $(SOURCES:.cpp=.o)
-
-EXECUTABLE=./dct
+dct: dct.cpp ../include/HIPUtil.hpp ../include/SDKUtil.hpp
+	$(HIPCC) -o $@ dct.cpp
 
 .PHONY: test
+test: dct
+	$(shell pwd)/dct
 
-
-all: $(EXECUTABLE) test
-
-CXXFLAGS =-g
-CXX=$(HIPCC)
-
-
-$(EXECUTABLE): $(OBJECTS)
-	$(HIPCC) $(OBJECTS) -o $@
-
-
-test: $(EXECUTABLE)
-	$(EXECUTABLE)
-
-
+.PHONY: clean
 clean:
-	rm -f $(EXECUTABLE)
-	rm -f $(OBJECTS)
+	rm -vf dct *.o
