@@ -20,7 +20,7 @@ $(EXECUTABLE): $(OBJECTS)
 
 
 test: $(EXECUTABLE)
-	$(EXECUTABLE)
+	$(EXECUTABLE) --verify
 
 
 clean:
