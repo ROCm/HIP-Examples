@@ -1,14 +1,10 @@
-SRC=nbody-orig.cu
-EXE=nbody-orig
+#!/bin/bash
 
-nvcc -arch=sm_35 -I../ -DSHMOO -o $EXE $SRC
-
-echo $EXE
+nvcc -arch=sm_35 -I../ -DSHMOO -o nbody-orig nbody-orig.cu
 
 K=1024
-for i in {1..10}
-do
-    ./$EXE $K
+for i in {1..10}; do
+    echo "$(pwd)/nbody-orig" $K
+    ./nbody-orig $K
     K=$(($K*2))
 done
-

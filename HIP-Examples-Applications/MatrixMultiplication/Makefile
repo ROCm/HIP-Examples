@@ -1,29 +1,13 @@
 HIP_PATH?= $(wildcard /opt/rocm)
 HIPCC=$(HIP_PATH)/bin/hipcc
 
-SOURCES = MatrixMultiplication.cpp
-OBJECTS = $(SOURCES:.cpp=.o)
-
-EXECUTABLE=./MatrixMultiplication
+MatrixMultiplication: MatrixMultiplication.cpp ../include/HIPUtil.hpp ../include/SDKUtil.hpp
+	$(HIPCC) -o $@ MatrixMultiplication.cpp
 
 .PHONY: test
+test: MatrixMultiplication
+	$(shell pwd)/MatrixMultiplication
 
-
-all: $(EXECUTABLE) test
-
-CXXFLAGS =-g
-CXX=$(HIPCC)
-
-
-$(EXECUTABLE): $(OBJECTS)
-	$(HIPCC) $(OBJECTS) -o $@
-
-
-test: $(EXECUTABLE)
-	$(EXECUTABLE)
-
-
+.PHONY: clean
 clean:
-	rm -f $(EXECUTABLE)
-	rm -f $(OBJECTS)
-	rm -f $(HIP_PATH)/src/*.o
+	rm -vf MatrixMultiplication *.o
